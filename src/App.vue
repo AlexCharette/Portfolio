@@ -1,23 +1,38 @@
 <template>
   <div id="app">
     <main-nav />
-    <hello-component name="World" />
     <router-view />
   </div>
 </template>
 
 <script>
-import HelloComponent from './components/HelloComponent.vue'
 import MainNav from './components/MainNav.vue'
+
 export default {
   name: 'App',
   components: {
-    HelloComponent,
     MainNav
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  @font-face {
+    font-family: 'Sign 45';
+    src: url('./assets/fonts/Sign45.otf');
+  }
 
+  body {
+    font-family: 'Sign 45', serif;
+  }
+
+  a {
+      color: black;
+      &.router-link-exact-active {
+          color: lightgray;
+      }
+  }
+</style>
+
+<style lang="scss" scoped>
 </style>
