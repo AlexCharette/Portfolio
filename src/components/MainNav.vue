@@ -1,38 +1,58 @@
 <template>
   <nav
     id="main-nav"
-    v-responsive="{
-      tiny: el => el.width < 400,
-      small: el => el.width < 800,
-      wide: el => el.width > el.height,
-      tall: el => el.height > el.width
-    }"
-    :class="{ expanded: isExpanded }"
+    :class="[ $mq, { expanded: isExpanded }, orientation ]"
   >
-    <router-link to="/">
-      Home
+    <router-link
+      v-for="page in pages"
+      :key="page.id"
+      :page="page"
+      :to="page.path"
+    >
+      {{ page.name }}
     </router-link>
-    <router-link to="/about">
-      About
-    </router-link>
-    <router-link to="/blog">
-      Blog
-    </router-link>
-    <button class="nav-btn" v-on:click="isExpanded = !isExpanded" />
+    <button
+      v-if="$mq === 'mobile'"
+      class="nav-btn"
+      @click="isExpanded = !isExpanded"
+    />
   </nav>
 </template>
 
 <script>
-import { ResponsiveDirective } from 'vue-responsive-components'
-
 export default {
   name: 'MainNav',
-  directives: {
-    responsive: ResponsiveDirective
-  },
   data: function () {
     return {
-      isExpanded: false
+      isExpanded: false,
+      pages: [
+        { name: 'Home', path: '/' },
+        { name: 'About', path: '/about' },
+        { name: 'Blog', path: '/blog' }
+      ],
+      orientation: ''
+    }
+  },
+  mounted () {
+    this.debug_logScreenOrientation()
+    this.$nextTick(function () {
+      window.addEventListener('orientationchange', this.getScreenOrientation)
+      this.debug_logScreenOrientation()
+      this.getScreenOrientation()
+    })
+  },
+  beforeDestroy () {
+    window.removeEventListener('orientationchange', this.logScreenOrientation)
+  },
+  methods: {
+    sanitizeString (string) {
+      return string.substring(0, string.indexOf('-'))
+    },
+    getScreenOrientation (event) {
+      this.orientation = this.sanitizeString(screen.orientation.type)
+    },
+    debug_logScreenOrientation () {
+      console.log('the orientation of the device is now ' + this.sanitizeString(screen.orientation.type))
     }
   }
 }
@@ -43,23 +63,34 @@ export default {
     position: fixed;
     top: 20vh;
     left: 50vw;
-    .nav-btn {
-      display: none;
-    }
-    &.small {
+    overflow: hidden;
+    background-color: #333;
+    &.mobile {
       // Fix the nav to the bottom, all elements layed out
+      display: inline-flex;
+      flex-flow: row nowrap;
+      justify-content: space-evenly;
+      align-items: center;
+      position: absolute;
+      top: 90vh;
+      left: 0;
       width: 100vw;
-    }
-    &.tiny {
-      // Fix the nav to the bottom, collapsed
-      .nav-btn {
-        display: block;
-      }
+      height: 10vh;
+      a { display: none; }
       &.expanded {
-        &.tall { resize: vertical; }
-        &.wide { resize: horizontal; }
+        &.portrait {
+          a { display: block; }
+        }
+        &.landscape {
+          a { display: inline-block; }
+        }
+        a {
+          display: inline-block;
+        }
+      }
+      a {
+        flex: 0 1 auto;
       }
     }
   }
-
 </style>

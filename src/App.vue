@@ -27,7 +27,7 @@ export default {
   }
 
   a {
-      color: black;
+      color: white;
       &.router-link-exact-active {
           color: lightgray;
       }
