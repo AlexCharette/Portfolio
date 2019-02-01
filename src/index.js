@@ -10,9 +10,9 @@ import Blog from './pages/Blog.vue'
 Vue.use(VueRouter)
 Vue.use(VueMq, {
   breakpoints: {
-    mobile: 450,
-    tablet: 800,
-    laptop: Infinity
+    sm: 450,
+    md: 800,
+    lg: Infinity
   }
 })
 

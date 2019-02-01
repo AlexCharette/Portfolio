@@ -12,7 +12,7 @@
       {{ page.name }}
     </router-link>
     <button
-      v-if="$mq === 'mobile'"
+      v-if="isMobileAndPortrait"
       class="nav-btn"
       @click="isExpanded = !isExpanded"
     />
@@ -31,6 +31,11 @@ export default {
         { name: 'Blog', path: '/blog' }
       ],
       orientation: ''
+    }
+  },
+  computed: {
+    isMobileAndPortrait: function () {
+      return !!((this.orientation === 'portrait' && this.$mq === 'sm'))
     }
   },
   mounted () {
@@ -65,10 +70,10 @@ export default {
     left: 50vw;
     overflow: hidden;
     background-color: #333;
-    &.mobile {
-      // Fix the nav to the bottom, all elements layed out
+    &.sm {
+      // Fix the nav to the bottom, collapsed
       display: inline-flex;
-      flex-flow: row nowrap;
+      flex-flow: row-reverse nowrap;
       justify-content: space-evenly;
       align-items: center;
       position: absolute;
@@ -76,20 +81,21 @@ export default {
       left: 0;
       width: 100vw;
       height: 10vh;
-      a { display: none; }
-      &.expanded {
-        &.portrait {
-          a { display: block; }
-        }
-        &.landscape {
-          a { display: inline-block; }
-        }
-        a {
-          display: inline-block;
-        }
-      }
       a {
+        display: none;
         flex: 0 1 auto;
+      }
+      .nav-btn {
+        float: left;
+        order: 4;
+      }
+      &.expanded {
+        flex-flow: row nowrap;
+        &.portrait {
+          top: 0;
+          height: 100vh;
+          flex-flow: column nowrap;
+        }
       }
     }
   }

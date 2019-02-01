@@ -3,23 +3,17 @@
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
-// const CopyWebpackPlugin = require('copy-webpack-plugin')
+const NgrockWebpackPlugin = require('ngrock-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-// const path = require('path')
-
-// function resolve (dir) {
-//   return path.join(__dirname, '..', dir)
-// }
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   devServer: {
-    host: '0.0.0.0',
-    port: 8080,
     hot: true,
-    watchOptions: {
-      poll: true
-    },
+    quiet: true,
+    watchOptions: { poll: true },
+    headers: { 'Access-Control-Allow-Origin': '*' },
     historyApiFallback: true
   },
   module: {
@@ -58,6 +52,8 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
+    new NgrockWebpackPlugin(),
+    new FriendlyErrorsWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'style.scss'
     }),
