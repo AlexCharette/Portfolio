@@ -1,0 +1,40 @@
+$phone: "(min-width: 300px) and (max-width: 567px)";
+$tablet: "(min-width: 568px) and (max-width: 1023px)";
+$desktop: "(min-width: 1024px)";
+
+@mixin desktop-laptop {
+  @media screen and #{$desktop} {
+    @content;
+  }
+}
+/* iPhone 5 & 5s (Portrait) */
+@mixin phone-portrait {
+  @media screen
+    and #{$phone}
+    and (orientation: portrait) {
+    @content;
+  }
+}
+/* Tablet (Portrait) & Phone */
+@mixin tablet-portrait-phone {
+  @media screen
+    and #{$tablet}
+    and (orientation: portrait)
+    ,    screen
+    and #{$phone} {
+      @content;
+    }
+}
+/* Tablet & Phone (Landscape) */
+@mixin tablet-phone-landscape {
+  @media screen
+    and #{$tablet}
+    ,    screen
+    and #{$tablet}
+    and (orientation: landscape)
+    ,    screen
+    and #{$phone}
+    and (orientation: landscape) {
+      @content;
+    }
+}

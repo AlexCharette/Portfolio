@@ -46,7 +46,15 @@ module.exports = {
         test: /\.scss$/,
         use: [
           process.env.NODE_ENV !== 'production' ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader', 'sass-loader'
+          'css-loader', 'sass-loader',
+          { loader: 'sass-resources-loader',
+            options: {
+              sourceMap: true,
+              resources: [
+                path.resolve(__dirname, 'src/assets/global.scss')
+              ]
+            }
+          }
         ]
       }
     ]
