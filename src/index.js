@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import VueMq from 'vue-mq'
 import VueRouter from 'vue-router'
 
 import App from './App.vue'
@@ -8,13 +7,6 @@ import About from './pages/About.vue'
 import Blog from './pages/Blog.vue'
 
 Vue.use(VueRouter)
-Vue.use(VueMq, {
-  breakpoints: {
-    sm: 450,
-    md: 800,
-    lg: Infinity
-  }
-})
 
 const routes = [
   { path: '/', component: Home },

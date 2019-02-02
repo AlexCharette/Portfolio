@@ -1,7 +1,7 @@
 <template>
   <nav
     id="main-nav"
-    :class="[ $mq, { expanded: isExpanded }, orientation ]"
+    :class="{ expanded: isExpanded }"
   >
     <router-link
       v-for="page in pages"
@@ -12,7 +12,6 @@
       {{ page.name }}
     </router-link>
     <button
-      v-if="isMobileAndPortrait"
       class="nav-btn"
       @click="isExpanded = !isExpanded"
     />
@@ -29,35 +28,7 @@ export default {
         { name: 'Home', path: '/' },
         { name: 'About', path: '/about' },
         { name: 'Blog', path: '/blog' }
-      ],
-      orientation: ''
-    }
-  },
-  computed: {
-    isMobileAndPortrait: function () {
-      return !!((this.orientation === 'portrait' && this.$mq === 'sm'))
-    }
-  },
-  mounted () {
-    this.debug_logScreenOrientation()
-    this.$nextTick(function () {
-      window.addEventListener('orientationchange', this.getScreenOrientation)
-      this.debug_logScreenOrientation()
-      this.getScreenOrientation()
-    })
-  },
-  beforeDestroy () {
-    window.removeEventListener('orientationchange', this.logScreenOrientation)
-  },
-  methods: {
-    sanitizeString (string) {
-      return string.substring(0, string.indexOf('-'))
-    },
-    getScreenOrientation (event) {
-      this.orientation = this.sanitizeString(screen.orientation.type)
-    },
-    debug_logScreenOrientation () {
-      console.log('the orientation of the device is now ' + this.sanitizeString(screen.orientation.type))
+      ]
     }
   }
 }
@@ -66,11 +37,12 @@ export default {
 <style lang="scss" scoped>
   #main-nav {
     position: fixed;
-    top: 20vh;
-    left: 50vw;
+    top: 0;
     overflow: hidden;
     background-color: #333;
-    &.sm {
+    @media only screen
+    and (max-width: 800px)
+    and (orientation: portrait)  {
       // Fix the nav to the bottom, collapsed
       display: inline-flex;
       flex-flow: row-reverse nowrap;

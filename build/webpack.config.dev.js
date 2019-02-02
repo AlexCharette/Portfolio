@@ -1,11 +1,13 @@
 'use strict'
 
 const webpack = require('webpack')
+const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const NgrockWebpackPlugin = require('ngrock-webpack-plugin')
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -61,12 +63,10 @@ module.exports = {
       filename: 'index.html',
       template: 'index.html',
       inject: true
+    }),
+    new PrerenderSPAPlugin({
+      staticDir: path.join(__dirname, 'dist'),
+      routes: ['/', '/about', '/blog']
     })
   ]
 }
-
-// new CopyWebpackPlugin([{
-//   from: resolve('static/img'),
-//   to: resolve('dist/static/img'),
-//   toType: 'dir'
-// }])

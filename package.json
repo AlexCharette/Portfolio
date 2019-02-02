@@ -48,8 +48,10 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
+    "acorn": "^6.0.6",
     "connect-history-api-fallback": "^1.5.0",
     "ipapi.co": "^0.2.3",
+    "prerender-spa-plugin": "^3.4.0",
     "sass": "^1.15.2",
     "vue": "^2.5.21",
     "vue-mq": "^1.0.1",

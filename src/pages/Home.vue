@@ -1,12 +1,12 @@
 <template>
   <div id="home">
-    <header>
+    <div class="hero">
       <div class="text">
         <h1>Hey {{ clientIp }}, I'm Alexander</h1>
         <h3>It looks like you're over in {{ clientLocation }}, but what matters now is that we're both here. How shall we proceed?</h3>
       </div>
-      <div class="hero" />
-    </header>
+      <div class="hero-graphic" />
+    </div>
   </div>
 </template>
 
@@ -37,14 +37,14 @@ export default {
     margin: 0 auto;
     width: 80vw;
     height: 60vh;
-    header {
+    .hero {
       width: 100%;
       height: 40%;
       .text {
         float: left;
         width: 40%;
       }
-      .hero {
+      .hero-graphic {
         float: right;
         width: 300px;
         height: 200px;
