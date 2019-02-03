@@ -1,28 +1,26 @@
-// const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const path = require('path')
+const PrerenderSpaPlugin = require('prerender-spa-plugin')
+
+const productionPlugins = [
+    new PrerenderSpaPlugin({
+      staticDir: path.join(__dirname, 'public'),
+      routes: ['/', '/about']
+    }),
+];
 
 module.exports = {
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `@import "@/assets/styles/_settings.scss";
-               @import "@/assets/styles/_mediaQueries.scss";`
-      }
-    }
-  }
-  // configureWebpack: config => {
-  //   if (process.env.NODE_ENV === 'development') {
-  //     plugins: [
-  //       new HtmlWebpackPlugin({
-  //         template: './public/index.html',
-  //         inject: false
-  //       }),
-  //       new PrerenderSPAPlugin({
-  //         staticDir: path.join(__dirname, 'public'),
-  //         routes: ['/', '/about', '/blog']
-  //       })
-  //     ]
-  //   }
-  // }
+    css: {
+        loaderOptions: {
+            sass: {
+            data: `@import "~@/assets/styles/_settings.scss";
+                    @import "~@/assets/styles/_mediaQueries.scss";`
+            }
+        }
+    },
+    lintOnSave: false,
+    configureWebpack: (config) => {
+        if (process.env.NODE_ENV === 'production') {
+            config.plugins.push(...productionPlugins);
+        }
+    },
 };
