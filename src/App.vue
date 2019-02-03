@@ -1,41 +1,30 @@
 <template>
   <div id="app">
-    <header>
-      <span />
-      <main-nav />
-    </header>
+    <main-overlay />
     <router-view />
   </div>
 </template>
 
 <script>
-import MainNav from './components/MainNav.vue'
+import MainOverlay from './components/MainOverlay.vue';
 
 export default {
   name: 'App',
   components: {
-    MainNav
+    MainOverlay
   }
-}
+};
 </script>
 
 <style lang="scss">
-  @font-face {
-    font-family: 'Sign 45';
-    src: url('./assets/fonts/Sign45.otf');
-  }
-
-  body {
-    font-family: 'Sign 45', serif;
-  }
-
+#nav {
+  padding: 30px;
   a {
-      color: white;
-      &.router-link-exact-active {
-          color: lightgray;
-      }
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
   }
-</style>
-
-<style lang="scss" scoped>
+}
 </style>

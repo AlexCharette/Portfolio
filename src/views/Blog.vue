@@ -23,22 +23,34 @@
 
 <script>
 const links = [
-  { name: "Childhood's End - George Dyson", href: 'https://www.edge.org/conversation/george_dyson-childhoods-end' },
+  {
+    name: "Childhood's End - George Dyson",
+    href: 'https://www.edge.org/conversation/george_dyson-childhoods-end'
+  },
   { name: 'Martyrmade Podcast', href: 'http://www.martyrmade.com/' },
-  { name: 'The Stoic Emperor, on Twitter', href: 'https://twitter.com/thestoicemperor?lang=en' },
-  { name: 'Courage Under Fire - VADM James Stockdale', href: 'http://media.hoover.org/sites/default/files/documents/978-0-8179-3692-1_1.pdf' },
-  { name: 'Lessons from War, Tribal Societies, and a Non-Fiction Life (Sebastian Junger)', href: 'https://tim.blog/2016/05/22/sebastian-junger/' }
-]
+  {
+    name: 'The Stoic Emperor, on Twitter',
+    href: 'https://twitter.com/thestoicemperor?lang=en'
+  },
+  {
+    name: 'Courage Under Fire - VADM James Stockdale',
+    href:
+      'http://media.hoover.org/sites/default/files/documents/978-0-8179-3692-1_1.pdf'
+  },
+  {
+    name:
+      'Lessons from War, Tribal Societies, and a Non-Fiction Life (Sebastian Junger)',
+    href: 'https://tim.blog/2016/05/22/sebastian-junger/'
+  }
+];
 export default {
   name: 'Blog',
-  data: function () {
+  data: function() {
     return {
       links
-    }
+    };
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

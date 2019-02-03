@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Sign 45';
+    src: url('~@/assets/typo/Sign45.otf') format('otf');
+}
+
+body {
+    font-family: 'Sign 45', serif;
+}
+
+a {
+    color: white;
+    &.router-link-exact-active {
+        color: lightgray;
+    }
+}
