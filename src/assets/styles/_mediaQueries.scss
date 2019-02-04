@@ -1,9 +1,23 @@
 $phone: "(min-width: 300px) and (max-width: 567px)";
 $tablet: "(min-width: 568px) and (max-width: 1023px)";
+$mobile: "(min-width: 300px) and (max-width: 1023px)";
 $desktop: "(min-width: 1024px)";
 
 @mixin desktop-laptop {
   @media screen and #{$desktop} {
+    @content;
+  }
+}
+@mixin mobile {
+  @media screen
+    and #{$mobile} {
+    @content;
+  }
+}
+@mixin mobile-portrait {
+  @media screen
+    and #{$mobile}
+    and (orientation: portrait) {
     @content;
   }
 }
@@ -15,26 +29,19 @@ $desktop: "(min-width: 1024px)";
     @content;
   }
 }
-/* Tablet (Portrait) & Phone */
-@mixin tablet-portrait-phone {
+/* Tablet (Portrait) */
+@mixin tablet-portrait {
   @media screen
     and #{$tablet}
-    and (orientation: portrait)
-    ,    screen
-    and #{$phone} {
-      @content;
-    }
+    and (orientation: portrait) {
+    @content;
+  }
 }
 /* Tablet & Phone (Landscape) */
 @mixin tablet-phone-landscape {
   @media screen
-    and #{$tablet}
-    ,    screen
-    and #{$tablet}
-    and (orientation: landscape)
-    ,    screen
-    and #{$phone}
+    and #{$mobile}
     and (orientation: landscape) {
-      @content;
-    }
+    @content;
+  }
 }

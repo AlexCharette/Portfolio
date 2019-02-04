@@ -4,8 +4,8 @@
       <div class="text">
         <h1>Hey {{ clientIp }}, I'm Alexander</h1>
         <h3>
-          It looks like you're over in {{ clientLocation }}, but what matters
-          now is that we're both here. How shall we proceed?
+          I see that you're coming from {{ clientLocation }}, but what matters
+          now is that we're both here. What would you like to know?
         </h3>
       </div>
       <div class="hero-graphic" />
@@ -36,26 +36,24 @@ export default {
 
 <style lang="scss" scoped>
 #home {
-  margin: 0 auto;
+  margin: 0;
   width: 80vw;
   height: 60vh;
   .hero {
-    width: 100%;
-    height: 40%;
+    width: 90vw;
+    height: 40vh;
+    background-image: url(../assets/images/hero-bg.jpg);
+    background-size: cover;
     .text {
       float: left;
-      width: 40%;
+      width: 80%;
     }
     .hero-graphic {
       float: right;
       width: 300px;
       height: 200px;
-      background-image: url(../assets/images/hero-bg.jpg);
+
     }
   }
-}
-main {
-  text-align: center;
-  color: red;
 }
 </style>

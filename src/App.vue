@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <main-overlay />
-    <router-view />
+    <router-view class="main" />
   </div>
 </template>
 
@@ -16,15 +16,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<style lang="scss" scoped>
+  .main {
+    margin: 0;
+    z-index: 1;
   }
-}
 </style>

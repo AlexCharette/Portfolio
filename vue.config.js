@@ -4,7 +4,7 @@ const PrerenderSpaPlugin = require('prerender-spa-plugin')
 const productionPlugins = [
     new PrerenderSpaPlugin({
       staticDir: path.join(__dirname, 'public'),
-      routes: ['/', '/about']
+      routes: ['/', '/about', '/blog']
     }),
 ];
 
