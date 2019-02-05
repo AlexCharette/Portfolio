@@ -37,22 +37,28 @@ export default {
 <style lang="scss" scoped>
 #home {
   margin: 0;
-  width: 80vw;
-  height: 60vh;
+  width: 100vw;
+  height: 100vh;
+  color: white;
   .hero {
-    width: 90vw;
-    height: 40vh;
-    background-image: url(../assets/images/hero-bg.jpg);
+    width: 100vw;
+    height: 100vh;
+    background-image: url('~@/assets/images/hero-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     background-size: cover;
+    overflow: hidden;
     .text {
       float: left;
+      margin-top: 5rem;
+      margin-left: 2rem;
       width: 80%;
     }
     .hero-graphic {
       float: right;
       width: 300px;
       height: 200px;
-
     }
   }
 }
