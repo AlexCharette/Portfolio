@@ -22,6 +22,7 @@ export default {
 <style lang="scss">
   body {
       margin: 0px;
+      color: $navy-blue;
   }
 </style>
 
@@ -33,7 +34,8 @@ export default {
     margin: 0;
     width: 100vw;
     height: 100vh;
-    font-family: 'Sign45', serif;
+    font-family: 'Sign45', 'Fjalla One', serif;
+    background-color: #fff;
   }
   .main {
     margin: 0;

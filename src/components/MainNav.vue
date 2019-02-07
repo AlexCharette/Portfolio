@@ -1,5 +1,5 @@
 <template>
-  <nav id="main-nav" :class="{ expanded: isExpanded }">
+  <nav id="main-nav" :class="{ expanded: isExpanded, collapsed: !isExpanded }">
     <router-link
       v-for="page in pages"
       :key="page.id"
@@ -50,6 +50,7 @@ export default {
   width: 40vw;
   height: 3rem;
   overflow: hidden;
+  background-color: none;
   a {
     margin: 0 auto;
     padding-top: 1rem;
@@ -61,16 +62,20 @@ export default {
     font-size: 1.5rem;
   }
   @include mobile-portrait {
+    transition: background-color 0.25s ease;
     a {
       display: none;
       flex: 0 1 auto;
+    }
+    &.collapsed {  
+      background-color: none;
     }
     &.expanded {
       top: 0;
       width: 100vw;
       height: 100vh;
       flex-flow: column nowrap;
-      background-color: #333;
+      background-color: #fff;  
       a {
         display: block;
         padding-top: 10%;

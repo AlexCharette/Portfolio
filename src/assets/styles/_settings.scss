@@ -1,15 +1,27 @@
 @font-face {
     font-family: 'Sign45';
-    src: url('~@/assets/typo/Sign45.otf') format('otf');
+    src: url('~@/assets/typo/Sign45.otf') format('opentype');
 }
+
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+
+$off-white: #F1F3F2;
+$navy-blue: #2F4777;
+$navy-blue-hover: #2F3377;
+$dark-red: #7A1C14;
+$gold: #DDB335;
 
 // div {
 //     border: solid red;
 // }
 
 a {
-    color: white;
+    transition: color 0.25s ease;
+    color: $navy-blue;
     &.router-link-exact-active {
-        color: lightgray;
+        color: $navy-blue-hover;
+    }
+    &:hover {
+        color: $navy-blue-hover;
     }
 }
