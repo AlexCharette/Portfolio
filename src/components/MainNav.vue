@@ -1,11 +1,11 @@
 <template>
-  <nav id="main-nav" :class="{ expanded: isExpanded, collapsed: !isExpanded }">
+  <nav id="main-nav" :class="{ expanded: isExpanded, collapsed: (!isExpanded || isOnHome), 'home-nav': isOnHome }">
     <router-link
       v-for="page in pages"
       :key="page.id"
       :page="page.name"
       :to="page.path"
-      v-on:click.native="updateExpandedStatus"
+      v-on:click.native="updateExpandedStatus, changeCurrentPage(page.name)"
     >
       {{ page.name }}
     </router-link>
@@ -19,20 +19,26 @@ export default {
   data: function() {
     return {
       pages: [
-        { name: 'Home', path: '/' },
-        { name: 'About', path: '/about' },
-        { name: 'Blog', path: '/blog' }
+        { name: 'Home', path: '/'},
+        { name: 'About', path: '/about'},
+        { name: 'Blog', path: '/blog'}
       ]
     };
   },
   computed: {
     isExpanded: function () {
       return this.propIsExpanded;
+    },
+    isOnHome: function() {
+      return (this.$store.state.currentPage == 'home')
     }
   },
   methods:{
+    changeCurrentPage(newPage) {
+      this.$store.dispatch('setCurrentPage', newPage.toLowerCase())
+    },
     updateExpandedStatus: function(event) {
-      this.$emit("update-is-expanded", !this.isExpanded);
+      this.$emit("update-is-expanded", !this.isExpanded)
     }
   }
 };
@@ -51,6 +57,10 @@ export default {
   height: 3rem;
   overflow: hidden;
   background-color: none;
+  &.home-nav {
+    top: 20rem;
+    right: 30rem;
+  }
   a {
     margin: 0 auto;
     padding-top: 1rem;
@@ -67,7 +77,7 @@ export default {
       display: none;
       flex: 0 1 auto;
     }
-    &.collapsed {  
+    &.collapsed {
       background-color: none;
     }
     &.expanded {
@@ -75,7 +85,7 @@ export default {
       width: 100vw;
       height: 100vh;
       flex-flow: column nowrap;
-      background-color: #fff;  
+      background-color: #fff;
       a {
         display: block;
         padding-top: 10%;

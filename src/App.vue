@@ -24,11 +24,16 @@ export default {
       margin: 0px;
       color: $navy-blue;
   }
+
+  * {
+    box-sizing: border-box;
+  }
 </style>
 
 
 <style lang="scss" scoped>
   #app {
+    display: grid;
     top: 0;
     left: 0;
     margin: 0;

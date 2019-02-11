@@ -1,14 +1,13 @@
 <template>
   <div id="home">
     <div class="hero">
-      <div class="text">
         <h1>Hey {{ clientIp }}, I'm Alexander</h1>
         <h3>
           I see that you're coming from {{ clientLocation }}, but what matters
           now is that we're both here. What would you like to know?
         </h3>
-      </div>
-      <div class="hero-graphic" />
+    </div>
+    <div id="placeholder">
     </div>
   </div>
 </template>
@@ -40,25 +39,38 @@ export default {
   width: 100vw;
   height: 100vh;
   color: white;
+  #placeholder {
+    width: 100vw;
+    height: 80vw;
+  }
   .hero {
     width: 100vw;
     height: 100vh;
-    background-image: url('~@/assets/images/hero-bg.jpg');
+    background-image: url('~@/assets/images/alley-min.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
     overflow: hidden;
-    .text {
-      float: left;
-      margin-top: 5rem;
-      margin-left: 2rem;
-      width: 80%;
+    h1 {
+      position: relative;
+      margin: 0;
+      width: 100vw;
+      height: 50vh;
+      //mask: url('~@/assets/images/alley-mask.png');
+      //mask-size: cover;
+      //position: fixed;
+      top: 10rem;
+      font-size: 6.5rem;
+      display: inline-block;
+      text-align: center;
+      color: $navy-blue;
     }
-    .hero-graphic {
-      float: right;
-      width: 300px;
-      height: 200px;
+    h3 {
+      top: 5rem;
+      margin-left: 10rem;
+      font-size: 2.5rem;
+      width: 50vw;
     }
   }
 }

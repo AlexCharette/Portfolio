@@ -5,7 +5,7 @@
     </router-link>
     <main-nav :prop-is-expanded="navIsExpanded"
               @update-is-expanded="onUpdatePropNavIsExpanded" />
-    <button class="nav-btn" @click="navIsExpanded = !navIsExpanded" />
+    <button :class="{ 'nav-btn': true, show: isOnHome }" @click="navIsExpanded = !navIsExpanded" />
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
   data: function () {
     return {
       navIsExpanded: false
+    }
+  },
+  computed: {
+    isOnHome: function() {
+      return (this.$store.state.currentPage == 'home')
     }
   },
   methods: {
@@ -52,6 +57,9 @@ export default {
       }
     }
     .nav-btn {
+      &.show {
+        display: inline-block;
+      }
       display: none;
       @include mobile {
         display: block;
