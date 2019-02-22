@@ -1,11 +1,14 @@
 <template>
-  <div id="main-overlay">
+  <div id="main-overlay" ref="mainOverlay">
     <router-link class="link" :to="'/'" page="Home">
       <span id="logo" />
     </router-link>
-    <main-nav :prop-is-expanded="navIsExpanded"
-              @update-is-expanded="onUpdatePropNavIsExpanded" />
-    <button :class="{ 'nav-btn': true, show: isOnHome }" @click="navIsExpanded = !navIsExpanded" />
+    <main-nav id="main-nav"
+              :prop-is-expanded="navIsExpanded"
+              @update-is-expanded="updatePropNavIsExpanded" />
+    <button class="nav-btn"
+            :style="{ display: buttonDisplayState }"
+            @click="updatePropNavIsExpanded(!navIsExpanded)" />
   </div>
 </template>
 
@@ -13,22 +16,35 @@
 import MainNav from './MainNav.vue';
 
 export default {
-  components: {
-    MainNav
-  },
+  components: { MainNav },
   data: function () {
     return {
       navIsExpanded: false
-    }
+     }
   },
   computed: {
     isOnHome: function() {
       return (this.$store.state.currentPage == 'home')
+    },
+    deviceIsPhone: function() {
+      return (this.$store.state.deviceType == 'phone')
+    },
+    deviceIsMobile: function() {
+      return (this.$store.state.deviceType == 'phone') || (this.$store.state.deviceType == 'tablet')
+    },
+    buttonDisplayState: function() {
+      if (this.isOnHome) { return 'block';}
+      else { return 'none'; }
     }
   },
   methods: {
-    onUpdatePropNavIsExpanded(newValue) {
+    updatePropNavIsExpanded(newValue) {
       this.navIsExpanded = newValue;
+    }
+  },
+  mounted() {
+    window.onresize = () => {
+        this.$store.dispatch('setDeviceType', window.innerWidth)
     }
   }
 };
@@ -57,12 +73,14 @@ export default {
       }
     }
     .nav-btn {
-      &.show {
-        display: inline-block;
-      }
-      display: none;
+      position: relative;
+      margin: 0 auto;
+      margin-top: -37px;
+      width: 20vw;
+      min-height: 44px;
+      z-index: 0;
       @include mobile {
-        display: block;
+        display: block !important;
         position: fixed;
         bottom: 0px;
         right: 0px;
@@ -70,6 +88,7 @@ export default {
         margin-bottom: 1rem;
         min-width: 44px;
         min-height: 44px;
+        z-index: 999;
       }
     }
   }

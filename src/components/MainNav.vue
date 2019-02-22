@@ -1,5 +1,5 @@
 <template>
-  <nav id="main-nav" :class="{ expanded: isExpanded, collapsed: (!isExpanded || isOnHome), 'home-nav': isOnHome }">
+  <nav :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }">
     <router-link
       v-for="page in pages"
       :key="page.id"
@@ -47,7 +47,7 @@ export default {
 <style lang="scss" scoped>
 #main-nav {
   position: fixed;
-  display: inline-flex;
+  display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
   align-items: center;
@@ -57,9 +57,21 @@ export default {
   height: 3rem;
   overflow: hidden;
   background-color: none;
-  &.home-nav {
-    top: 20rem;
-    right: 30rem;
+  &.collapsed {
+    background-color: none;
+    a { display: none; }
+  }
+  @include desktop-laptop {
+    &.home-nav {
+      position: relative;
+      margin: 0 auto;
+      margin-top: 75vh;
+      min-height: 44px;
+      a { z-index: 0; }
+      &.expanded {
+        a { z-index: 999; }
+      }
+    }
   }
   a {
     margin: 0 auto;
@@ -76,9 +88,6 @@ export default {
     a {
       display: none;
       flex: 0 1 auto;
-    }
-    &.collapsed {
-      background-color: none;
     }
     &.expanded {
       top: 0;
