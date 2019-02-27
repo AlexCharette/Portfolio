@@ -1,5 +1,5 @@
 <template>
-  <div id="blog">
+  <div id="blog" class="page">
     <header>
       <h1>Let's share some thoughts we might have. No fighting.</h1>
     </header>

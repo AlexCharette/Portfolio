@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="home" class="page">
     <div class="hero">
         <h1>Hey {{ clientIp }}, I'm Alexander</h1>
         <h3>
@@ -46,11 +46,11 @@ export default {
   .hero {
     width: 100vw;
     height: 100vh;
-    background-image: url('~@/assets/images/alley-min.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: cover;
+    //background-image: url('~@/assets/images/alley-min.jpg');
+    // background-repeat: no-repeat;
+    // background-position: center center;
+    // background-attachment: fixed;
+    // background-size: cover;
     overflow: hidden;
     h1 {
       position: relative;

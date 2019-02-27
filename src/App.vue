@@ -1,20 +1,27 @@
 <template>
   <div id="app">
-    <main-overlay />
-    <router-view class="main" />
+    <app-overlay />
+    <transition name="router-anim" mode="out-in">
+      <router-view class="main" />
+    </transition>
   </div>
 </template>
 
 <script>
-import MainOverlay from './components/MainOverlay.vue';
+import AppOverlay from './components/AppOverlay.vue';
 
 export default {
   name: 'App',
   components: {
-    MainOverlay
+    AppOverlay
   },
   beforeCreate: function() {
     document.body.className = 'body';
+  },
+  mounted() {
+    window.onresize = () => {
+        this.$store.dispatch('setDeviceType', window.innerWidth)
+    }
   }
 };
 </script>
@@ -24,10 +31,7 @@ export default {
       margin: 0px;
       color: $navy-blue;
   }
-
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 </style>
 
 
@@ -45,5 +49,34 @@ export default {
   .main {
     margin: 0;
     z-index: 1;
+    &.router-anim-enter-active {
+      animation: coming 0.25s ease-out;
+      animation-delay: 0.5s;
+      opacity: 0;
+    }
+    &.router-anim-leave-active {
+      animation: going 0.25s ease-in;
+    }
+  }
+
+  @keyframes coming {
+    from {
+      transform: translateX(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes going {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50px);
+      opacity: 0;
+    }
   }
 </style>
