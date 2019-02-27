@@ -3,34 +3,39 @@
     <router-link class="link" :to="'/'" page="Home">
       <span id="logo" />
     </router-link>
-    <main-nav id="main-nav"
+    <app-navigation id="main-nav"
               :prop-is-expanded="navIsExpanded"
-              @update-is-expanded="updatePropNavIsExpanded" />
+              @update-is-expanded="updatePropNavIsExpanded" 
+              :prop-is-on-home="isOnHome" />
     <button class="nav-btn"
+            @mouseover="showNavElems = true" 
+            @mouseout="showNavElems = false"
             :style="{ display: buttonDisplayState }"
             @click="updatePropNavIsExpanded(!navIsExpanded)" />
   </div>
 </template>
 
 <script>
-import MainNav from './MainNav.vue';
+import AppNavigation from './AppNavigation.vue';
+import { mapState } from 'vuex'
 
 export default {
-  components: { MainNav },
+  components: { AppNavigation },
   data: function () {
     return {
       navIsExpanded: false
      }
   },
   computed: {
+    ...mapState(['currentPage', 'deviceType']),
     isOnHome: function() {
-      return (this.$store.state.currentPage == 'home')
+      return (this.currentPage == 'home')
     },
     deviceIsPhone: function() {
-      return (this.$store.state.deviceType == 'phone')
+      return (this.deviceType == 'phone')
     },
     deviceIsMobile: function() {
-      return (this.$store.state.deviceType == 'phone') || (this.$store.state.deviceType == 'tablet')
+      return (this.deviceType == 'phone') || (this.deviceType == 'tablet')
     },
     buttonDisplayState: function() {
       if (this.isOnHome) { return 'block';}
@@ -40,11 +45,6 @@ export default {
   methods: {
     updatePropNavIsExpanded(newValue) {
       this.navIsExpanded = newValue;
-    }
-  },
-  mounted() {
-    window.onresize = () => {
-        this.$store.dispatch('setDeviceType', window.innerWidth)
     }
   }
 };

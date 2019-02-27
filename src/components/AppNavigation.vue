@@ -1,21 +1,26 @@
 <template>
-  <nav :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }">
+  <transition-group 
+    name="expand" tag="nav"
+    :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }"
+  >
     <router-link
       v-for="page in pages"
-      :key="page.id"
+      :key="page.name"
       :page="page.name"
       :to="page.path"
-      v-on:click.native="updateExpandedStatus, changeCurrentPage(page.name)"
+      @click="updateExpandedStatus"
     >
       {{ page.name }}
     </router-link>
-  </nav>
+  </transition-group>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'MainNav',
-  props: ['propIsExpanded'],
+  props: ['propIsExpanded', 'propIsOnHome'],
   data: function() {
     return {
       pages: [
@@ -26,17 +31,15 @@ export default {
     };
   },
   computed: {
+    ...mapState(['currentPage']),
     isExpanded: function () {
-      return this.propIsExpanded;
+      return this.propIsExpanded
     },
     isOnHome: function() {
-      return (this.$store.state.currentPage == 'home')
+      return this.propIsOnHome
     }
   },
   methods:{
-    changeCurrentPage(newPage) {
-      this.$store.dispatch('setCurrentPage', newPage.toLowerCase())
-    },
     updateExpandedStatus: function(event) {
       this.$emit("update-is-expanded", !this.isExpanded)
     }
