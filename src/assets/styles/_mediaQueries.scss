@@ -38,7 +38,7 @@ $desktop: "(min-width: 1024px)";
   }
 }
 /* Tablet & Phone (Landscape) */
-@mixin tablet-phone-landscape {
+@mixin mobile-landscape {
   @media screen
     and #{$mobile}
     and (orientation: landscape) {

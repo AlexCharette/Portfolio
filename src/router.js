@@ -20,15 +20,14 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/blog',
-      name: 'blog',
-      component: () => import(/* webpackChunkName: "blog" */ './views/Blog.vue')
+      path: '/gallery',
+      name: 'gallery',
+      component: () => import(/* webpackChunkName: "gallery" */ './views/Gallery.vue')
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  console.log("Page changed to: " + to.name)
   store.commit('updateCurrentPage', to.name)
   next()
 })

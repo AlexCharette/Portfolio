@@ -27,6 +27,7 @@ export default {
 </script>
 
 <style lang="scss">
+// TODO: Change font-size
   body {
       margin: 0px;
       color: $navy-blue;
@@ -61,21 +62,21 @@ export default {
 
   @keyframes coming {
     from {
-      transform: translateX(-50px);
+      transform: translate3d(-50px, 0, 0);
       opacity: 0;
     }
     to {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
       opacity: 1;
     }
   }
 
   @keyframes going {
     from {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
     to {
-      transform: translateX(-50px);
+      transform: translate3d(-50px, 0, 0);
       opacity: 0;
     }
   }

@@ -1,0 +1,52 @@
+{
+    "projects": [
+        {
+            "name": "Test project 1",
+            "date": "whenever",
+            "keywords": "Hello what me no",
+            "summary": "It's just this.", 
+            "description": "blablablablablablablablablabla",
+            "image-paths": ["pathOne", "pathTwo"]
+        },
+        {
+            "name": "Test project 2",
+            "date": "whenever kinda",
+            "keywords": "Hello what me ya",
+            "summary": "It's just that.", 
+            "description": "blablablablablablablablablabla",
+            "image-paths": ["pathOne", "pathTwo"]
+        },
+        {
+            "name": "Test project 3",
+            "date": "never",
+            "keywords": "Hello what me maybe",
+            "summary": "It's just what.", 
+            "description": "blablablablablablablablablabla",
+            "image-paths": ["pathOne", "pathTwo"]
+        },
+        {
+            "name": "Test project 4",
+            "date": "someday",
+            "keywords": "Hello what me certainly",
+            "summary": "It's just not.", 
+            "description": "blablablablablablablablablabla",
+            "image-paths": ["pathOne", "pathTwo"]
+        },
+        {
+            "name": "Test project 5",
+            "date": "someday",
+            "keywords": "Hello what me certainly",
+            "summary": "It's just not.", 
+            "description": "blablablablablablablablablabla",
+            "image-paths": ["pathOne", "pathTwo"]
+        },
+        {
+            "name": "Test project 6",
+            "date": "someday",
+            "keywords": "Hello what me certainly",
+            "summary": "It's just not.", 
+            "description": "blablablablablablablablablabla",
+            "image-paths": ["pathOne", "pathTwo"]
+        }
+    ]
+}

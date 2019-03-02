@@ -1,15 +1,13 @@
 <template>
   <transition-group 
     name="expand" tag="nav"
-    :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }"
-  >
+    :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }">
     <router-link
       v-for="page in pages"
       :key="page.name"
       :page="page.name"
       :to="page.path"
-      @click="updateExpandedStatus"
-    >
+      @click="updateExpandedStatus">
       {{ page.name }}
     </router-link>
   </transition-group>
@@ -19,14 +17,14 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'MainNav',
+  name: 'AppNavigation',
   props: ['propIsExpanded', 'propIsOnHome'],
   data: function() {
     return {
       pages: [
         { name: 'Home', path: '/'},
-        { name: 'About', path: '/about'},
-        { name: 'Blog', path: '/blog'}
+        { name: 'Creative Technology', path: '/gallery' },
+        { name: 'About', path: '/about'}
       ]
     };
   },
@@ -56,7 +54,7 @@ export default {
   align-items: center;
   top: 0px;
   right: 0px;
-  width: 40vw;
+  width: 50vw;
   height: 3rem;
   overflow: hidden;
   background-color: none;
@@ -79,7 +77,7 @@ export default {
   a {
     margin: 0 auto;
     padding-top: 1rem;
-    width: 25%;
+    width: 33%;
     min-width: 44px;
     min-height: 44px;
     text-align: center;
@@ -111,7 +109,7 @@ export default {
       }
     }
   }
-  @include tablet-phone-landscape {
+  @include mobile-landscape {
     &.expanded {
       top: 0;
       width: 100vw;

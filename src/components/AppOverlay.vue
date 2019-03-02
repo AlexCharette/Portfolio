@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import AppNavigation from './AppNavigation.vue';
+import AppNavigation from './AppNavigation.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -43,9 +43,16 @@ export default {
     }
   },
   methods: {
-    updatePropNavIsExpanded(newValue) {
-      this.navIsExpanded = newValue;
+    updatePropNavIsExpanded: function(newValue) {
+      this.navIsExpanded = newValue
+    },
+     initNavIsExpanded: async function(newState) {
+      this.navIsExpanded = newState
     }
+  },
+  mounted() {
+    let navState = (this.deviceIsPhone || this.isOnHome) ? false : true
+    this.initNavIsExpanded(navState)
   }
 };
 </script>

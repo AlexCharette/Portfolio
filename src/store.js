@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentPage: 'home',
-    deviceType: ''
+    deviceType: '',
+    shouldDisplayProject: false
   },
   mutations: {
     updateCurrentPage(state, newPage) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     updateDeviceType(state, newType) {
       state.deviceType = newType
+    },
+    updateDisplayProject(state, newState) {
+      state.shouldDisplayProject = newState
     }
   },
   actions: {
@@ -30,6 +34,9 @@ export default new Vuex.Store({
         currentType = 'laptop'
       }
       context.commit('updateDeviceType', currentType)
+    },
+    setDisplayProject(context, newState) {
+      context.commit('updateDisplayProject', newState)
     }
   }
 })
