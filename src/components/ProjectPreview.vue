@@ -24,8 +24,8 @@ export default {
             this.emitProjectData()
         },
         updateText: function() {
-            text = 'clicked'
-            console.log(text)
+            this.text = 'clicked'
+            console.log(this.text)
         },
         updateExpandedStatus: function() {
             this.$emit('update-expanded-status', true)

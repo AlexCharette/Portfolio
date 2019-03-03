@@ -1,8 +1,5 @@
 <template>
   <div id="main-overlay" ref="mainOverlay">
-    <router-link class="link" :to="'/'" page="Home">
-      <span id="logo" />
-    </router-link>
     <app-navigation id="main-nav"
               :prop-is-expanded="navIsExpanded"
               @update-is-expanded="updatePropNavIsExpanded" 
@@ -17,10 +14,11 @@
 
 <script>
 import AppNavigation from './AppNavigation.vue'
+import AppLogo from './AppLogo.vue'
 import { mapState } from 'vuex'
 
 export default {
-  components: { AppNavigation },
+  components: { AppNavigation, AppLogo },
   data: function () {
     return {
       navIsExpanded: false
@@ -67,6 +65,8 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 10;
+    pointer-events: none;
+    * { pointer-events: auto; }
     #logo {
       display: inline-block;
       min-width: 44px;

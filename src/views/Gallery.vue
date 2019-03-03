@@ -6,39 +6,39 @@
             :id="`project-preview-${index}`"
             class="gallery-element"  
             :project="project"
-            @update-expanded-project-data="onUpdateExpandedProjectData"
+            @update-expanded-project-data="onUpdateActiveProjectData"
             @update-expanded-status="onUpdateExpandedStatus"/>
-        <project v-if="hasExpandedProject" />
+        <active-project :project-data="activeProjectData" v-if="hasExpandedProject" />
     </div>
 </template>
 
 <script>
 import ProjectPreview from '@/components/ProjectPreview.vue'
-import Project from '@/components/Project.vue'
+import ActiveProject from '@/components/ActiveProject.vue'
 import data from '@/assets/data/projects.json'
 
 export default {
     name: 'Gallery',
     components: {
         ProjectPreview, 
-        Project
+        ActiveProject
     },
     data: function() {
         return {
             projects: data.projects,
             hasExpandedProject: false,
-            expandedProjectData: null
+            activeProjectData: null
         }
     },
     methods: {
-        onUpdateExpandedStatus: function(e) {
-            console.log("Expanded project status: " + e)
-            hasExpandedProject = e
-            this.$store.dispatch('setDisplayProject', hasExpandedProject)
+        onUpdateExpandedStatus: function(newState) {
+            console.log("Expanded project status: " + newState)
+            this.hasExpandedProject = newState
+            this.$store.dispatch('setDisplayProject', this.hasExpandedProject)
         },
-        onUpdateExpandedProjectData: function(e) {
-            console.log("Update expanded project data")
-            this.expandedProjectData = e 
+        onUpdateActiveProjectData: function(newData) {
+            console.log("Update active project data: " + newData)
+            this.activeProjectData = newData 
         }
     }    
 }
