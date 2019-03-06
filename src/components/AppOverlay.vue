@@ -2,12 +2,11 @@
   <div id="main-overlay" ref="mainOverlay">
     <app-navigation id="main-nav"
               :prop-is-expanded="navIsExpanded"
-              @update-is-expanded="updatePropNavIsExpanded"
+              @update-is-expanded="updateNavIsExpanded"
               :prop-is-on-home="isOnHome" />
     <icon-hamburger
-            class="nav-btn"
             :style="{ display: buttonDisplayState }"
-            @click="updatePropNavIsExpanded(!navIsExpanded)" />
+            @update-is-expanded="updateNavIsExpanded(!navIsExpanded)" />
   </div>
 </template>
 
@@ -45,7 +44,7 @@ export default {
     }
   },
   methods: {
-    updatePropNavIsExpanded: function(newValue) {
+    updateNavIsExpanded: function(newValue) {
       this.navIsExpanded = newValue
     },
      initNavIsExpanded: async function(newState) {
@@ -81,25 +80,6 @@ export default {
         min-height: 44px;
         width: 100%;
         height: 100%;
-      }
-    }
-    .nav-btn {
-      position: relative;
-      margin: 0 auto;
-      margin-top: -37px;
-      width: 20vw;
-      min-height: 44px;
-      z-index: 0;
-      @include mobile {
-        display: block !important;
-        position: fixed;
-        bottom: 0px;
-        right: 0px;
-        margin-right: 1rem;
-        margin-bottom: 1rem;
-        min-width: 44px;
-        min-height: 44px;
-        z-index: 999;
       }
     }
   }
