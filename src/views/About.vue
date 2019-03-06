@@ -1,7 +1,7 @@
 <template>
-  <div id="about" class="page">
+  <main>
     This is a little bit aboot mahself.
-  </div>
+  </main>
 </template>
 
 <script>

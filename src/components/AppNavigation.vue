@@ -1,5 +1,5 @@
 <template>
-  <transition-group 
+  <transition-group
     name="expand" tag="nav"
     :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }">
     <router-link
@@ -18,6 +18,9 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'AppNavigation',
+  components: {
+
+  },
   props: ['propIsExpanded', 'propIsOnHome'],
   data: function() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <div id="home" class="page">
+  <main>
     <div class="hero">
         <h1>Hey {{ clientIp }}, I'm Alexander</h1>
         <h3>
@@ -9,7 +9,7 @@
     </div>
     <div id="placeholder">
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -34,44 +34,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#home {
-  margin: 0;
-  width: 100vw;
-  height: 100vh;
-  color: white;
-  #placeholder {
-    width: 100vw;
-    height: 80vw;
-  }
-  .hero {
+  main {
+    margin: 0;
     width: 100vw;
     height: 100vh;
-    //background-image: url('~@/assets/images/alley-min.jpg');
-    // background-repeat: no-repeat;
-    // background-position: center center;
-    // background-attachment: fixed;
-    // background-size: cover;
-    overflow: hidden;
-    h1 {
-      position: relative;
-      margin: 0;
+    color: white;
+    #placeholder {
       width: 100vw;
-      height: 50vh;
-      //mask: url('~@/assets/images/alley-mask.png');
-      //mask-size: cover;
-      //position: fixed;
-      top: 10rem;
-      font-size: 6.5rem;
-      display: inline-block;
-      text-align: center;
-      color: $navy-blue;
+      height: 80vw;
     }
-    h3 {
-      top: 5rem;
-      margin-left: 10rem;
-      font-size: 2.5rem;
-      width: 50vw;
+    .hero {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      h1 {
+        position: relative;
+        margin: 0;
+        width: 100vw;
+        height: 50vh;
+        top: 10rem;
+        font-size: 6.5rem;
+        display: inline-block;
+        text-align: center;
+        color: $navy-blue;
+      }
+      h3 {
+        top: 5rem;
+        margin-left: 10rem;
+        font-size: 2.5rem;
+        width: 50vw;
+      }
     }
   }
-}
 </style>

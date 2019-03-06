@@ -2,23 +2,27 @@
   <div id="main-overlay" ref="mainOverlay">
     <app-navigation id="main-nav"
               :prop-is-expanded="navIsExpanded"
-              @update-is-expanded="updatePropNavIsExpanded" 
+              @update-is-expanded="updatePropNavIsExpanded"
               :prop-is-on-home="isOnHome" />
-    <button class="nav-btn"
-            @mouseover="showNavElems = true" 
-            @mouseout="showNavElems = false"
+    <icon-hamburger
+            class="nav-btn"
             :style="{ display: buttonDisplayState }"
             @click="updatePropNavIsExpanded(!navIsExpanded)" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AppNavigation from './AppNavigation.vue'
 import AppLogo from './AppLogo.vue'
-import { mapState } from 'vuex'
+import IconHamburger from './icons/IconHamburger.vue'
 
 export default {
-  components: { AppNavigation, AppLogo },
+  components: {
+    AppNavigation,
+    AppLogo,
+    IconHamburger
+  },
   data: function () {
     return {
       navIsExpanded: false

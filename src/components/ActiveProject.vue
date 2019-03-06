@@ -25,20 +25,19 @@ export default {
         position: absolute;
         display: grid;
         margin-top: 5vh;
-        width: 100vw;
+        width: 90vw;
         height: 95vh;
         grid-template-columns: 1fr 1.5fr 0.5fr;
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
         grid-template-areas:
-        "info img    ."
-        "info img    sim-btn"
-        "info img    sim-btn"
+        "info img      ."
+        "info img      sim-btn"
+        "info img      sim-btn"
+        "info img      ."
         ".    diff-btn .";
         z-index: 100;
         pointer-events: none;
-        * {
-            pointer-events: auto;
-        }
+        * { pointer-events: auto; }
         #info-wrapper {
             grid-area: info;
             display: flex;

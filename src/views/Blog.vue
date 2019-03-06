@@ -1,5 +1,5 @@
 <template>
-  <div id="blog" class="page">
+  <main>
     <header>
       <h1>Let's share some thoughts we might have. No fighting.</h1>
     </header>
@@ -18,7 +18,7 @@
         </a>
       </nav>
     </aside>
-  </div>
+  </main>
 </template>
 
 <script>
