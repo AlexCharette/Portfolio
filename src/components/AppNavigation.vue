@@ -1,8 +1,10 @@
 <template>
-  <transition-group name="expand" tag="div"
+  <div
     ref="wrapper"
+    @mouseover="animate"
+    @mouseleave="animate"
     :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }">
-    <icon-hamburger key="icon"
+    <icon-hamburger key="icon" ref="icon"
         @update-is-expanded="updateExpandedStatus" />
     <nav key="nav">
       <router-link v-for="page in pages"
@@ -13,7 +15,7 @@
         {{ page.name }}
       </router-link>
     </nav>
-  </transition-group>
+  </div>
 </template>
 
 <script>
@@ -47,6 +49,9 @@ export default {
   methods:{
     updateExpandedStatus: function() {
       this.$emit("update-is-expanded", !this.isExpanded)
+    },
+    animate: function() {
+      this.$refs.icon.toggle();
     }
   }
 };
@@ -62,7 +67,7 @@ export default {
     top: 0px;
     right: 0px;
     width: 50vw;
-    height: 3rem;
+    height: 6rem;
     overflow: hidden;
     background-color: none;
     &.collapsed {
@@ -74,7 +79,6 @@ export default {
         position: relative;
         margin: 0 auto;
         margin-top: 75vh;
-        height: 3rem;
         min-height: 44px;
         a { z-index: 0; }
         &.expanded {

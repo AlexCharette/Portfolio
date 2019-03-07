@@ -1,9 +1,7 @@
 <template>
     <svg class="nav-btn"
-         @mouseover="toggle"
-         @mouseleave="toggle"
-         viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-         width="400" height="400"
+         viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg"
+         width="100" height="100"
          fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
          stroke-miterlimit="1.414">
         <path ref="top" d="M726.02 132.38c0-14.01-11.374-25.384-25.384-25.384H99.364c-14.01 0-25.384 11.374-25.384 25.384v50.769c0 14.009 11.374 25.384 25.384 25.384h601.272c14.01 0 25.384-11.375 25.384-25.384V132.38z"
@@ -16,7 +14,7 @@
 </template>
 
 <script>
-import { TimelineMax, Sine } from 'gsap'
+//import { hamburgerAnimation } from '@/assets/animate'
 
 export default {
     name: 'IconHamburger',
@@ -28,31 +26,32 @@ export default {
     },
     methods: {
         toggle: function() {
-            this.showElements = !this.showElements
             this.animateIcon()
             this.emitIsClicked()
+            this.showElements = !this.showElements
         },
         animateIcon: function() {
             const { top, mid, bot } = this.$refs
-            this.navToggleAnimation = this.$anime
-                .timeline()
-                .add({
-                    top,
-                    rotate: 45,
-                    easing: 'easeInOutSine',
-                })
-                .add({
-                    bot,
+            let animateTop = this.$anime({
+                targets: top,
+                rotate: 45,
+                easing: 'easeInOutSine',
+                autoplay: false
+            })
+            let animateBottom = this.$anime({
+                    targets: bot,
                     rotate: -45,
                     easing: 'easeInOutSine',
-                })
-            // this.navToggleAnimation
-            //          .to(top, .2, {y:'5'}, 'rotate')
-            //          .to(bot, .2, {y:'-5'}, 'rotate')
-            //          .to(mid, .2, {scale: 0.001}, 'rotate')
-            //          .to(top, .2, {rotationZ: 45, transformOrigin: '50% 50%'}, 'rotate')
-            //          .to(bot, .2, {rotationZ: -45, transformOrigin: '50% 50%'}, 'rotate')
-            this.navToggleAnimation.finished ? this.navToggleAnimation.restart() : this.navToggleAnimation.reverse()
+                    autoplay: false
+            })
+            console.log(this.showElements)
+            if (!this.showElements) {
+                animateTop.play()
+                animateBottom.play()
+            } else {
+                animateTop.reverse()
+                animateBottom.reverse()
+            }
         },
         emitIsClicked: function() {
             this.$emit('update-is-expanded')
@@ -65,12 +64,10 @@ export default {
     .nav-btn {
         display: block;
         position: absolute;
-        align-content: center;
-        justify-content: center;
+        //align-content: center;
+        //justify-content: center;
         // margin: 0 auto;
-        margin-top: 120px;
-        width: 100%;
-        height: 100%;
+        //margin-top: 120px;
         // top: 0;
         // right: 0;
         // left: 0;
