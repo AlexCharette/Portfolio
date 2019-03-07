@@ -4,9 +4,6 @@
               :prop-is-expanded="navIsExpanded"
               @update-is-expanded="updateNavIsExpanded"
               :prop-is-on-home="isOnHome" />
-    <icon-hamburger
-            :style="{ display: buttonDisplayState }"
-            @update-is-expanded="updateNavIsExpanded(!navIsExpanded)" />
   </div>
 </template>
 
@@ -14,13 +11,11 @@
 import { mapState } from 'vuex'
 import AppNavigation from './AppNavigation.vue'
 import AppLogo from './AppLogo.vue'
-import IconHamburger from './icons/IconHamburger.vue'
 
 export default {
   components: {
     AppNavigation,
-    AppLogo,
-    IconHamburger
+    AppLogo
   },
   data: function () {
     return {
@@ -37,10 +32,6 @@ export default {
     },
     deviceIsMobile: function() {
       return (this.deviceType == 'phone') || (this.deviceType == 'tablet')
-    },
-    buttonDisplayState: function() {
-      if (this.isOnHome) { return 'block';}
-      else { return 'none'; }
     }
   },
   methods: {

@@ -23,7 +23,7 @@ export default {
       clientLocation: ''
     };
   },
-  created: function() {
+  created() {
     let state = this;
     return ipapi.location(function(res) {
       state.clientIp = res.ip;

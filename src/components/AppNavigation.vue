@@ -1,25 +1,29 @@
 <template>
-  <transition-group
-    name="expand" tag="nav"
+  <transition-group name="expand" tag="div"
+    ref="wrapper"
     :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }">
-    <router-link
-      v-for="page in pages"
-      :key="page.name"
-      :page="page.name"
-      :to="page.path"
-      @click="updateExpandedStatus">
-      {{ page.name }}
-    </router-link>
+    <icon-hamburger key="icon"
+        @update-is-expanded="updateExpandedStatus" />
+    <nav key="nav">
+      <router-link v-for="page in pages"
+        :key="page.name"
+        :page="page.name"
+        :to="page.path"
+        @click="updateExpandedStatus">
+        {{ page.name }}
+      </router-link>
+    </nav>
   </transition-group>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import IconHamburger from './icons/IconHamburger.vue'
 
 export default {
   name: 'AppNavigation',
   components: {
-
+    IconHamburger
   },
   props: ['propIsExpanded', 'propIsOnHome'],
   data: function() {
@@ -41,7 +45,7 @@ export default {
     }
   },
   methods:{
-    updateExpandedStatus: function(event) {
+    updateExpandedStatus: function() {
       this.$emit("update-is-expanded", !this.isExpanded)
     }
   }
@@ -49,83 +53,84 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#main-nav {
-  position: fixed;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-evenly;
-  align-items: center;
-  top: 0px;
-  right: 0px;
-  width: 50vw;
-  height: 3rem;
-  overflow: hidden;
-  background-color: none;
-  &.collapsed {
+  #main-nav {
+    position: fixed;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    top: 0px;
+    right: 0px;
+    width: 50vw;
+    height: 3rem;
+    overflow: hidden;
     background-color: none;
-    a { display: none; }
-  }
-  @include desktop-laptop {
-    &.home-nav {
-      position: relative;
-      margin: 0 auto;
-      margin-top: 75vh;
-      min-height: 44px;
-      a { z-index: 0; }
-      &.expanded {
-        a { z-index: 999; }
-      }
+    &.collapsed {
+      background-color: none;
+      a { display: none; }
     }
-  }
-  a {
-    margin: 0 auto;
-    padding-top: 1rem;
-    width: 33%;
-    min-width: 44px;
-    min-height: 44px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1.5rem;
-  }
-  @include mobile-portrait {
-    transition: background-color 0.25s ease;
-    a {
-      display: none;
-      flex: 0 1 auto;
-    }
-    &.expanded {
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      flex-flow: column nowrap;
-      background-color: #fff;
-      a {
-        display: block;
-        padding-top: 10%;
-        padding-bottom: 10%;
-        width: 80vw;
-        height: 30vh;
+    @include desktop-laptop {
+      &.home-nav {
+        position: relative;
+        margin: 0 auto;
+        margin-top: 75vh;
+        height: 3rem;
         min-height: 44px;
-        font-size: 3rem;
-        text-align: center;
-        text-decoration: none;
+        a { z-index: 0; }
+        &.expanded {
+          a { z-index: 999; }
+        }
       }
     }
-  }
-  @include mobile-landscape {
-    &.expanded {
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      flex-flow: row wrap;
-      a { display: inline-block; }
+    a {
+      margin: 0 auto;
+      padding-top: 1rem;
+      width: 33%;
+      min-width: 44px;
+      min-height: 44px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 1.5rem;
+    }
+    @include mobile-portrait {
+      transition: background-color 0.25s ease;
+      a {
+        display: none;
+        flex: 0 1 auto;
+      }
+      &.expanded {
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        flex-flow: column nowrap;
+        background-color: #fff;
+        a {
+          display: block;
+          padding-top: 10%;
+          padding-bottom: 10%;
+          width: 80vw;
+          height: 30vh;
+          min-height: 44px;
+          font-size: 3rem;
+          text-align: center;
+          text-decoration: none;
+        }
+      }
+    }
+    @include mobile-landscape {
+      &.expanded {
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        flex-flow: row wrap;
+        a { display: inline-block; }
+      }
+    }
+    @include mobile {
+      top: 90vh;
+      right: 0;
+      width: auto;
+      height: auto;
     }
   }
-  @include mobile {
-    top: 90vh;
-    right: 0;
-    width: auto;
-    height: auto;
-  }
-}
 </style>
