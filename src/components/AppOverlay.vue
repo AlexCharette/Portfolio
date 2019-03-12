@@ -1,51 +1,44 @@
 <template>
   <div id="main-overlay" ref="mainOverlay">
-    <app-navigation id="main-nav"
-              :prop-is-expanded="navIsExpanded"
-              @update-is-expanded="updateNavIsExpanded"
-              :prop-is-on-home="isOnHome" />
+    <icon-loader v-if="!pageLoaded" />
+    <app-navigation id="main-nav"/>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import EventBus from '../event-bus'
 import AppNavigation from './AppNavigation.vue'
 import AppLogo from './AppLogo.vue'
+import IconLoader from './icons/IconLoader.vue'
 
 export default {
   components: {
     AppNavigation,
-    AppLogo
+    AppLogo,
+    IconLoader
   },
-  data: function () {
+  data: function() {
     return {
-      navIsExpanded: false
-     }
+      pageLoaded: false
+    }
   },
   computed: {
-    ...mapState(['currentPage', 'deviceType']),
+    ...mapState(['currentPage']),
     isOnHome: function() {
       return (this.currentPage == 'home')
-    },
-    deviceIsPhone: function() {
-      return (this.deviceType == 'phone')
-    },
-    deviceIsMobile: function() {
-      return (this.deviceType == 'phone') || (this.deviceType == 'tablet')
     }
   },
   methods: {
-    updateNavIsExpanded: function(newValue) {
-      this.navIsExpanded = newValue
-    },
-     initNavIsExpanded: async function(newState) {
-      this.navIsExpanded = newState
+    setPageLoaded: function() {
+      console.log("Page loaded!")
+      this.pageLoaded = true
     }
   },
   mounted() {
-    let navState = (this.deviceIsPhone || this.isOnHome) ? false : true
-    this.initNavIsExpanded(navState)
+    EventBus.$once('user-data-loaded', this.setPageLoaded)
   }
+
 };
 </script>
 

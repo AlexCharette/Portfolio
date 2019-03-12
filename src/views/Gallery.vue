@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main :class="{ blur: hasExpandedProject }">
         <project-preview
             v-for="(project, index) in projects"
             :key="project.name"
@@ -46,13 +46,16 @@ export default {
 
 <style lang="scss" scoped>
     $num-projects: 7;
+    .blur .gallery-element {
+        @include blur;
+    }
     @include desktop-laptop {
         main {
             display: grid;
             grid-template-columns: repeat(3, 1fr [col-start]);
             grid-template-rows: repeat(3, 1fr);
             margin: 0 auto;
-            width: 90vw;
+            width: 100vw;
             height: 100vh;
             grid-template-areas: "project-0 project-1 project-2"
                                 "project-3 project-4 ."

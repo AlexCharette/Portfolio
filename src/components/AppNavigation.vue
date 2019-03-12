@@ -1,17 +1,17 @@
 <template>
-  <div
-    ref="wrapper"
-    @mouseover="animate"
-    @mouseleave="animate"
-    :class="{ expanded: isExpanded, collapsed: !isExpanded, 'home-nav': isOnHome }">
-    <icon-hamburger key="icon" ref="icon"
-        @update-is-expanded="updateExpandedStatus" />
-    <nav key="nav">
+  <div ref="wrapper"
+    :class="{ expanded: isActive, 'home-nav': isOnHome }"
+    @mouseover="toggle('forward', true)"
+    @mouseleave="toggle('reverse', false)">
+    <icon-hamburger key="icon" />
+    <nav key="nav"
+      @mouseover="toggle('forward', true)">
       <router-link v-for="page in pages"
         :key="page.name"
         :page="page.name"
         :to="page.path"
-        @click="updateExpandedStatus">
+        @mouseover="toggle('forward', true)"
+        @click.native="toggle('clicked', false)">
         {{ page.name }}
       </router-link>
     </nav>
@@ -20,6 +20,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import EventBus from '../event-bus'
 import IconHamburger from './icons/IconHamburger.vue'
 
 export default {
@@ -27,9 +28,9 @@ export default {
   components: {
     IconHamburger
   },
-  props: ['propIsExpanded', 'propIsOnHome'],
   data: function() {
     return {
+      isActive: false,
       pages: [
         { name: 'Home', path: '/'},
         { name: 'Creative Technology', path: '/gallery' },
@@ -39,19 +40,15 @@ export default {
   },
   computed: {
     ...mapState(['currentPage']),
-    isExpanded: function () {
-      return this.propIsExpanded
-    },
     isOnHome: function() {
-      return this.propIsOnHome
+      return this.currentPage == 'home'
     }
   },
   methods:{
-    updateExpandedStatus: function() {
-      this.$emit("update-is-expanded", !this.isExpanded)
-    },
-    animate: function() {
-      this.$refs.icon.toggle();
+    toggle: function(eventMsg, newState) {
+      if (this.isActive == newState) return
+      this.isActive = newState
+      EventBus.$emit('animate-icon', eventMsg)
     }
   }
 };
@@ -69,32 +66,36 @@ export default {
     width: 50vw;
     height: 6rem;
     overflow: hidden;
+    opacity: none;
     background-color: none;
-    &.collapsed {
-      background-color: none;
-      a { display: none; }
-    }
+    a { display: none }
     @include desktop-laptop {
+      &:hover, &:focus,
+      &.expanded {
+        opacity: 1;
+        z-index: 999;
+        a {
+          display: inline-block;
+          margin: 0 auto;
+          padding-top: 1rem;
+          width: 33%;
+          min-width: 44px;
+          min-height: 44px;
+          text-align: center;
+          text-decoration: none;
+          font-size: 1.5rem;
+          z-index: 999;
+          &:hover {
+            color: $light-blue;
+          }
+        }
+      }
       &.home-nav {
         position: relative;
         margin: 0 auto;
         margin-top: 75vh;
         min-height: 44px;
-        a { z-index: 0; }
-        &.expanded {
-          a { z-index: 999; }
-        }
       }
-    }
-    a {
-      margin: 0 auto;
-      padding-top: 1rem;
-      width: 33%;
-      min-width: 44px;
-      min-height: 44px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 1.5rem;
     }
     @include mobile-portrait {
       transition: background-color 0.25s ease;

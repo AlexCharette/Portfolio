@@ -4,58 +4,77 @@
          width="100" height="100"
          fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
          stroke-miterlimit="1.414">
-        <path ref="top" d="M726.02 132.38c0-14.01-11.374-25.384-25.384-25.384H99.364c-14.01 0-25.384 11.374-25.384 25.384v50.769c0 14.009 11.374 25.384 25.384 25.384h601.272c14.01 0 25.384-11.375 25.384-25.384V132.38z"
+        <path id="top" ref="top" :d="topPath"
             fill="red" />
-        <path ref="mid" d="M712.835 273.683c0-14.01-11.374-25.384-25.384-25.384H112.549c-14.01 0-25.384 11.374-25.384 25.384v50.768c0 14.01 11.374 25.384 25.384 25.384h574.902c14.01 0 25.384-11.374 25.384-25.384v-50.768z"
+        <path id="mid" ref="mid" :d="midPath"
             fill="red" />
-        <path ref="bot" d="M789.681 416.851c0-14.009-11.375-25.384-25.385-25.384H35.704c-14.01 0-25.385 11.375-25.385 25.384v50.769c0 14.01 11.375 25.384 25.385 25.384h728.592c14.01 0 25.385-11.374 25.385-25.384v-50.769z"
+        <path id="bot" ref="bot" :d="botPath"
             fill="red" />
     </svg>
 </template>
 
 <script>
-//import { hamburgerAnimation } from '@/assets/animate'
+import EventBus from '../../event-bus'
 
 export default {
     name: 'IconHamburger',
     data: function() {
         return {
-            showElements: false,
-            navToggleAnimation: null
+            navToggleAnimation: null,
+            topPath: 'M726.02 132.38c0-14.01-11.374-25.384-25.384-25.384H99.364c-14.01 0-25.384 11.374-25.384 25.384v50.769c0 14.009 11.374 25.384 25.384 25.384h601.272c14.01 0 25.384-11.375 25.384-25.384V132.38z',
+            midPath: 'M712.835 273.683c0-14.01-11.374-25.384-25.384-25.384H112.549c-14.01 0-25.384 11.374-25.384 25.384v50.768c0 14.01 11.374 25.384 25.384 25.384h574.902c14.01 0 25.384-11.374 25.384-25.384v-50.768z',
+            botPath: 'M789.681 416.851c0-14.009-11.375-25.384-25.385-25.384H35.704c-14.01 0-25.385 11.375-25.385 25.384v50.769c0 14.01 11.375 25.384 25.385 25.384h728.592c14.01 0 25.385-11.374 25.385-25.384v-50.769z',
+            paths: []
         }
     },
     methods: {
-        toggle: function() {
-            this.animateIcon()
-            this.emitIsClicked()
-            this.showElements = !this.showElements
-        },
-        animateIcon: function() {
-            const { top, mid, bot } = this.$refs
-            let animateTop = this.$anime({
+        animateIcon: function(animationState) {
+            let animationTop = this.navToggleAnimation.animateTop
+            let animationBot = this.navToggleAnimation.animateBottom
+            if (animationState == 'reverse' || animationState == 'clicked') {
+                if (!animationTop.reversed) {
+                    animationTop.reverse()
+                    animationBot.reverse()
+                }
+                animationTop.play()
+                animationBot.play()
+            } else if (animationState == 'forward') {
+                if (animationTop.reversed) {
+                    animationTop.reverse()
+                    animationBot.reverse()
+                }
+                animationTop.play()
+                animationBot.play()
+            }
+        }
+    },
+    mounted() {
+        const { top, mid, bot } = this.$refs
+        this.paths = [
+            { id: 'top', d: this.topPath },
+            { id: 'mid', d: this.midPath },
+            { id: 'bot', d: this.botPath }
+        ]
+        //console.log("Icon mounted")
+        this.navToggleAnimation = {
+            animateTop: this.$anime({
                 targets: top,
                 rotate: 45,
                 easing: 'easeInOutSine',
                 autoplay: false
-            })
-            let animateBottom = this.$anime({
+            }),
+            animateBottom: this.$anime({
                     targets: bot,
                     rotate: -45,
                     easing: 'easeInOutSine',
                     autoplay: false
             })
-            console.log(this.showElements)
-            if (!this.showElements) {
-                animateTop.play()
-                animateBottom.play()
-            } else {
-                animateTop.reverse()
-                animateBottom.reverse()
-            }
-        },
-        emitIsClicked: function() {
-            this.$emit('update-is-expanded')
         }
+        let animationFunction = this.animateIcon
+        EventBus.$on('animate-icon', function(msg) {
+            //console.log('Message received: ' + msg)
+            animationFunction(msg)
+        })
     }
 }
 </script>
@@ -64,6 +83,7 @@ export default {
     .nav-btn {
         display: block;
         position: absolute;
+        transform-origin: center;
         //align-content: center;
         //justify-content: center;
         // margin: 0 auto;
@@ -74,7 +94,7 @@ export default {
         // bottom: 0;
         // min-height: 44px;
         // min-width: 44px;
-        z-index: 0;
+        z-index: -1;
         @include mobile {
             display: block !important;
             position: fixed;

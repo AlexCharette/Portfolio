@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import EventBus from './event-bus'
 import store from './store.js'
 
 Vue.use(Router)
@@ -29,6 +30,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   store.commit('updateCurrentPage', to.name)
+  EventBus.$emit('page-changed', to.name)
   next()
 })
 

@@ -8,8 +8,8 @@
         <p key="summary">{{ projectData.summary }}</p>
         <div key="img-wrap" id="image-wrapper">
         </div>
-        <button key="sim-btn" id="sim-proj-button" />
-        <button key="diff-btn" id="diff-proj-button" />
+        <button key="sim-btn" id="sim-proj-button" class="button" />
+        <button key="diff-btn" id="diff-proj-button" class="button" />
     </transition-group>
 </template>
 
@@ -25,8 +25,9 @@ export default {
         position: absolute;
         display: grid;
         margin-top: 5vh;
-        width: 90vw;
+        width: 100vw;
         height: 95vh;
+        padding: 2rem;
         grid-template-columns: 1fr 1.5fr 0.5fr;
         grid-template-rows: repeat(5, 1fr);
         grid-template-areas:
@@ -46,11 +47,20 @@ export default {
         #image-wrapper {
             grid-area: img;
         }
-        #sim-proj-button {
-            grid-area: sim-btn;
-        }
-        #diff-proj-button {
-            grid-area: diff-btn;
+        .button {
+            margin: 0 auto;
+            width: 5rem;
+            height: 5rem;
+            min-width: 44px;
+            min-height: 44px;
+            justify-content: center;
+            align-content: center;
+            &#sim-proj-button {
+                grid-area: sim-btn;
+            }
+            &#diff-proj-button {
+                grid-area: diff-btn;
+            }
         }
     }
 </style>

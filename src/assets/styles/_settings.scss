@@ -8,6 +8,7 @@
 $off-white: #F1F3F2;
 $navy-blue: #2F4777;
 $navy-blue-hover: #2F3377;
+$light-blue: #75B4D2;
 $dark-red: #7A1C14;
 $gold: #DDB335;
 
@@ -24,4 +25,8 @@ a {
     &:hover {
         color: $navy-blue-hover;
     }
+}
+
+@mixin blur {
+    filter: blur(3px);
 }

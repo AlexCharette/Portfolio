@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import ipapi from 'ipapi.co';
+import ipapi from 'ipapi.co'
+import EventBus from '../event-bus'
 
 export default {
   name: 'Home',
@@ -24,10 +25,11 @@ export default {
     };
   },
   created() {
-    let state = this;
+    let state = this
     return ipapi.location(function(res) {
-      state.clientIp = res.ip;
-      state.clientLocation = res.region;
+      state.clientIp = res.ip
+      state.clientLocation = res.region
+      EventBus.$emit('user-data-loaded', true)
     });
   }
 };
