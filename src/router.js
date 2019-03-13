@@ -16,14 +16,14 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    },
-    {
       path: '/gallery',
       name: 'gallery',
       component: () => import(/* webpackChunkName: "gallery" */ './views/Gallery.vue')
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     }
   ]
 })

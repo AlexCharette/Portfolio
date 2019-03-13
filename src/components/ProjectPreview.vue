@@ -3,7 +3,7 @@
         <div class="preview-inner-wrapper" key="project-wrapper"
             @click="handleClick">
             <h2 :key="project.name">{{ project.name }}</h2>
-            <p :key="project.summary">{{ text }}</p>
+            <p :key="project.summary">{{ project.summary }}</p>
         </div>
     </transition-group>
 </template>
