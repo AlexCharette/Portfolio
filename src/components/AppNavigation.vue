@@ -1,11 +1,12 @@
 <template>
-  <div ref="wrapper"
-    :class="{ expanded: isActive, 'home-nav': isOnHome }"
+  <transition-group name="move-nav" tag="div" ref="wrapper"
+    :class="{ expanded: isActive, 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
     @mouseover="toggle('forward', true)"
     @mouseleave="toggle('reverse', false)">
     <icon-hamburger key="icon" />
     <nav key="nav"
-      @mouseover="toggle('forward', true)">
+      @mouseover="toggle('forward', true)"
+      @mouseleave="toggle('reverse', false)">
       <router-link v-for="page in pages"
         :key="page.name"
         :page="page.name"
@@ -15,7 +16,7 @@
         {{ page.name }}
       </router-link>
     </nav>
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -39,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['currentPage']),
+    ...mapState(['currentPage', 'deviceType']),
     isOnHome: function() {
       return this.currentPage == 'home'
     }

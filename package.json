@@ -10,6 +10,7 @@
   "dependencies": {
     "animejs": "^3.0.1",
     "firebase": "^5.8.6",
+    "hammerjs": "^2.0.8",
     "ipapi.co": "^0.2.3",
     "simple-icons": "^1.9.23",
     "vue": "^2.5.22",
