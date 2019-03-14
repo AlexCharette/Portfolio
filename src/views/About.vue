@@ -7,8 +7,10 @@
         <li v-for="link in smLinks"
           :key="link.name">
           <a :href="link.path" target="_blank">
-            <icon-base :icon-name="link.icon">
-              {{ link.tag }}
+            <icon-base :icon-name="link.icon"
+              width="30" height="30">
+              <component :is="`icon-${link.icon}`" />
+              {{ link.name }}
             </icon-base>
           </a>
         </li>
@@ -62,24 +64,20 @@ export default {
   data: function() {
     return {
       smLinks: [
-        { name: 'Linkedin',
+        { name: 'LinkedIn',
           icon: 'linkedin',
-          tag: `<icon-linkedin />`,
           path: 'https://www.linkedin.com/in/alexander-charette-creativetech/'
         },
         { name: 'Angel List',
           icon: 'angellist',
-          tag: `<icon-angellist />`,
           path: 'https://angel.co/alexander-charette'
         },
         { name: 'GitHub',
           icon: 'github',
-          tag: `<icon-github />`,
           path: 'https://github.com/AlexCharette'
         },
         { name: 'Twitter',
           icon: 'twitter',
-          tag: `<icon-twitter />`,
           path: 'https://twitter.com/acharette_wake'
         }
       ]
@@ -98,14 +96,28 @@ export default {
       #sm-links {
         display: inline-flex;
         flex-flow: row;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
         list-style-type: none;
-        a {
-          text-decoration: none;
-          svg {
-            stroke: '#de2013';
-            fill: '#de2013';
+        width: 20vw;
+        height: 7vh;
+        padding: 0;
+        li {
+          min-width: 60px;
+          min-height: 45px;
+          text-align: center;
+          a {
+            position: relative;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-evenly;
+            align-content: center;
+            text-decoration: none;
+            .icon {
+              position: absolute;
+              top: 8px;
+              right: 0;
+            }
           }
         }
       }

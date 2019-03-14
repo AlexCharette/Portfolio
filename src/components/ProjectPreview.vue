@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import EventBus from '../event-bus'
-
 export default {
     name: 'ProjectPreview',
     props: ['project'],

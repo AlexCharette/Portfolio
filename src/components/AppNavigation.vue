@@ -134,7 +134,7 @@ export default {
     }
     @include mobile {
       top: 90vh;
-      right: 0;
+      left: 0;
       width: auto;
       height: auto;
     }

@@ -1,14 +1,14 @@
 <template>
     <main :class="{ blur: hasExpandedProject }">
-        <project-preview
-            v-for="(project, index) in projects"
+        <project-preview v-for="(project, index) in projects"
             :key="project.name"
             :id="`project-preview-${index}`"
             class="gallery-element"
             :project="project"
             @update-expanded-project-data="onUpdateActiveProjectData"
-            @update-expanded-status="onUpdateExpandedStatus"/>
-        <active-project :project-data="activeProjectData" v-if="hasExpandedProject" />
+            @update-expanded-status="onUpdateExpandedStatus" />
+        <active-project :project-data="activeProjectData" v-if="hasExpandedProject" 
+            @update-expanded-status="onUpdateExpandedStatus" />
     </main>
 </template>
 
@@ -16,6 +16,7 @@
 import ProjectPreview from '@/components/ProjectPreview.vue'
 import ActiveProject from '@/components/ActiveProject.vue'
 import data from '@/assets/data/projects.json'
+import EventBus from '../event-bus'
 
 export default {
     name: 'Gallery',
@@ -39,6 +40,9 @@ export default {
         onUpdateActiveProjectData: function(newData) {
             console.log("Update active project data: " + newData)
             this.activeProjectData = newData
+        },
+        setExpanded: function(newState) {
+            this.hasExpandedProject = !this.hasExpandedProject
         }
     }
 }
