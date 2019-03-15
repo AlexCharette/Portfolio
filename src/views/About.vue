@@ -5,10 +5,11 @@
       <h3>A brief description of who I am and what I do</h3>
       <ul id="sm-links">
         <li v-for="link in smLinks"
-          :key="link.name">
+          :key="link.name"
+          @mouseenter="hovered = true"
+          @mouseleave="hovered = false">
           <a :href="link.path" target="_blank">
-            <icon-base :icon-name="link.icon"
-              width="30" height="30">
+            <icon-base :icon-name="link.icon" width="30" height="30">
               <component :is="`icon-${link.icon}`" />
               {{ link.name }}
             </icon-base>
@@ -18,7 +19,6 @@
     </header>
     <div id="summary">
       <p>
-
       </p>
     </div>
     <div id="long-form">
@@ -63,6 +63,7 @@ export default {
   },
   data: function() {
     return {
+      hovered: false,
       smLinks: [
         { name: 'LinkedIn',
           icon: 'linkedin',
@@ -81,6 +82,11 @@ export default {
           path: 'https://twitter.com/acharette_wake'
         }
       ]
+    }
+  },
+  computed: {
+    iconColour: function() {
+      return this.hovered ? '#75B4D2' : '#2F4777'
     }
   }
 };
@@ -113,10 +119,8 @@ export default {
             justify-content: space-evenly;
             align-content: center;
             text-decoration: none;
-            .icon {
-              position: absolute;
-              top: 8px;
-              right: 0;
+            &:hover svg {
+              color: aqua !important;
             }
           }
         }

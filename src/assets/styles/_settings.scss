@@ -22,9 +22,6 @@ a {
     &.router-link-exact-active {
         color: $navy-blue-hover;
     }
-    &:hover {
-        color: $navy-blue-hover;
-    }
 }
 
 @mixin blur {
