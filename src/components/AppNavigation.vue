@@ -64,7 +64,7 @@ export default {
     align-items: center;
     top: 0px;
     right: 0px;
-    width: 50vw;
+    width: 30vw;
     height: 6rem;
     overflow: hidden;
     opacity: none;

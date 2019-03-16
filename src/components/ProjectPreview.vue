@@ -1,5 +1,6 @@
 <template>
-    <transition-group name="expand-preview" tag="div">
+    <transition-group name="expand-preview" tag="div"
+        class="preview-wrapper">
         <div class="preview-inner-wrapper" key="project-wrapper"
             @click="handleClick">
             <h2 :key="project.name">{{ project.name }}</h2>
@@ -22,9 +23,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .preview-inner-wrapper {
-        width: 100%;
-        height: 100%;
-        border: solid red;
+    .preview-wrapper {
+        .preview-inner-wrapper {
+            width: 100%;
+            height: 100%;
+            border: solid red;
+        }
     }
 </style>

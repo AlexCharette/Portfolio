@@ -7,7 +7,7 @@
             :project="project"
             @update-expanded-project-data="onUpdateActiveProjectData"
             @update-expanded-status="onUpdateExpandedStatus" />
-        <active-project :project-data="activeProjectData" v-if="hasExpandedProject" 
+        <active-project :project-data="activeProjectData" v-if="hasExpandedProject"
             @update-expanded-status="onUpdateExpandedStatus" />
     </main>
 </template>
@@ -65,6 +65,8 @@ export default {
                                 "project-3 project-4 ."
                                 "project-5 . .";
             .gallery-element {
+                min-width: 25rem;
+                min-height: 10rem;
                 place-self: center;
                 @for $i from 0 to $num-projects {
                     &#project-preview-#{$i} {
