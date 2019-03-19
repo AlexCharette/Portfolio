@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import AppOverlay from './components/AppOverlay.vue';
+import EventBus from './event-bus'
+import AppOverlay from './components/AppOverlay.vue'
 
 export default {
   name: 'App',
@@ -16,7 +17,14 @@ export default {
     AppOverlay
   },
   beforeCreate: function() {
-    document.body.className = 'body';
+    document.body.className = 'body'
+  },
+  created() {
+    window.addEventListener('keydown', (e) => {
+      if (e.key == 'Escape' || e.key == 'Backspace') {
+        EventBus.$emit('reverse-key-pressed', e)
+      }
+    })
   },
   mounted() {
     window.onresize = () => {
@@ -44,7 +52,7 @@ export default {
     margin: 0;
     width: 100vw;
     height: 100vh;
-    font-family: 'Sign45', 'Fjalla One', serif;
+    font-family: $font-stack;
     background-color: #fff;
   }
   .main {

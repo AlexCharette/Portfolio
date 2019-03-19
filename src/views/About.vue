@@ -120,7 +120,7 @@ export default {
             align-content: center;
             text-decoration: none;
             &:hover svg {
-              color:$light-blue;
+              color: $light-blue;
             }
           }
         }

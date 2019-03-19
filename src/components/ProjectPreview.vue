@@ -24,10 +24,22 @@ export default {
 
 <style lang="scss" scoped>
     .preview-wrapper {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: solid red;
         .preview-inner-wrapper {
-            width: 100%;
-            height: 100%;
-            border: solid red;
+            margin: auto;
+            width: 80%;
+            height: 50%;
+            text-align: center;
+            h2 {
+                font-size: 1rem;
+            }
+            p {
+                font-size: 1rem;
+            }
         }
     }
 </style>

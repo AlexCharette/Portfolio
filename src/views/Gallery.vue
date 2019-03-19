@@ -42,8 +42,15 @@ export default {
             this.activeProjectData = newData
         },
         setExpanded: function(newState) {
-            this.hasExpandedProject = !this.hasExpandedProject
+            this.hasExpandedProject = newState
         }
+    },
+    mounted() {
+        EventBus.$on('reverse-key-pressed', (e, vm = this) => {
+            e.preventDefault()
+            console.log("Reverse key pressed!")
+            this.setExpanded(false)
+        })
     }
 }
 </script>
@@ -56,18 +63,18 @@ export default {
     @include desktop-laptop {
         main {
             display: grid;
-            grid-template-columns: repeat(3, 1fr [col-start]);
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr [col-start]);
+            grid-template-rows: repeat(2, 1fr);
             margin: 0 auto;
             width: 100vw;
             height: 100vh;
-            grid-template-areas: "project-0 project-1 project-2"
-                                "project-3 project-4 ."
-                                "project-5 . .";
+            grid-template-areas: "project-0 project-1 project-2 project-3"
+                                "project-4 project-5 . .";
             .gallery-element {
-                min-width: 25rem;
-                min-height: 10rem;
+                width: 15rem;
+                height: 15rem;
                 place-self: center;
+                clip-path: circle(100%);
                 @for $i from 0 to $num-projects {
                     &#project-preview-#{$i} {
                         grid-area: project-#{$i};
