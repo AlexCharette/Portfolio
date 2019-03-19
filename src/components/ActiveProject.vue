@@ -1,9 +1,14 @@
 <template>
     <transition-group id="active-project" name="project" tag="div">
-        <button key="exit-btn" id="exit-proj-button" class="button"
+        <div key="exit-btn" ref="exit"
+            id="exit-proj-button" class="button"
+            @hover="displayButtonText('exit')"
             @click="$emit('update-expanded-status', false)">
-            Look everything over.
-        </button>
+            <icon-base width="100%" height="100%" >
+                <icon-arrow-up />
+            </icon-base>
+            <p>{{ exitText }}</p>
+        </div>
         <div key="info-wrap" id="info-wrapper">
             <h2 key="name">{{ projectData.name }}</h2>
             <h3 key="date">{{ projectData.date }}</h3>
@@ -13,22 +18,56 @@
         <div key="img-wrap" id="image-wrapper">
             <img @mouseenter="expandImage" />
         </div>
-        <button key="sim-btn" id="sim-proj-button" class="button">
-            Show me something similar.
-        </button>
-        <button key="diff-btn" id="diff-proj-button" class="button">
-            Show me something different.
-        </button>
+        <div key="sim-btn" ref="sim"
+            id="sim-proj-button" class="button">
+            <p>{{ simText }}</p>
+            <icon-base width="100%" height="100%" >
+                <icon-arrow-down />
+            </icon-base>
+        </div>
+        <div key="diff-btn" ref="diff"
+            id="diff-proj-button" class="button">
+            <p>{{ diffText }}</p>
+            <icon-base width="100%" height="100%" >
+                <icon-arrow-side />
+            </icon-base>
+        </div>
     </transition-group>
 </template>
 
 <script>
+import IconBase from './icons/IconBase.vue'
+import IconArrowDown from './icons/IconArrowDown.vue'
+import IconArrowUp from './icons/IconArrowUp.vue'
+import IconArrowSide from './icons/IconArrowSide.vue'
+
 export default {
     name: 'ActiveProject',
+    components: {
+        IconBase,
+        IconArrowDown,
+        IconArrowUp,
+        IconArrowSide
+    },
     props: ['projectData'],
+    data: function() {
+        return {
+            exitText: 'Get a broader look',
+            simText: 'Show me something similar',
+            diffText: 'Show me something different'
+        }
+    },
     methods: {
         expandImage: function() {
             console.log('image expanded')
+        },
+        displayButtonText: function(msg) {
+            const { exit, sim, diff } = this.$refs
+            switch(msg) {
+                case 'exit':
+
+                break;
+            }
         }
     }
 }
@@ -46,10 +85,10 @@ export default {
         grid-template-rows: repeat(5, 1fr);
         grid-template-areas:
         "info exit-btn ."
-        "info img      sim-btn"
-        "info img      sim-btn"
+        "info img      diff-btn"
+        "info img      diff-btn"
         "info img      ."
-        ".    diff-btn .";
+        ".    sim-btn .";
         z-index: 100;
         pointer-events: none;
         * { pointer-events: auto; }

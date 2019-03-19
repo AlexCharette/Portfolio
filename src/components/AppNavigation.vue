@@ -3,7 +3,7 @@
     :class="{ expanded: isActive, 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
     @mouseover="toggle('forward', true)"
     @mouseleave="toggle('reverse', false)">
-    <icon-hamburger key="icon" />
+    <icon-three-dots key="icon" />
     <nav key="nav"
       @mouseover="toggle('forward', true)"
       @mouseleave="toggle('reverse', false)">
@@ -22,11 +22,13 @@
 <script>
 import { mapState } from 'vuex'
 import EventBus from '../event-bus'
+import IconThreeDots from './icons/IconThreeDots.vue'
 import IconHamburger from './icons/IconHamburger.vue'
 
 export default {
   name: 'AppNavigation',
   components: {
+    IconThreeDots,
     IconHamburger
   },
   data: function() {
@@ -93,8 +95,9 @@ export default {
       }
       &.home-nav {
         position: relative;
-        margin: 0 auto;
-        margin-top: 75vh;
+        //margin: 0 auto;
+        margin-top: 62vh;
+        margin-left: 55vw;
         min-height: 44px;
       }
     }
