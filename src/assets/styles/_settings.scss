@@ -2,6 +2,16 @@
     font-family: 'Sign45';
     src: url('~@/assets/typo/Sign45.otf') format('opentype');
 }
+@font-face {
+    font-family: 'Code';
+    src: url('~@/assets/typo/CODE Light.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Code';
+    src: url('~@/assets/typo/CODE Bold.otf') format('opentype');
+    font-weight: bold;
+}
 
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 
@@ -11,6 +21,8 @@ $navy-blue-hover: #2F3377;
 $light-blue: #75B4D2;
 $dark-red: #7A1C14;
 $gold: #DDB335;
+
+$font-stack: 'Fjalla One', 'Code', serif;
 
 // div {
 //     border: solid red;

@@ -1,13 +1,11 @@
 <template>
   <main>
     <div class="hero">
-        <h1>Hey {{ clientIp }}, I'm Alexander</h1>
+        <h1>Hey {{ clientIp }}, I'm Alexander.</h1>
         <h3>
           I see that you're coming from {{ clientLocation }}, but what matters
           now is that we're both here. What would you like to know?
         </h3>
-    </div>
-    <div id="placeholder">
     </div>
   </main>
 </template>
@@ -46,25 +44,30 @@ export default {
       height: 80vw;
     }
     .hero {
+      display: flex;
+      flex-flow: column;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
       h1 {
-        position: relative;
-        margin: 0;
-        width: 100vw;
-        height: 50vh;
+        display: block;
         top: 10rem;
+        margin: 0 auto;
+        margin-top: 10rem;
+        width: 80vw;
+        height: 50vh;
         font-size: 6.5rem;
-        display: inline-block;
         text-align: center;
         color: $navy-blue;
       }
       h3 {
-        top: 5rem;
-        margin-left: 10rem;
-        font-size: 2.5rem;
+        display: block;
+        float: left;
+        margin-top: -5rem;
+        margin-left: 6rem;
         width: 50vw;
+        font-size: 2.5rem;
+        color: $navy-blue;
       }
     }
   }
