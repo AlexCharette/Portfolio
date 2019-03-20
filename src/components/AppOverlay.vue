@@ -1,6 +1,6 @@
 <template>
   <div id="main-overlay" ref="mainOverlay">
-    <icon-loader v-if="!pageLoaded" />
+    <pre-loader v-if="!pageLoaded" />
     <app-navigation id="main-nav"/>
   </div>
 </template>
@@ -10,13 +10,13 @@ import { mapState } from 'vuex'
 import EventBus from '../event-bus'
 import AppNavigation from './AppNavigation.vue'
 import AppLogo from './AppLogo.vue'
-import IconLoader from './icons/IconLoader.vue'
+import PreLoader from './PreLoader.vue'
 
 export default {
   components: {
     AppNavigation,
     AppLogo,
-    IconLoader
+    PreLoader
   },
   data: function() {
     return {

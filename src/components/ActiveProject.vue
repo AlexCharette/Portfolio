@@ -16,7 +16,7 @@
         </div>
         <p key="summary">{{ projectData.summary }}</p>
         <div key="img-wrap" id="image-wrapper">
-            <img @mouseenter="expandImage" />
+            <img @mouseenter="expandImage" :src="require('../assets/images/projects/' + projectData.imagePaths[0])" />
         </div>
         <div key="sim-btn" ref="sim"
             id="sim-proj-button" class="button">
@@ -98,7 +98,13 @@ export default {
             flex-direction: column;
         }
         #image-wrapper {
+            width: 25rem;
+            height: 20rem;
+            overflow: hidden;
             grid-area: img;
+            img {
+                width: 100%;
+            }
         }
         .button {
             margin: 0 auto;

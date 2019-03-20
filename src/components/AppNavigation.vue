@@ -71,25 +71,36 @@ export default {
     overflow: hidden;
     opacity: none;
     background-color: none;
-    a { display: none }
+    nav {
+      a {
+        display: none;
+      }
+    }
     @include desktop-laptop {
+      nav {
+        opacity: 0;
+        transition: opacity 0.25s ease-in-out;
+      }
       &:hover, &:focus,
       &.expanded {
         opacity: 1;
         z-index: 999;
-        a {
-          display: inline-block;
-          margin: 0 auto;
-          padding-top: 1rem;
-          width: 33%;
-          min-width: 44px;
-          min-height: 44px;
-          text-align: center;
-          text-decoration: none;
-          font-size: 1.5rem;
-          z-index: 999;
-          &:hover {
-            color: $light-blue;
+        nav {
+          opacity: 1;
+          a {
+            display: inline-block;
+            margin: 0 auto;
+            padding-top: 1rem;
+            width: 33%;
+            min-width: 44px;
+            min-height: 44px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            z-index: 999;
+            &:hover {
+              color: $light-blue;
+            }
           }
         }
       }
