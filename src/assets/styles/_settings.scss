@@ -12,6 +12,16 @@
     src: url('~@/assets/typo/CODE Bold.otf') format('opentype');
     font-weight: bold;
 }
+@font-face {
+    font-family: 'Colus';
+    src: url('~@/assets/typo/Colus-Regular.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Manhattan';
+    src: url('~@/assets/typo/Manhattan-Regular.otf') format('opentype');
+    font-weight: normal;
+}
 
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 
@@ -22,13 +32,25 @@ $light-blue: #75B4D2;
 $dark-red: #7A1C14;
 $gold: #DDB335;
 
-$font-stack: 'Fjalla One', 'Code', serif;
+$serif-font-stack: 'Manhattan', 'Colus';
+$sans-font-stack: 'Fjalla One', 'Code', serif;
 
 // div {
 //     border: solid red;
 // }
 
+h1, h2 {
+    font-family: $sans-font-stack;
+    font-size: 4rem;
+}
+
+h3 {
+    font-family: $sans-font-stack;
+    font-size: 2rem;
+}
+
 a {
+    font-family: $sans-font-stack;
     transition: color 0.25s ease;
     color: $navy-blue;
     &.router-link-exact-active {

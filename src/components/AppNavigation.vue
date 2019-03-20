@@ -3,7 +3,7 @@
     :class="{ expanded: isActive, 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
     @mouseover="toggle('forward', true)"
     @mouseleave="toggle('reverse', false)">
-    <icon-three-dots key="icon" />
+    <icon-three-dots key="icon" v-if="(!isOnHome && !(deviceType == 'phone'))" />
     <nav key="nav"
       @mouseover="toggle('forward', true)"
       @mouseleave="toggle('reverse', false)">
@@ -77,12 +77,8 @@ export default {
       }
     }
     @include desktop-laptop {
-      nav {
-        opacity: 0;
-        transition: opacity 0.25s ease-in-out;
-      }
       &:hover, &:focus,
-      &.expanded {
+      &.expanded, &.home-nav {
         opacity: 1;
         z-index: 999;
         nav {
@@ -107,9 +103,20 @@ export default {
       &.home-nav {
         position: relative;
         //margin: 0 auto;
-        margin-top: 62vh;
-        margin-left: 55vw;
+        margin-top: 50vh;
+        margin-left: 60vw;
+        width: 25vw;
+        height: auto;
         min-height: 44px;
+        nav {
+          display: flex;
+          flex-flow: column;
+          a {
+            width: 15rem;
+            min-width: 100px;
+            text-align: left;
+          }
+        }
       }
     }
     @include mobile-portrait {

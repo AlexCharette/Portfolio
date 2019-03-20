@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="hero">
-        <h1>Hey {{ clientIp }}, I'm Alexander.</h1>
+        <h1>Hey <span>{{ clientIp }}, I'm</span> Alexander.</h1>
         <h3>
           I see that you're coming from {{ clientLocation }}, but what matters
           now is that we're both here. What would you like to know?
@@ -54,19 +54,21 @@ export default {
         top: 10rem;
         margin: 0 auto;
         margin-top: 10rem;
-        width: 80vw;
+        margin-left: 4rem;
+        width: 45vw;
         height: 50vh;
-        font-size: 6.5rem;
-        text-align: center;
+        text-align: left;
         color: $navy-blue;
+        span {
+          display: block;
+        }
       }
       h3 {
         display: block;
         float: left;
-        margin-top: -5rem;
-        margin-left: 6rem;
+        margin-top: -2rem;
+        margin-left: 4rem;
         width: 50vw;
-        font-size: 2.5rem;
         color: $navy-blue;
       }
     }

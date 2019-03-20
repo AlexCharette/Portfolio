@@ -52,7 +52,7 @@ export default {
     margin: 0;
     width: 100vw;
     height: 100vh;
-    font-family: $font-stack;
+    font-family: $serif-font-stack;
     background-color: #fff;
   }
   .main {
