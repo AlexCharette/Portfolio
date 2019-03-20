@@ -1,12 +1,20 @@
 <template>
   <main>
-    <div class="hero">
+    <div id="hero">
         <h1>Hey <span>{{ clientIp }}, I'm</span> Alexander.</h1>
         <h3>
           I see that you're coming from {{ clientLocation }}, but what matters
           now is that we're both here. What would you like to know?
         </h3>
     </div>
+    <nav id="home-nav">
+      <router-link v-for="page in pages"
+        :key="page.name"
+        :page="page.name"
+        :to="page.path">
+        {{ page.name }}
+      </router-link>
+    </nav>
   </main>
 </template>
 
@@ -19,7 +27,12 @@ export default {
   data: function() {
     return {
       clientIp: '',
-      clientLocation: ''
+      clientLocation: '',
+      pages: [
+        { name: 'Home', path: '/'},
+        { name: 'Creative Technology', path: '/gallery' },
+        { name: 'About', path: '/about'}
+      ]
     };
   },
   created() {
@@ -43,7 +56,7 @@ export default {
       width: 100vw;
       height: 80vw;
     }
-    .hero {
+    #hero {
       display: flex;
       flex-flow: column;
       width: 100vw;
