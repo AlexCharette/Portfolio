@@ -22,7 +22,7 @@
       </p>
     </div>
     <div id="long-form">
-      <h2>If that wasn't enough...</h2>
+      <h3>If that wasn't enough...</h3>
       <p>
         I am a Montreal born-and-based, just-about-graduated creative technologist looking to figure out
         solutions to local problems through tech, whether they be economic or a matter of lifestyle.
