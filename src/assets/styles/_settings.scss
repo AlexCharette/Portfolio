@@ -3,6 +3,16 @@
     src: url('~@/assets/typo/Sign45.otf') format('opentype');
 }
 @font-face {
+    font-family: 'Oatmeal Stout Aged';
+    src: url('~@/assets/typo/OatmealStout-Aged.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Oatmeal Stout';
+    src: url('~@/assets/typo/OatmealStout-Regular.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
     font-family: 'Code';
     src: url('~@/assets/typo/CODE Light.otf') format('opentype');
     font-weight: normal;
@@ -25,7 +35,8 @@
 
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 
-$off-white: #F1F3F2;
+$off-white: #F2F2F2;
+$charcoal: #464646;
 $navy-blue: #2F4777;
 $navy-blue-hover: #2F3377;
 $light-blue: #75B4D2;
@@ -40,13 +51,13 @@ $sans-font-stack: 'Fjalla One', 'Code', serif;
 // }
 
 h1, h2 {
-    font-family: $sans-font-stack;
-    font-size: 4rem;
+    font-family: 'Oatmeal Stout';
+    font-size: 7.5rem;
 }
 
 h3 {
     font-family: $sans-font-stack;
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 p {
@@ -59,7 +70,7 @@ a {
     transition: color 0.25s ease;
     color: $navy-blue;
     &.router-link-exact-active {
-        color: $navy-blue-hover;
+        opacity: 0.5;
     }
 }
 

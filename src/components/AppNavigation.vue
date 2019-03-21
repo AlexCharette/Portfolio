@@ -36,7 +36,7 @@ export default {
       isActive: false,
       pages: [
         { name: 'Home', path: '/'},
-        { name: 'Creative Technology', path: '/gallery' },
+        { name: 'Creative Tech', path: '/gallery' },
         { name: 'About', path: '/about'}
       ]
     };
@@ -103,18 +103,29 @@ export default {
       &.home-nav {
         position: relative;
         //margin: 0 auto;
-        margin-top: 50vh;
+        margin-top: 35vh;
         margin-left: 60vw;
-        width: 25vw;
+        width: 30vw;
         height: auto;
         min-height: 44px;
         nav {
           display: flex;
           flex-flow: column;
           a {
-            width: 15rem;
+            width: auto;
             min-width: 100px;
             text-align: left;
+            font-family: 'Oatmeal Stout';
+            font-size: 5rem;
+            background: linear-gradient(#49CE75, #026DB1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            &:hover {
+              transition: background 0.75s ease-out;
+              background-position: 10rem;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
           }
         }
       }

@@ -1,29 +1,25 @@
 <template>
   <main>
     <div id="hero">
-        <h1>Hey <span>{{ clientIp }}, I'm</span> Alexander.</h1>
+        <h1>Hey <span>{{ clientIp }},</span> I'm Alexander.</h1>
         <h3>
           I see that you're coming from {{ clientLocation }}, but what matters
           now is that we're both here. What would you like to know?
         </h3>
     </div>
-    <nav id="home-nav">
-      <router-link v-for="page in pages"
-        :key="page.name"
-        :page="page.name"
-        :to="page.path">
-        {{ page.name }}
-      </router-link>
-    </nav>
   </main>
 </template>
 
 <script>
 import ipapi from 'ipapi.co'
 import EventBus from '../event-bus'
+import TextGradient from '../components/TextGradient.vue'
 
 export default {
   name: 'Home',
+  components: {
+    TextGradient
+  },
   data: function() {
     return {
       clientIp: '',
@@ -66,12 +62,14 @@ export default {
         display: block;
         top: 10rem;
         margin: 0 auto;
-        margin-top: 10rem;
+        margin-top: 5rem;
         margin-left: 4rem;
-        width: 45vw;
-        height: 50vh;
+        width: 50vw;
+        height: 55vh;
         text-align: left;
-        color: $navy-blue;
+        background: linear-gradient(top right, #0077C4, #5245A0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         span {
           display: block;
         }
@@ -79,10 +77,10 @@ export default {
       h3 {
         display: block;
         float: left;
-        margin-top: -2rem;
+        margin-top: 2rem;
         margin-left: 4rem;
         width: 50vw;
-        color: $navy-blue;
+        color: $charcoal;
       }
     }
   }

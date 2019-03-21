@@ -53,7 +53,7 @@ export default {
     width: 100vw;
     height: 100vh;
     font-family: $serif-font-stack;
-    background-color: #fff;
+    background-color: $off-white;
   }
   .main {
     margin: 0;
