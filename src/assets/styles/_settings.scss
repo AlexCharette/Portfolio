@@ -49,6 +49,11 @@ h3 {
     font-size: 2rem;
 }
 
+p {
+    font-family: $sans-font-stack;
+    font-size: 1rem;
+}
+
 a {
     font-family: $sans-font-stack;
     transition: color 0.25s ease;
