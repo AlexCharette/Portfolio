@@ -50,30 +50,6 @@ $sans-font-stack: 'Fjalla One', 'Code', serif;
 //     border: solid red;
 // }
 
-h1, h2 {
-    font-family: 'Oatmeal Stout';
-    font-size: 7.5rem;
-}
-
-h3 {
-    font-family: $sans-font-stack;
-    font-size: 2.5rem;
-}
-
-p {
-    font-family: $sans-font-stack;
-    font-size: 1rem;
-}
-
-a {
-    font-family: $sans-font-stack;
-    transition: color 0.25s ease;
-    color: $navy-blue;
-    &.router-link-exact-active {
-        opacity: 0.5;
-    }
-}
-
 @mixin blur {
     filter: blur(3px);
 }

@@ -1,5 +1,5 @@
 <template>
-  <div id="main-overlay" ref="mainOverlay">
+  <div id="app-overlay">
     <pre-loader v-if="!pageLoaded" />
     <app-navigation id="main-nav"/>
   </div>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #main-overlay {
+  #app-overlay {
     position: fixed;
     top: 0;
     left: 0;

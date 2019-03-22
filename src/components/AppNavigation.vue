@@ -94,9 +94,6 @@ export default {
             text-decoration: none;
             font-size: 1.5rem;
             z-index: 999;
-            &:hover {
-              color: $light-blue;
-            }
           }
         }
       }
@@ -112,19 +109,24 @@ export default {
           display: flex;
           flex-flow: column;
           a {
+            margin: 0;
             width: auto;
             min-width: 100px;
             text-align: left;
             font-family: 'Oatmeal Stout';
             font-size: 5rem;
-            background: linear-gradient(#49CE75, #026DB1);
+            background: linear-gradient(to left, #49CE75, #026DB1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            &:hover {
-              transition: background 0.75s ease-out;
-              background-position: 10rem;
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
+            filter: saturate(100%);
+            opacity: 0.75;
+            &:hover, &:not(.router-link-exact-active) {
+              opacity: 1;
+              filter: saturate(150%);
+              transition: 0.10s opacity ease-in-out;
+              -moz-transition: 0.1s opacity ease-in-out;
+              -moz-transition: 0.1s -moz-filter ease-in-out;
+              transition: 0.10s filter ease-in-out;
             }
           }
         }

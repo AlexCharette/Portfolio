@@ -67,7 +67,7 @@ export default {
         width: 50vw;
         height: 55vh;
         text-align: left;
-        background: linear-gradient(top right, #0077C4, #5245A0);
+        background: linear-gradient(to left, #0077C4, #5245A0);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         span {

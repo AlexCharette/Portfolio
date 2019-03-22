@@ -1,34 +1,35 @@
 <template>
   <div id="app">
-    <app-overlay />
+    <app-background />
     <transition name="router-anim" mode="out-in">
       <router-view class="main" />
     </transition>
+    <app-overlay />
   </div>
 </template>
 
 <script>
 import EventBus from './event-bus'
 import AppOverlay from './components/AppOverlay.vue'
+import AppBackground from './components/AppBackground.vue'
 
 export default {
   name: 'App',
   components: {
-    AppOverlay
+    AppOverlay,
+    AppBackground
   },
   beforeCreate: function() {
     document.body.className = 'body'
   },
-  created() {
-    window.addEventListener('keydown', (e) => {
+  mounted() {
+    window.onresize = () => {
+      this.$store.dispatch('setDeviceType', window.innerWidth)
+    }
+    window.onkeydown = (e) => {
       if (e.key == 'Escape' || e.key == 'Backspace') {
         EventBus.$emit('reverse-key-pressed', e)
       }
-    })
-  },
-  mounted() {
-    window.onresize = () => {
-        this.$store.dispatch('setDeviceType', window.innerWidth)
     }
   }
 };
@@ -37,8 +38,20 @@ export default {
 <style lang="scss">
 // TODO: Change font-size
   body {
-      margin: 0px;
-      color: $navy-blue;
+    margin: 0px;
+    color: $navy-blue;
+    h1, h2 {
+      font-family: 'Oatmeal Stout';
+      font-size: 7.5rem;
+    }
+    h3 {
+      font-family: $sans-font-stack;
+      font-size: 2.5rem;
+    }
+    p {
+      font-family: $sans-font-stack;
+      font-size: 1rem;
+    }
   }
   * { box-sizing: border-box; }
 </style>
