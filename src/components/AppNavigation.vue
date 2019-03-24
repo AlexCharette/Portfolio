@@ -1,6 +1,6 @@
 <template>
   <transition-group name="move-nav" tag="div" ref="wrapper"
-    :class="{ expanded: isActive, 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
+    :class="{ expanded: (isActive || isOnHome), 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
     @mouseover="toggle('forward', true)"
     @mouseleave="toggle('reverse', false)">
     <icon-three-dots key="icon" v-if="(!isOnHome && !(deviceType == 'phone'))" />
@@ -33,7 +33,7 @@ export default {
   },
   data: function() {
     return {
-      isActive: false,
+      isActive: true,
       pages: [
         { name: 'Home', path: '/'},
         { name: 'Creative Tech', path: '/gallery' },
@@ -61,39 +61,82 @@ export default {
   #main-nav {
     position: fixed;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column;
     justify-content: space-evenly;
     align-items: center;
+    margin-top: 1em;
+    margin-left: -400px;
     top: 0px;
     right: 0px;
-    width: 30vw;
+    width: 10vw;
     height: 6rem;
-    overflow: hidden;
+    //overflow: hidden;
     opacity: none;
     background-color: none;
     nav {
+      display: flex;
+      flex-flow: column;
       a {
         display: none;
+        text-align: left;
       }
     }
     @include desktop-laptop {
+      &:not(.home-nav), &.moved {
+          margin-right: 3em;
+      }
       &:hover, &:focus,
-      &.expanded, &.home-nav {
+      &.expanded {
         opacity: 1;
         z-index: 999;
+        &:not(.home-nav), &.moved {
+          display: inline-flex;
+          justify-content: flex-end;
+          align-content: center;
+          width: 35em;
+          min-width: 204px;
+          height: 20vh;
+          min-height: 321px;
+          nav {
+            margin-right: 16em;
+            width: 350px;
+            height: 600px;
+            a {
+              width: auto;
+              text-align: right;
+              font-size: 4em;
+              background-position: 25px;
+            }
+          }
+        }
         nav {
+          width: 600px;
+          transition: width 0.25s ease-out;
           opacity: 1;
           a {
             display: inline-block;
-            margin: 0 auto;
-            padding-top: 1rem;
-            width: 33%;
-            min-width: 44px;
+            margin: 0;
+            width: auto;
+            min-width: 100px;
             min-height: 44px;
-            text-align: center;
+            padding-top: 1rem;
             text-decoration: none;
-            font-size: 1.5rem;
+            font-family: 'Oatmeal Stout';
+            font-size: 5rem;
+            background: linear-gradient(to left, #49CE75, #026DB1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: saturate(100%);
+            opacity: 0.75;
             z-index: 999;
+            &:hover, &:not(.router-link-exact-active) {
+              opacity: 1;
+              filter: saturate(150%);
+              transition: 0.10s opacity ease-in-out;
+              -moz-transition: 0.1s opacity ease-in-out;
+              -moz-transition: 0.1s -moz-filter ease-in-out;
+              transition: 0.10s filter ease-in-out;
+            }
           }
         }
       }
@@ -107,28 +150,6 @@ export default {
         min-height: 44px;
         nav {
           display: flex;
-          flex-flow: column;
-          a {
-            margin: 0;
-            width: auto;
-            min-width: 100px;
-            text-align: left;
-            font-family: 'Oatmeal Stout';
-            font-size: 5rem;
-            background: linear-gradient(to left, #49CE75, #026DB1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: saturate(100%);
-            opacity: 0.75;
-            &:hover, &:not(.router-link-exact-active) {
-              opacity: 1;
-              filter: saturate(150%);
-              transition: 0.10s opacity ease-in-out;
-              -moz-transition: 0.1s opacity ease-in-out;
-              -moz-transition: 0.1s -moz-filter ease-in-out;
-              transition: 0.10s filter ease-in-out;
-            }
-          }
         }
       }
     }

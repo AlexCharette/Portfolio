@@ -25,14 +25,6 @@
             "imagePaths": ["Puzzle_1.png", "Puzzle_2.png"]
         },
         {
-            "name": "Transactio",
-            "date": "January 2017",
-            "keywords": "Web design, Single Page, Law Firm",
-            "summary": "Creating a corporate web presence.",
-            "description": "A simple webpage developed for a potential local boutique law firm. It was my first real website, and I conducted a lot of research to understand the usual information found on similar websites in order to find points of familiarity, which also served to identify how I could give my clients an edge in their presentation. I found it tricky at first to balance out what I thought would be better design with what the typical clientele (older professionals) would expect to see, and despite having already gone through a couple of different designs, if I were to reiterate I would use more development tools (without overcomplicating the project) and would like to enhance the interactive aspects of the site.",
-            "imagePaths": ["Transactio_1.png", "Transactio_2.png", "Transactio_3.png"]
-        },
-        {
             "name": "Routine Infographic",
             "date": "October 2015",
             "keywords": "Graphic Design, Infographic, Icons",
@@ -47,6 +39,14 @@
             "summary": "Making a janky, multi-elemental instrument.",
             "description": "I had wanted to try making a foxhole radio (a basic radio made using a pencil, razor blade and magnet wire) for a long time before this project. In keeping with the theme, I also had some bullet casings on hand which I thought I could use. The original intent was to create an instrument by attaching transducers to the casings and filling the latter with steam from a container underneath. The holes in the tops of the casings would be covered and uncovered to (hopefully) modulate the sound produced by the transducers, which itself would be affected by the radio. Unfortunately, the casings proved too small to be effective and I had to use a different kind of sensor to create any kind of output, but it was a lot of fun to simply experiment and see what would happen.",
             "imagePaths": ["Foxhole_1.JPG", "Foxhole_2.JPG", "Foxhole_3.JPG"]
+        },
+        {
+            "name": "Transactio",
+            "date": "January 2017",
+            "keywords": "Web design, Single Page, Law Firm",
+            "summary": "Creating a corporate web presence.",
+            "description": "A simple webpage developed for a potential local boutique law firm. It was my first real website, and I conducted a lot of research to understand the usual information found on similar websites in order to find points of familiarity, which also served to identify how I could give my clients an edge in their presentation. I found it tricky at first to balance out what I thought would be better design with what the typical clientele (older professionals) would expect to see, and despite having already gone through a couple of different designs, if I were to reiterate I would use more development tools (without overcomplicating the project) and would like to enhance the interactive aspects of the site.",
+            "imagePaths": ["Transactio_1.png", "Transactio_2.png", "Transactio_3.png"]
         }
     ]
 }

@@ -40,13 +40,17 @@ export default {
   body {
     margin: 0px;
     color: $navy-blue;
-    h1, h2 {
+    h1 {
       font-family: 'Oatmeal Stout';
-      font-size: 7.5rem;
+      font-size: 8rem;
+    }
+    h2 {
+      font-family: 'Oatmeal Stout';
+      font-size: 5rem;
     }
     h3 {
       font-family: $sans-font-stack;
-      font-size: 2.5rem;
+      font-size: 3rem;
     }
     p {
       font-family: $sans-font-stack;

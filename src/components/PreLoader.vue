@@ -1,11 +1,11 @@
 <template>
     <div>
-        <svg viewBox="0 0 2084 1072" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/"
+        <!-- <svg viewBox="0 0 2084 1072" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/"
             fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.41421">
             <g v-for="(path, index) in paths" :key="index" ref="`shard-${index}">
                 <path :d="path" fill="#ebebeb"/>
             </g>
-        </svg>
+        </svg> -->
     </div>
 </template>
 

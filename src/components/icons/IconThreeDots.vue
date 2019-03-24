@@ -1,13 +1,14 @@
 <template>
-    <svg class="nav-btn"
-         viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg"
-         width="200" height="50"
-         fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round"
-         stroke-miterlimit="1.414">
-        <circle ref="left" cx="135.217" cy="300" r="115.841" fill="#C4362A" />
-        <circle ref="mid" cx="405.262" cy="300" r="115.841" fill="#C4362A" />
-        <circle ref="right" cx="668.862" cy="300" r="115.841" fill="#C4362A" />
-    </svg>
+    <div class="svg-wrapper">
+        <div ref="left" class="icon-node"></div>
+        <div ref="mid" class="icon-node"></div>
+        <div ref="right" class="icon-node"></div>
+        <svg class="nav-btn" viewBox="0 0 204 321" xmlns="http://www.w3.org/2000/svg"
+            width="204" height="321">
+            <path id="left-path" ref="midPath" d="M57.363 61.209c-21.776 88.769 11.772 193.342 99.048 193.411" stroke="#DE1018" stroke-width="2.92px" fill="none" />
+            <path id="mid-path" ref="leftPath" d="M106.388 110.233c-.351 39.429 18.981 53.627 50.023 53.599" stroke="#DE1018" stroke-width="2.92px" fill="none" />
+        </svg>
+    </div>
 </template>
 
 <script>
@@ -22,44 +23,70 @@ export default {
     },
     methods: {
         animateIcon: function(animationState) {
-            let animationTop = this.navToggleAnimation.animateTop
-            let animationBot = this.navToggleAnimation.animateBottom
+            let animationLeft = this.navToggleAnimation.animateLeft,
+                animationMid = this.navToggleAnimation.animateMid
             if (animationState == 'reverse' || animationState == 'clicked') {
-                if (!animationTop.reversed) {
-                    animationTop.reverse()
-                    animationBot.reverse()
+                if (!animationMid.reversed) {
+                    animationMid.reverse()
+                    animationLeft.reverse()
                 }
-                animationTop.play()
-                animationBot.play()
+                animationMid.play()
+                animationLeft.play()
             } else if (animationState == 'forward') {
-                if (animationTop.reversed) {
-                    animationTop.reverse()
-                    animationBot.reverse()
+                console.log('forward!')
+                if (animationMid.reversed) {
+                    animationMid.reverse()
+                    animationLeft.reverse()
                 }
-                animationTop.play()
-                animationBot.play()
+                animationMid.play()
+                animationLeft.play()
             }
         }
     },
+    created() {
+
+    },
     mounted() {
-        const { left, mid, right } = this.$refs
+        const { left, mid, leftPath, midPath } = this.$refs
+        var animLeftPath = this.$anime.path('#left-path')
+        var animMidPath = this.$anime.path('#mid-path')
+
+        // this.$anime({
+        //     targets: left,
+        //     translateX: animLeftPath('x'),
+        //     translateY: animLeftPath('y'),
+        //     easing: 'easeInOutSine',
+        //     duration: 500,
+        //     autoplay: true
+        // })
+
+        // this.$anime({
+        //     targets: mid,
+        //     translateX: animMidPath('x'),
+        //     translateY: animMidPath('y'),
+        //     easing: 'easeInOutSine',
+        //     duration: 100,
+        //     autoplay: true
+        // })
+
         this.navToggleAnimation = {
-            animateTop: this.$anime({
+            animateLeft: this.$anime({
                 targets: left,
-                rotate: 45,
-                easing: 'easeInOutSine',
+                translateX: animLeftPath('x'),
+                translateY: animLeftPath('y'),
+                easing: 'linear',
                 autoplay: false
             }),
-            animateBottom: this.$anime({
-                    targets: right,
-                    rotate: -45,
-                    easing: 'easeInOutSine',
-                    autoplay: false
+            animateMid: this.$anime({
+                targets: mid,
+                translateX: animMidPath('x'),
+                translateY: animMidPath('y'),
+                easing: 'linear',
+                autoplay: false
             })
         }
         let animationFunction = this.animateIcon
         EventBus.$on('animate-icon', function(msg) {
-            //console.log('Message received: ' + msg)
             animationFunction(msg)
         })
     }
@@ -67,31 +94,44 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .nav-btn {
-        display: block;
-        position: absolute;
-        transform-origin: center;
-        //align-content: center;
-        //justify-content: center;
-        // margin: 0 auto;
-        //margin-top: 120px;
-        // top: 0;
-        // right: 0;
-        // left: 0;
-        // bottom: 0;
-        // min-height: 44px;
-        // min-width: 44px;
-        z-index: -1;
-        @include mobile {
-            display: block !important;
-            position: fixed;
-            bottom: 0px;
-            right: 0px;
-            margin-right: 1rem;
-            margin-bottom: 1rem;
-            min-width: 44px;
-            min-height: 44px;
-            z-index: 999;
+    .svg-wrapper {
+        position: relative;
+        min-width: 204px;
+        height: 100%;
+        min-height: 321px;
+        .icon-node {
+            position: absolute;
+            top: -9px;
+            left: -9px;
+            width: 3rem;
+            height: 3rem;
+            //transform: rotate(45deg) !important;
+            background-color: #51a7c5;
+            opacity: 0.5;
+            border-radius: 3em;
+            //border: 2px solid #73AD21;
+            &:nth-of-type(3) {
+                // top: 3.5em;
+                // left: 10em;
+                transform: translate(155.413px, 61.209px);
+            }
+        }
+        .nav-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            @include mobile {
+                display: block !important;
+                position: fixed;
+                bottom: 0px;
+                right: 0px;
+                margin-right: 1rem;
+                margin-bottom: 1rem;
+                min-width: 44px;
+                min-height: 44px;
+                z-index: 999;
+            }
         }
     }
 </style>

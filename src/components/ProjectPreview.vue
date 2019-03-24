@@ -27,15 +27,16 @@ export default {
         display: flex;
         align-content: center;
         justify-content: center;
-        border-radius: 50%;
         border: solid red;
+        border-radius: 15%;
         .preview-inner-wrapper {
-            margin: auto;
+            margin: 0 auto;
+            margin-top: 7%;
             width: 80%;
             height: 50%;
             text-align: center;
             h2 {
-                font-size: 1rem;
+                font-size: 1.5em;
             }
             p {
                 font-size: 1rem;

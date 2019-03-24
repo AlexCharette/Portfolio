@@ -50,8 +50,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    // rect {
-    //     transform: rotate(45deg);
-    // }
 </style>
 

@@ -54,17 +54,5 @@ export default {
     z-index: 10;
     pointer-events: none;
     * { pointer-events: auto; }
-    #logo {
-      display: inline-block;
-      min-width: 44px;
-      min-height: 44px;
-      background-image: url('~@/assets/images/logo-large.png');
-      .link {
-        min-width: 44px;
-        min-height: 44px;
-        width: 100%;
-        height: 100%;
-      }
-    }
   }
 </style>

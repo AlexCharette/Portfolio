@@ -1,7 +1,7 @@
 <template>
   <main>
     <header>
-      <h1>This is a little bit aboot mahself.</h1>
+      <h2>This is a little bit aboot mahself.</h2>
       <h3>A brief description of who I am and what I do</h3>
       <ul id="sm-links">
         <li v-for="link in smLinks"
@@ -97,7 +97,7 @@ export default {
     header {
       margin: 0 auto;
       margin-top: 10rem;
-      width: 50%;
+      width: 65%;
       text-align: center;
       #sm-links {
         display: inline-flex;
