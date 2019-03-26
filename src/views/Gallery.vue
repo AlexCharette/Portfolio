@@ -1,14 +1,7 @@
 <template>
-    <main :class="{ blur: hasExpandedProject }">
-        <project-preview v-for="(project, index) in projects"
-            :key="project.name"
-            :id="`project-preview-${index}`"
-            class="gallery-element"
-            :project="project"
-            @update-expanded-project-data="onUpdateActiveProjectData"
-            @update-expanded-status="onUpdateExpandedStatus" />
-        <active-project :project-data="activeProjectData" v-if="hasExpandedProject"
-            @update-expanded-status="onUpdateExpandedStatus" />
+    <main>
+        <project-preview id="project-preview" class="gallery-element"
+            :projects="projects" />
     </main>
 </template>
 
@@ -62,25 +55,15 @@ export default {
     }
     @include desktop-laptop {
         main {
-            display: grid;
-            margin: 0 auto !important;
-            margin-top: 10rem !important;
-            width: 90vw;
-            height: 80vh;
-            grid-template-columns: repeat(4, 1fr [col-start]);
-            grid-template-rows: repeat(3, 1fr);
-            grid-template-areas: "project-0 project-1 . project-2"
-                                 "project-3    .      . project-4"
-                                 "   .         .      .    .     ";
+            display: flex;
+            flex-flow: column;
+            width: 100vw;
+            height: ($num-projects * 100vh);
             .gallery-element {
-                width: 15rem;
-                height: 10rem;
+                margin: 0 auto;
+                width: 100vw;
+                height: 100vh;
                 place-self: center;
-                @for $i from 0 to $num-projects {
-                    &#project-preview-#{$i} {
-                        grid-area: project-#{$i};
-                    }
-                }
             }
         }
     }

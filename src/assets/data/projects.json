@@ -38,7 +38,7 @@
             "keywords": "Experimentation, Tangible, Material",
             "summary": "Making a janky, multi-elemental instrument.",
             "description": "I had wanted to try making a foxhole radio (a basic radio made using a pencil, razor blade and magnet wire) for a long time before this project. In keeping with the theme, I also had some bullet casings on hand which I thought I could use. The original intent was to create an instrument by attaching transducers to the casings and filling the latter with steam from a container underneath. The holes in the tops of the casings would be covered and uncovered to (hopefully) modulate the sound produced by the transducers, which itself would be affected by the radio. Unfortunately, the casings proved too small to be effective and I had to use a different kind of sensor to create any kind of output, but it was a lot of fun to simply experiment and see what would happen.",
-            "imagePaths": ["Foxhole_1.JPG", "Foxhole_2.JPG", "Foxhole_3.JPG"]
+            "imagePaths": ["Foxhole_1.jpg", "Foxhole_2.jpg", "Foxhole_3.jpg"]
         },
         {
             "name": "Transactio",

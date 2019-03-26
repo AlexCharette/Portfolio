@@ -1,10 +1,9 @@
 <template>
-  <main>
+  <main :class="{ 'not-ready': !dataLoaded }">
     <div id="hero">
-        <h1>Hey <span>{{ clientIp }},</span> I'm Alexander.</h1>
+        <h1>Hey <span>{{ nameText }},</span> I'm Alexander.</h1>
         <h3>
-          I see that you're coming from {{ clientLocation }}, but what matters
-          now is that we're both here. What would you like to know?
+          {{ locationText }}
         </h3>
     </div>
   </main>
@@ -13,17 +12,14 @@
 <script>
 import ipapi from 'ipapi.co'
 import EventBus from '../event-bus'
-import TextGradient from '../components/TextGradient.vue'
 
 export default {
   name: 'Home',
-  components: {
-    TextGradient
-  },
   data: function() {
     return {
-      clientIp: '',
+      clientName: '',
       clientLocation: '',
+      dataLoaded: false,
       pages: [
         { name: 'Home', path: '/'},
         { name: 'Creative Technology', path: '/gallery' },
@@ -31,11 +27,30 @@ export default {
       ]
     };
   },
+  computed: {
+    nameText: function() {
+      if (this.clientName) {
+        return this.clientName
+      } else {
+        return 'there'
+      }
+    },
+    locationText: function() {
+      if (this.clientLocation) {
+        return `I see that you're coming from ${this.clientLocation}, but what matters
+            now is that we're both here. What would you like to know?`
+      } else {
+        return `I can't tell where you're coming from, but that's fine because what matters
+            now is that we're both here. What would you like to know?`
+      }
+    }
+  },
   created() {
     let state = this
     return ipapi.location(function(res) {
-      state.clientIp = res.ip
+      state.clientName = res.ip
       state.clientLocation = res.region
+      state.dataLoaded = true
       EventBus.$emit('user-data-loaded', true)
     });
   }
@@ -72,6 +87,9 @@ export default {
         -webkit-text-fill-color: transparent;
         span {
           display: block;
+          &.inline {
+            display: inline-block;
+          }
         }
       }
       h3 {
@@ -82,6 +100,9 @@ export default {
         width: 50vw;
         color: $charcoal;
       }
+    }
+    &.not-ready * {
+      display: none;
     }
   }
 </style>

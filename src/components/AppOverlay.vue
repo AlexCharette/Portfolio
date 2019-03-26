@@ -1,37 +1,26 @@
 <template>
   <div id="app-overlay">
-    <pre-loader v-if="!pageLoaded" />
     <app-navigation id="main-nav"/>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import EventBus from '../event-bus'
 import AppNavigation from './AppNavigation.vue'
 import AppLogo from './AppLogo.vue'
-import PreLoader from './PreLoader.vue'
 
 export default {
   components: {
     AppNavigation,
     AppLogo,
-    PreLoader
   },
   data: function() {
     return {
       pageLoaded: false
     }
   },
-  computed: {
-    ...mapState(['currentPage']),
-    isOnHome: function() {
-      return (this.currentPage == 'home')
-    }
-  },
   methods: {
     setPageLoaded: function() {
-      console.log("Page loaded!")
       this.pageLoaded = true
     }
   },

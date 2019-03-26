@@ -1,13 +1,11 @@
 <template>
-  <transition-group name="move-nav" tag="div" ref="wrapper"
-    :class="{ expanded: (isActive || isOnHome), 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
+  <transition-group name="fade" tag="nav" key="nav"
+    :class="{ collapsed: (!isActive || !isOnHome), 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
     @mouseover="toggle('forward', true)"
     @mouseleave="toggle('reverse', false)">
-    <icon-three-dots key="icon" v-if="(!isOnHome && !(deviceType == 'phone'))" />
-    <nav key="nav"
-      @mouseover="toggle('forward', true)"
-      @mouseleave="toggle('reverse', false)">
-      <router-link v-for="page in pages"
+    <div class="link-wrapper" v-for="(page, index) in pages" :key="page.name" >
+      <router-link
+        class="link"
         :key="page.name"
         :page="page.name"
         :to="page.path"
@@ -15,29 +13,69 @@
         @click.native="toggle('clicked', false)">
         {{ page.name }}
       </router-link>
-    </nav>
+      <div id="`dot-${index}`" class="dot" :key="`dot_${index}`"></div>
+    </div>
+    <ul id="sm-links" key="links">
+      <li v-for="link in smLinks"
+        class="link"
+        :key="link.name"
+        @mouseenter="hovered = true"
+        @mouseleave="hovered = false">
+        <a :href="link.path" target="_blank">
+          <icon-base :icon-name="link.icon" width="30" height="30">
+            <component :is="`icon-${link.icon}`" />
+            {{ link.name }}
+          </icon-base>
+        </a>
+      </li>
+    </ul>
   </transition-group>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import EventBus from '../event-bus'
-import IconThreeDots from './icons/IconThreeDots.vue'
-import IconHamburger from './icons/IconHamburger.vue'
+import IconBase from '../components/icons/IconBase'
+import IconLinkedin from '../components/icons/social/IconLinkedin'
+import IconAngellist from '../components/icons/social/IconAngellist'
+import IconGithub from '../components/icons/social/IconGithub'
+import IconTwitter from '../components/icons/social/IconTwitter'
 
 export default {
   name: 'AppNavigation',
   components: {
-    IconThreeDots,
-    IconHamburger
+    IconBase,
+    IconLinkedin,
+    IconAngellist,
+    IconGithub,
+    IconTwitter
   },
   data: function() {
     return {
-      isActive: true,
+      isActive: false,
       pages: [
         { name: 'Home', path: '/'},
         { name: 'Creative Tech', path: '/gallery' },
         { name: 'About', path: '/about'}
+      ],
+      hovered: false,
+      smLinks: [
+        { name: 'LinkedIn',
+          icon: 'linkedin',
+          path: 'https://www.linkedin.com/in/alexander-charette-creativetech/'
+        },
+        { name: 'Angel List',
+          icon: 'angellist',
+          path: 'https://angel.co/alexander-charette'
+        },
+        { name: 'GitHub',
+          icon: 'github',
+          path: 'https://github.com/AlexCharette'
+        },
+        { name: 'Twitter',
+          icon: 'twitter',
+          path: 'https://twitter.com/acharette_wake'
+        }
       ]
     };
   },
@@ -45,14 +83,19 @@ export default {
     ...mapState(['currentPage', 'deviceType']),
     isOnHome: function() {
       return this.currentPage == 'home'
+    },
+    iconColour: function() {
+      return this.hovered ? '#75B4D2' : '#2F4777'
     }
   },
   methods:{
     toggle: function(eventMsg, newState) {
       if (this.isActive == newState) return
       this.isActive = newState
-      EventBus.$emit('animate-icon', eventMsg)
     }
+  },
+  mounted() {
+    if (this.isOnHome) this.isActive = true
   }
 };
 </script>
@@ -65,93 +108,88 @@ export default {
     justify-content: space-evenly;
     align-items: center;
     margin-top: 1em;
-    margin-left: -400px;
     top: 0px;
     right: 0px;
     width: 10vw;
-    height: 6rem;
-    //overflow: hidden;
-    opacity: none;
-    background-color: none;
-    nav {
-      display: flex;
-      flex-flow: column;
-      a {
-        display: none;
-        text-align: left;
+    .link-wrapper {
+      display: inline-flex;
+      flex-flow: row;
+      width: 100%;
+      text-align: left;
+      .link {
+        font-family: 'Oatmeal Stout';
+        font-size: 5rem;
+        background: linear-gradient(to left, #49CE75, #026DB1);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+      }
+      .dot {
+        margin: auto;
+        margin-right: 0;
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        background-color: #49CE75;
+      }
+    }
+    #sm-links {
+      display: inline-flex;
+      flex-flow: row;
+      justify-content: space-evenly;
+      align-items: center;
+      list-style-type: none;
+      width: 20vw;
+      height: 7vh;
+      padding: 0;
+      li {
+        min-width: 60px;
+        min-height: 45px;
+        a {
+          position: relative;
+          display: flex;
+          flex-flow: column;
+          justify-content: space-evenly;
+          align-content: center;
+          text-decoration: none;
+          color: #49CE75;
+          &:hover svg {
+            color: #026DB1;
+            transition: color 0.25s ease-out;
+          }
+        }
       }
     }
     @include desktop-laptop {
-      &:not(.home-nav), &.moved {
-          margin-right: 3em;
-      }
-      &:hover, &:focus,
-      &.expanded {
-        opacity: 1;
-        z-index: 999;
-        &:not(.home-nav), &.moved {
-          display: inline-flex;
-          justify-content: flex-end;
-          align-content: center;
-          width: 35em;
-          min-width: 204px;
-          height: 20vh;
-          min-height: 321px;
-          nav {
-            margin-right: 16em;
-            width: 350px;
-            height: 600px;
-            a {
-              width: auto;
-              text-align: right;
-              font-size: 4em;
-              background-position: 25px;
-            }
-          }
-        }
-        nav {
-          width: 600px;
-          transition: width 0.25s ease-out;
-          opacity: 1;
-          a {
-            display: inline-block;
-            margin: 0;
-            width: auto;
-            min-width: 100px;
-            min-height: 44px;
-            padding-top: 1rem;
-            text-decoration: none;
-            font-family: 'Oatmeal Stout';
-            font-size: 5rem;
-            background: linear-gradient(to left, #49CE75, #026DB1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: saturate(100%);
-            opacity: 0.75;
-            z-index: 999;
-            &:hover, &:not(.router-link-exact-active) {
-              opacity: 1;
-              filter: saturate(150%);
-              transition: 0.10s opacity ease-in-out;
-              -moz-transition: 0.1s opacity ease-in-out;
-              -moz-transition: 0.1s -moz-filter ease-in-out;
-              transition: 0.10s filter ease-in-out;
-            }
-          }
-        }
-      }
       &.home-nav {
         position: relative;
-        //margin: 0 auto;
+        align-content: flex-start;
+        justify-content: flex-start;
         margin-top: 35vh;
         margin-left: 60vw;
         width: 30vw;
-        height: auto;
-        min-height: 44px;
-        nav {
-          display: flex;
+        height: 45vh;
+        text-align: left;
+      }
+      &.collapsed {
+        .link {
+          opacity: 0;
         }
       }
+      // &:hover, &:focus {
+      //   @extend .home-nav;
+      //   .link-wrapper {
+      //     justify-content: flex-start;
+      //     margin: 0;
+      //     min-width: 100px;
+      //     min-height: 44px;
+      //     padding-top: 1rem;
+      //     //filter: saturate(100%);
+      //     opacity: 0.75;
+      //     z-index: 999;
+      //   }
+      // }
     }
     @include mobile-portrait {
       transition: background-color 0.25s ease;
@@ -159,7 +197,7 @@ export default {
         display: none;
         flex: 0 1 auto;
       }
-      &.expanded {
+      &:not(.expanded) {
         top: 0;
         width: 100vw;
         height: 100vh;

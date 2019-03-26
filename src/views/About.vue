@@ -1,28 +1,16 @@
 <template>
   <main>
     <header>
-      <h2>This is a little bit aboot mahself.</h2>
-      <h3>A brief description of who I am and what I do</h3>
-      <ul id="sm-links">
-        <li v-for="link in smLinks"
-          :key="link.name"
-          @mouseenter="hovered = true"
-          @mouseleave="hovered = false">
-          <a :href="link.path" target="_blank">
-            <icon-base :icon-name="link.icon" width="30" height="30">
-              <component :is="`icon-${link.icon}`" />
-              {{ link.name }}
-            </icon-base>
-          </a>
-        </li>
-      </ul>
+      <h2>What's this all about?</h2>
+      <h5>I take a creative approach to tech to find new solutions to problems.</h5>
+      <p><a href="mailto:acharette.dev@gmail.com" target="_top">Send an email over!</a></p>
     </header>
     <div id="summary">
       <p>
       </p>
     </div>
     <div id="long-form">
-      <h3>If that wasn't enough...</h3>
+      <h5>If that wasn't enough...</h5>
       <p>
         I am a Montreal born-and-based, just-about-graduated creative technologist looking to figure out
         solutions to local problems through tech, whether they be economic or a matter of lifestyle.
@@ -41,94 +29,38 @@
         thing that truly stops me from coding non-stop is the pull to actually build things and work in
         tangible space
       </p>
+      <h5>What am I up to now?</h5>
+      <p>
+        I'm in the last weeks of a BFA, and am hopefully on my way to graduate school for another year and a half or so.
+        In addition to whatever side projects are keeping me busy, I work in a reserve artillery regiment as a gunner (and social media coordinator).
+      </p>
     </div>
   </main>
 </template>
 
 <script>
-import IconBase from '../components/icons/IconBase'
-import IconLinkedin from '../components/icons/social/IconLinkedin'
-import IconAngellist from '../components/icons/social/IconAngellist'
-import IconGithub from '../components/icons/social/IconGithub'
-import IconTwitter from '../components/icons/social/IconTwitter'
 
 export default {
   name: 'About',
-  components: {
-    IconBase,
-    IconLinkedin,
-    IconAngellist,
-    IconGithub,
-    IconTwitter
-  },
-  data: function() {
-    return {
-      hovered: false,
-      smLinks: [
-        { name: 'LinkedIn',
-          icon: 'linkedin',
-          path: 'https://www.linkedin.com/in/alexander-charette-creativetech/'
-        },
-        { name: 'Angel List',
-          icon: 'angellist',
-          path: 'https://angel.co/alexander-charette'
-        },
-        { name: 'GitHub',
-          icon: 'github',
-          path: 'https://github.com/AlexCharette'
-        },
-        { name: 'Twitter',
-          icon: 'twitter',
-          path: 'https://twitter.com/acharette_wake'
-        }
-      ]
-    }
-  },
-  computed: {
-    iconColour: function() {
-      return this.hovered ? '#75B4D2' : '#2F4777'
-    }
-  }
 };
 </script>
 
 <style lang="scss" scoped>
   main {
+    overflow: scroll;
     header {
       margin: 0 auto;
       margin-top: 10rem;
       width: 65%;
       text-align: center;
-      #sm-links {
-        display: inline-flex;
-        flex-flow: row;
-        justify-content: space-evenly;
-        align-items: center;
-        list-style-type: none;
-        width: 20vw;
-        height: 7vh;
-        padding: 0;
-        li {
-          min-width: 60px;
-          min-height: 45px;
-          text-align: center;
-          a {
-            position: relative;
-            display: flex;
-            flex-flow: column;
-            justify-content: space-evenly;
-            align-content: center;
-            text-decoration: none;
-            &:hover svg {
-              color: $light-blue;
-            }
-          }
-        }
-      }
     }
     #long-form {
       margin: 0 auto;
+      margin-bottom: 3em;
       width: 50%;
+    }
+    a {
+      text-decoration: none;
     }
   }
 </style>

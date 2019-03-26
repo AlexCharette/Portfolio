@@ -16,7 +16,7 @@
         </div>
         <p key="summary">{{ projectData.summary }}</p>
         <div key="img-wrap" id="image-wrapper">
-            <!-- img @mouseenter="expandImage" :src="require('../assets/images/projects/' + projectData.imagePaths[0])" -->
+            <img @mouseenter="expandImage" :src="require('../assets/images/projects/' + projectData.imagePaths[0])" />
         </div>
         <div key="sim-btn" ref="sim"
             id="sim-proj-button" class="button">

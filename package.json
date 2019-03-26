@@ -12,6 +12,7 @@
     "firebase": "^5.8.6",
     "hammerjs": "^2.0.8",
     "ipapi.co": "^0.2.3",
+    "scrollmagic": "^2.0.6",
     "simple-icons": "^1.9.23",
     "vue": "^2.5.22",
     "vue-animejs": "^2.1.1",
@@ -21,7 +22,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-service": "^3.4.0",
+    "@vue/cli-service": "^3.5.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",

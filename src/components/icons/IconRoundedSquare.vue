@@ -1,6 +1,6 @@
 <template>
     <g :ref="name">
-        <rect :x="position.x" :y="position.y" rx="20" ry="20" :width="rectSize" :height="rectSize"
+        <rect :x="position.x" :y="position.y"  :width="rectSize" :height="rectSize"
             :opacity="opacity" :style="styles" />
     </g>
 </template>

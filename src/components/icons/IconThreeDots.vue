@@ -41,6 +41,7 @@ export default {
                 animationMid.play()
                 animationLeft.play()
             }
+            EventBus.$emit('dots-animation-complete')
         }
     },
     created() {
@@ -50,24 +51,6 @@ export default {
         const { left, mid, leftPath, midPath } = this.$refs
         var animLeftPath = this.$anime.path('#left-path')
         var animMidPath = this.$anime.path('#mid-path')
-
-        // this.$anime({
-        //     targets: left,
-        //     translateX: animLeftPath('x'),
-        //     translateY: animLeftPath('y'),
-        //     easing: 'easeInOutSine',
-        //     duration: 500,
-        //     autoplay: true
-        // })
-
-        // this.$anime({
-        //     targets: mid,
-        //     translateX: animMidPath('x'),
-        //     translateY: animMidPath('y'),
-        //     easing: 'easeInOutSine',
-        //     duration: 100,
-        //     autoplay: true
-        // })
 
         this.navToggleAnimation = {
             animateLeft: this.$anime({
@@ -95,7 +78,8 @@ export default {
 
 <style lang="scss" scoped>
     .svg-wrapper {
-        position: relative;
+        position: absolute;
+        margin-top: 10em;
         min-width: 204px;
         height: 100%;
         min-height: 321px;

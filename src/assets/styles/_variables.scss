@@ -50,6 +50,13 @@ $sans-font-stack: 'Fjalla One', 'Code', serif;
 //     border: solid red;
 // }
 
+@mixin gradient-text {
+    background: linear-gradient(to left, #0077C4, #5245A0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 @mixin blur {
     filter: blur(3px);
 }
