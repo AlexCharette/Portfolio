@@ -1,6 +1,6 @@
 <template>
   <transition-group name="fade" tag="nav" key="nav"
-    :class="{ collapsed: (!isActive || !isOnHome), 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
+    :class="{ collapsed: (!isActive && !isOnHome), 'home-nav': isOnHome, moved: (!isOnHome && !(deviceType == 'phone')) }"
     @mouseover="toggle('forward', true)"
     @mouseleave="toggle('reverse', false)">
     <div class="link-wrapper" v-for="(page, index) in pages" :key="page.name" >
@@ -77,7 +77,7 @@ export default {
           path: 'https://twitter.com/acharette_wake'
         }
       ]
-    };
+    }
   },
   computed: {
     ...mapState(['currentPage', 'deviceType']),
@@ -118,7 +118,6 @@ export default {
       text-align: left;
       .link {
         font-family: 'Oatmeal Stout';
-        font-size: 5rem;
         background: linear-gradient(to left, #49CE75, #026DB1);
         -webkit-background-clip: text;
         background-clip: text;
@@ -128,21 +127,22 @@ export default {
       .dot {
         margin: auto;
         margin-right: 0;
-        width: 2em;
-        height: 2em;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
         background-color: #49CE75;
       }
     }
     #sm-links {
       display: inline-flex;
+      margin-top: 0;
+      margin-right: auto;
       flex-flow: row;
       justify-content: space-evenly;
       align-items: center;
       list-style-type: none;
-      width: 20vw;
-      height: 7vh;
       padding: 0;
+      padding-top: 20px;
       li {
         min-width: 60px;
         min-height: 45px;
@@ -169,28 +169,44 @@ export default {
         margin-top: 35vh;
         margin-left: 60vw;
         width: 30vw;
-        height: 45vh;
+        //height: 45vh;
         text-align: left;
-      }
-      &.collapsed {
-        .link {
+        font-size: 70px;
+        .dot {
           opacity: 0;
         }
       }
-      // &:hover, &:focus {
-      //   @extend .home-nav;
-      //   .link-wrapper {
-      //     justify-content: flex-start;
-      //     margin: 0;
-      //     min-width: 100px;
-      //     min-height: 44px;
-      //     padding-top: 1rem;
-      //     //filter: saturate(100%);
-      //     opacity: 0.75;
-      //     z-index: 999;
-      //   }
-      // }
-    }
+      &.collapsed {
+        width: 17vw;
+        padding-right: 10px;
+        .link-wrapper {
+          justify-content: flex-end;
+          margin: 0;
+          min-width: 100px;
+          min-height: 44px;
+          padding-top: 1rem;
+          //filter: saturate(100%);
+          z-index: 999;
+          .link {  
+            opacity: 0;
+            font-size: 40px;
+            text-align: right;
+          }
+          .dot {
+            opacity: 1;
+          }
+        }
+        #sm-links {
+          opacity: 0;    
+        }
+        &:hover, &:focus {
+            .link, #sm-links {
+              opacity: 1;
+              transition: opacity 0.25s ease-out;
+            }
+          }
+        }
+      }
     @include mobile-portrait {
       transition: background-color 0.25s ease;
       a {

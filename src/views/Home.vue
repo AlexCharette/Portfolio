@@ -1,10 +1,10 @@
 <template>
   <main :class="{ 'not-ready': !dataLoaded }">
     <div id="hero">
-        <h1>Hey <span>{{ nameText }},</span> I'm Alexander.</h1>
-        <h3>
+        <h1 id="welcome" >Hey <span>{{ nameText }},</span> I'm Alexander.</h1>
+        <h5 id="interrogative">
           {{ locationText }}
-        </h3>
+        </h5>
     </div>
   </main>
 </template>
@@ -73,14 +73,13 @@ export default {
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      h1 {
+      #welcome {
         display: block;
         top: 10rem;
         margin: 0 auto;
-        margin-top: 5rem;
+        margin-top: 2rem;
         margin-left: 4rem;
         width: 50vw;
-        height: 55vh;
         text-align: left;
         background: linear-gradient(to left, #0077C4, #5245A0);
         -webkit-background-clip: text;
@@ -92,7 +91,7 @@ export default {
           }
         }
       }
-      h3 {
+      #interrogative {
         display: block;
         float: left;
         margin-top: 2rem;

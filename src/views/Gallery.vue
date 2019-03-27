@@ -7,15 +7,13 @@
 
 <script>
 import ProjectPreview from '@/components/ProjectPreview.vue'
-import ActiveProject from '@/components/ActiveProject.vue'
 import data from '@/assets/data/projects.json'
 import EventBus from '../event-bus'
 
 export default {
     name: 'Gallery',
     components: {
-        ProjectPreview,
-        ActiveProject
+        ProjectPreview
     },
     data: function() {
         return {

@@ -5,7 +5,8 @@
             xmlns="http://www.w3.org/2000/svg">
             <icon-rounded-square v-for="n in numSquares" :key="n"
                 :name="`rect_${n}`"
-                :position="{ x: ((25 * n) / Math.random()), y: ((25 * n) / Math.random()) }"
+                :position="{ x: ((75 * n) / Math.random()), 
+                    y: (((windowDimensions.height / 10) * n) / Math.random()) }"
                 :size="50"
                 :opacity="0.6" :colour="'#FFF'" />
         </svg>
@@ -27,6 +28,12 @@ export default {
         }
     },
     computed: {
+        windowDimensions: function() {
+            return {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
+        },
         viewBoxAttrs: function() {
             return `0 0 ${window.innerWidth} ${window.innerHeight}`
         },

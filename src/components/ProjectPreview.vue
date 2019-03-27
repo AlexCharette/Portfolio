@@ -14,15 +14,19 @@
              ref="textWrapper">
             <h1 :class="swapableClass" @click="handleClick" :key="currentProject.name"
                 ref="title">{{ currentProject.name }}</h1>
-            <h3 :class="swapableClass" key="summary" ref="summary">{{ currentProject.summary }}</h3>
-            <p :class="{ swapableClass: isActive }" key="description" ref="description" :style="{ opacity: 0 }">{{ currentProject.description }}</p>
+            <h4 :class="swapableClass" key="summary" ref="summary">{{ currentProject.summary }}</h4>
+            <p id="general-info" :class=" isActive ? swapableClass : '' ">
+                <span id="date">{{ currentProject.date }}</span>
+                <span id="materials">{{ currentProject.materials }}</span>
+                </p>
+            <p id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" :style="{ opacity: 0 }">{{ currentProject.description }}</p>
         </div>
-        <div :class="[{ swapableClass: isActive }, 'image-section-wrapper']"
+        <!-- <div :class="[{ swapableClass: isActive }, 'image-section-wrapper']"
             key="image-section-wrapper" ref="imageSectionWrapper">
             <div class="image-wrapper" v-for="(image, index) in currentProject.imagePaths" :key="`image-wrapper-${index}`">
                 <img id="`image-${index}`" key="image" ref="image" :src="require('../assets/images/projects/' + currentProject.imagePaths[index])" />
             </div>
-        </div>
+        </div> -->
         <div class="button-row" key="button-row">
             <!-- <div id="sim-proj-button" class="button" key="sim-btn" ref="sim"
                 v-if="isActive">
@@ -43,7 +47,6 @@
 </template>
 
 <script>
-import ScrollMagic from 'scrollmagic'
 import EventBus from '../event-bus'
 
 import IconBase from './icons/IconBase.vue'
@@ -144,8 +147,8 @@ export default {
             })
             const textWrapperAnim = this.$anime({
                 targets: textWrapper,
-                translateX: -400,
-                translateY: -250,
+                translateX: -(window.innerWidth / 3.8),
+                translateY: -(window.innerHeight / 2.3),
                 scale: 0.6,
                 duration: 250,
                 easing: 'easeInOutSine'
@@ -174,14 +177,14 @@ export default {
             this.scrollTimeline
             .add({
                 targets: '.animate-swap',
-                translateY: -300,
+                translateY: -(window.innerHeight / 5),
                 opacity: 0,
                 duration: 500,
                 easing: 'linear'
             })
             .add({
                 targets: '.animate-swap',
-                translateY: 400,
+                translateY: (window.innerHeight / 4),
                 duration: 10,
                 easing: 'linear',
                 complete: function() {
@@ -190,7 +193,7 @@ export default {
             })
             .add({
                 targets: '.animate-swap',
-                translateY: -25,
+                translateY: -10,
                 duration: 500,
                 opacity: 1,
                 easing: 'linear',
@@ -226,7 +229,7 @@ export default {
         grid-template-rows: repeat(5, 1fr);
         grid-template-areas:
         ". . ."
-        ". info ."
+        ". . ."
         ". info ."
         ". info ."
         ".  .   .";
@@ -241,13 +244,11 @@ export default {
             text-align: center;
             h1 {
                 flex-basis: 8em;
-                font-size: 7em;
                 cursor: pointer;
             }
-            h3 {
+            h4 {
                 margin-top: -1em;
                 flex-basis: 4em;
-                font-size: 3em;
             }
             p { opacity: 0; }
         }
@@ -286,9 +287,11 @@ export default {
             .text-wrapper {
                 text-align: left;
                 height: 75vh;
-                p {
+                span {
+                    display: block;
+                }
+                #description {
                     margin-bottom: -7em;
-                    font-size: 2em;
                     max-width: 550px;
                 }
                 // p {

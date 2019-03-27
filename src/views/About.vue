@@ -3,7 +3,7 @@
     <header>
       <h2>What's this all about?</h2>
       <h5>I take a creative approach to tech to find new solutions to problems.</h5>
-      <p><a href="mailto:acharette.dev@gmail.com" target="_top">Send an email over!</a></p>
+      <p>Get in touch at <a href="mailto:acharette.dev@gmail.com" target="_top">acharette.dev@gmail.com</a></p>
     </header>
     <div id="summary">
       <p>
