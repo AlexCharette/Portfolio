@@ -81,41 +81,37 @@ export default {
 </script>
 
 <style lang="scss">
-// TODO: Change font-size
+  $h-font-scales: ( 89.76, 67.34, 50.52, 37.90, 28.43, 21.33);
+  $p-font-scale: 16;
+  $aug-4th-factor: 1.414px;
   body {
     margin: 0px;
     color: $navy-blue;
     overflow: hidden;
-    h1 {
-      font-family: 'Oatmeal Stout';
-      font-size: 8rem;
-      @include gradient-text;
-    }
-    h2 {
-      font-family: 'Oatmeal Stout';
-      font-size: 6rem;
-      @include gradient-text;
-    }
-    h3 {
-      font-family: $sans-font-stack;
-      font-size: 3rem;
-      color: $charcoal;
-    }
-    h5 {
-      font-family: $sans-font-stack;
-      font-size: 2rem;
-      color: $charcoal;
+    ::-webkit-scrollbar { width: 0 !important; }
+    overflow: -moz-scrollbars-none;
+    @for $i from 1 through 6 {
+      h#{$i} {
+        font-size: nth($h-font-scales, $i) * $aug-4th-factor;
+        @if ($i <= 2) {
+          font-family: 'Oatmeal Stout';
+          @include gradient-text;
+        } @else {
+          font-family: $sans-font-stack;
+          color: $charcoal;
+        }
+      }
     }
     p {
       font-family: $sans-font-stack;
-      font-size: 1rem;
+      font-size: $p-font-scale * $aug-4th-factor;
       color: $charcoal;
+    }  
+    a {
+      @include gradient-text;
     }
+    * { box-sizing: border-box; }
   }
-  a {
-    @include gradient-text;
-  }
-  * { box-sizing: border-box; }
 </style>
 
 
