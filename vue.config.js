@@ -9,7 +9,7 @@ const productionPlugins = [
     }),
     new ImageminPlugin({
         pngquant: {
-        quality: '90-95'
+            quality: '90-95'
         }
     })
 ];

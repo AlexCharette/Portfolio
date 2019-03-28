@@ -89,8 +89,6 @@ export default {
     methods: {
         swapGridArea: function(event) {
             const mainImage = document.getElementsByClassName('main-img')[0]
-            console.log('Current main image: ' + mainImage)
-            console.log(event.target + ' was clicked')
             mainImage.classList.toggle('main-img')
             event.target.parentElement.classList.toggle('main-img')
         },
@@ -99,14 +97,16 @@ export default {
             const { direction } = this.scrollState
             this.projectIndex = this.projects.indexOf(this.currentProject)
             if (direction == 'up') {
-                if (this.projectIndex-- >= 0) {
-                    this.currentProject = this.projects[this.projectIndex]
+                if (this.projectIndex - 1 >= 0) {
+                    console.log('Decrementing index')
+                    this.currentProject = this.projects[this.projectIndex - 1]
                 } else {
+                    console.log('Staying at zero')
                     this.currentProject = this.projects[0]
                 }
             } else if (direction == 'down') {
-                if (this.projectIndex++ < this.projects.length) {
-                    this.currentProject = this.projects[this.projectIndex]
+                if (this.projectIndex + 1 < this.projects.length) {
+                    this.currentProject = this.projects[this.projectIndex + 1]
                 } else {
                     this.currentProject = this.projects[this.projects.length - 1]
                 }
@@ -115,20 +115,19 @@ export default {
             }
         },
         handleScroll: function() {
-            const scrollThreshold = 3
-            const state = this
+            const scrollThreshold = 3,
+                  currentProjectIndex = this.projects.indexOf(this.currentProject)
             let { count, direction } = this.scrollState
 
-            if (count >= scrollThreshold && this.canSwap) {
+            if (count >= scrollThreshold && this.canSwap && 
+                (currentProjectIndex != 0 || currentProjectIndex != this.projects.length - 1)) {
                 this.isActive = false
+                this.canSwap = false
                 this.scrollTimeline.restart()
             }
         },
         handleClick: function() {
             this.isActive = !this.isActive
-            this.performClickAnimations()
-        },
-        performClickAnimations: function() {
             if (!this.isActive) {
                 if (!this.clickAnimations[0].reversed) {
                     this.clickAnimations.forEach(anim => {
@@ -237,6 +236,7 @@ export default {
         this.initClickAnimations()
         this.initScrollAnimations()
         EventBus.$on('scrolling', scrollObj => {
+            console.log('Scroll amount: ' + scrollObj.count)
             if (state.canSwap) {
                 state.scrollState = scrollObj
                 state.handleScroll()
@@ -268,6 +268,7 @@ export default {
             justify-content: center;
             align-content: center;
             margin: 0 auto;
+            margin-top: 300px;
             text-align: center;
             h1 {
                 flex-basis: 8em;
@@ -323,6 +324,7 @@ export default {
         }
         &.active {
             .text-wrapper {
+                margin-top: 0 !important;
                 text-align: left;
                 height: 75vh;
                 span {
