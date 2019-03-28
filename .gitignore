@@ -5,9 +5,6 @@ node_modules
 # Graphic design files
 *.afphoto
 
-# Unoptimized images
-/src/assets/images
-
 # local env files
 .env.local
 .env.*.local

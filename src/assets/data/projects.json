@@ -7,7 +7,7 @@
             "keywords": "Programming, Processing, AI, Data",
             "summary": "How easy is it to make AI?",
             "description": "A generative, tri-partite world in which agents must gather resources based on multiple factors that they evaluate and respond to. Once resources are gathered, they move to a higher space and, upon reaching saturation, rain back down. Moreover, resource collection creates temporary portals through which a beast can pass and decimate the population of gatherers before it fades back into the lower space. \n The primary intent in this project was to create a sort of basic artificial intelligence, to organize code as neatly as I knew how (after four months of one coding class), and to pass data elegantly between different entities to reflect that it is ultimately all the same.",
-            "imagePaths": ["353_1.png", "353_2.png", "353_3.png"]
+            "imagePaths": ["https://www.youtube.com/embed/QbwtlDTGT20", "353_1.png", "353_2.png", "353_3.png"]
         },
         {
             "name": "Deliquesce",
@@ -16,7 +16,7 @@
             "keywords": "Materiality, Climate, Generative",
             "summary": "Bringing glacial melt to our level.",
             "description": "The world has generally been a slow moving system, marked by incidents of rapid and often catastrophic change. We are currently in a new one, brought on or at least greatly accelerated by humans (a period referred to by some as the Anthropocene). To this tie in our disruption of the earth’s geological sphere, which itself serves as an ancient historical record of “deep time.” \n Deliquesce is a piece about our removing natural elements, in this case ice, and bringing them into our own time span by accelerating what normally happens over millennia. The combination of multiple different materials and the experience of learning new skills (welding and general metalwork) made this a fairly gratifying project. \n Group: Jeremy Michael Segal (conceptualization, audio, construction) Emily Lillies (conceptualization, accounting, material acquisition) Alexander Charette (conceptualization, research, construction) Matthew Vaccariello (research, material acquisition) Fadel Ragheb (research, construction).",
-            "imagePaths": ["Deliquesce_1.jpg", "Deliquesce_2.jpg", "Deliquesce_3.jpg"]
+            "imagePaths": ["https://www.youtube.com/embed/PjAATNDfmCg", "Deliquesce_1.jpg", "Deliquesce_2.jpg", "Deliquesce_3.jpg"]
         },
         {
             "name": "Browser Puzzle",

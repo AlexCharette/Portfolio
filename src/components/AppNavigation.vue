@@ -35,6 +35,7 @@
 <script>
 import { mapState } from 'vuex'
 import EventBus from '../event-bus'
+
 import IconBase from '../components/icons/IconBase'
 import IconLinkedin from '../components/icons/social/IconLinkedin'
 import IconAngellist from '../components/icons/social/IconAngellist'
@@ -122,7 +123,15 @@ export default {
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
+        filter: saturate(90%);
         text-decoration: none;
+        &.router-link-exact-active {
+          opacity: 0.75;
+        }
+        &:not(.router-link-exact-active):hover {
+          filter: saturate(150%);
+          transition: filter 0.25s ease-out;
+        }
       }
       .dot {
         margin: auto;
@@ -187,7 +196,7 @@ export default {
           padding-top: 1rem;
           //filter: saturate(100%);
           z-index: 999;
-          .link {  
+          .link {
             opacity: 0;
             font-size: 40px;
             text-align: right;
@@ -197,12 +206,19 @@ export default {
           }
         }
         #sm-links {
-          opacity: 0;    
+          opacity: 0;
         }
         &:hover, &:focus {
             .link, #sm-links {
               opacity: 1;
               transition: opacity 0.25s ease-out;
+              &.router-link-exact-active {
+                opacity: 0.75;
+              }
+            }
+            .dot {
+              background-color: #026DB1;
+              transition: background 0.25s ease-out;
             }
           }
         }

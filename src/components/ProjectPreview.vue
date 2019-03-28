@@ -15,18 +15,24 @@
             <h1 :class="swapableClass" @click="handleClick" :key="currentProject.name"
                 ref="title">{{ currentProject.name }}</h1>
             <h4 :class="swapableClass" key="summary" ref="summary">{{ currentProject.summary }}</h4>
-            <p id="general-info" :class=" isActive ? swapableClass : '' ">
-                <span id="date">{{ currentProject.date }}</span>
-                <span id="materials">{{ currentProject.materials }}</span>
-                </p>
-            <p id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" :style="{ opacity: 0 }">{{ currentProject.description }}</p>
-        </div>
-        <!-- <div :class="[{ swapableClass: isActive }, 'image-section-wrapper']"
-            key="image-section-wrapper" ref="imageSectionWrapper">
-            <div class="image-wrapper" v-for="(image, index) in currentProject.imagePaths" :key="`image-wrapper-${index}`">
-                <img id="`image-${index}`" key="image" ref="image" :src="require('../assets/images/projects/' + currentProject.imagePaths[index])" />
+            <div id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" :style="{ opacity: !isActive ? 0 : '' }">
+                <h5>{{ currentProject.date }}</h5>
+                <h5>Medium: {{ currentProject.materials }}</h5>
+                <p>{{ currentProject.description }}</p>
             </div>
-        </div> -->
+        </div>
+        <div :class="[isActive ? swapableClass : '', 'image-section-wrapper']"
+            :style="{ opacity: !isActive ? 0 : '' }"
+            key="image-section-wrapper" ref="imageSectionWrapper">
+            <div :id="`image-wrapper-${index}`" :class="[(index == 0) ? 'main-image-wrapper main-img' : `img_${index + 1}`, 'image-wrapper']"
+                v-for="(image, index) in currentProject.imagePaths" :key="`image-wrapper-${index}`"
+                @click="swapGridArea($event)">
+                <component :id="`image-${index}`" key="image" ref="image"
+                    :is="(projects.indexOf(currentProject) > 1 || index != 0) ? 'img' : 'iframe'"
+                    :allowfullscreen="!(projects.indexOf(currentProject) > 1 || index != 0)"
+                    :src="(projects.indexOf(currentProject) > 1 || index != 0) ? require(`../assets/images/projects/${currentProject.imagePaths[index]}`) : currentProject.imagePaths[index]"/>
+            </div>
+        </div>
         <div class="button-row" key="button-row">
             <!-- <div id="sim-proj-button" class="button" key="sim-btn" ref="sim"
                 v-if="isActive">
@@ -81,6 +87,13 @@ export default {
         }
     },
     methods: {
+        swapGridArea: function(event) {
+            const mainImage = document.getElementsByClassName('main-img')[0]
+            console.log('Current main image: ' + mainImage)
+            console.log(event.target + ' was clicked')
+            mainImage.classList.toggle('main-img')
+            event.target.parentElement.classList.toggle('main-img')
+        },
         swapContent: function() {
             console.log('swapping')
             const { direction } = this.scrollState
@@ -141,30 +154,39 @@ export default {
             const projectContent = [textWrapper, imageSectionWrapper]
             const state = this
             this.clickTimeline = this.$anime.timeline({
+                translateZ: 0,
+                rotate: 0.01,
+                easing: 'linear',
                 loop: true,
                 direction: 'alternate',
                 autoplay: false
             })
             const textWrapperAnim = this.$anime({
                 targets: textWrapper,
-                translateX: -(window.innerWidth / 3.8),
+                translateX: -(window.innerWidth / 3.5),
                 translateY: -(window.innerHeight / 2.3),
+                translateZ: 0,
+                rotate: 0.01,
                 scale: 0.6,
-                duration: 250,
-                easing: 'easeInOutSine'
+                easing: 'easeInOutCubic',
+                duration: 250
             })
             const descriptionAnim = this.$anime({
                 targets: description,
                 opacity: 1,
-                duration: 750,
-                easing: 'easeInOutSine'
+                translateZ: 0,
+                rotate: 0.01,
+                easing: 'easeInOutCubic',
+                duration: 500
             })
             const imageWrapperAnim = this.$anime({
                 targets: imageSectionWrapper,
-                translateY: 1100,
+                translateY: (window.innerHeight * 1.2),
+                translateZ: 0,
+                rotate: 0.01,
                 opacity: 1,
-                duration: 250,
-                easing: 'easeInOutSine',
+                easing: 'easeInOutCubic',
+                duration: 250
             })
             this.clickAnimations.push(textWrapperAnim, descriptionAnim, imageWrapperAnim)
             this.clickAnimations.forEach(anim => {
@@ -173,20 +195,23 @@ export default {
         },
         initScrollAnimations: function(callback_1, callback_2) {
             const state = this
-            this.scrollTimeline = this.$anime.timeline({ autoplay: false })
+            this.scrollTimeline = this.$anime.timeline({
+                translateZ: 0,
+                rotate: 0.01,
+                easing: 'easeInOutCubic',
+                autoplay: false
+            })
             this.scrollTimeline
             .add({
                 targets: '.animate-swap',
                 translateY: -(window.innerHeight / 5),
                 opacity: 0,
-                duration: 500,
-                easing: 'linear'
+                duration: 500
             })
             .add({
                 targets: '.animate-swap',
                 translateY: (window.innerHeight / 4),
                 duration: 10,
-                easing: 'linear',
                 complete: function() {
                     state.swapContent()
                 }
@@ -196,7 +221,6 @@ export default {
                 translateY: -10,
                 duration: 500,
                 opacity: 1,
-                easing: 'linear',
                 complete: function() {
                     console.log('swapped')
                     state.canSwap = false
@@ -234,6 +258,9 @@ export default {
         ". info ."
         ".  .   .";
         overflow: hidden;
+        * {
+            will-change: transform, opacity;
+        }
         .text-wrapper {
             grid-area: info;
             display: flex;
@@ -250,36 +277,47 @@ export default {
                 margin-top: -1em;
                 flex-basis: 4em;
             }
-            p { opacity: 0; }
         }
         .image-section-wrapper {
             position: absolute;
             display: grid;
             margin: auto;
             top: -100vh;
-            left: 50vw;
+            left: 40vw;
             width: 45rem;
             height: 35rem;
             opacity: 0;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: repeat(3, 1fr);
+            grid-column-gap: 20px;
+            column-gap: 20px;
+            grid-row-gap: 20px;
+            row-gap: 20px;
             grid-template-areas:
             "main-img main-img main-img"
             "main-img main-img main-img"
-            "   .     img_2    img_3";
+            " img_2    img_3    img_4";
             .image-wrapper {
                 overflow: hidden;
-                &:nth-of-type(1) {
+                &.main-img {
                     grid-area: main-img;
                 }
-                &:nth-of-type(2) {
+                &.img-2 {
                     grid-area: img_2;
                 }
-                &:nth-of-type(3) {
+                &.img-3 {
                     grid-area: img_3;
                 }
-                img {
+                &.img-4 {
+                    grid-area: img_4;
+                }
+                img, iframe {
+                    //width: 100%;
+                    height: 100%;
+                }
+                iframe {
                     width: 100%;
+                    height: 100%;
                 }
             }
         }
@@ -293,12 +331,14 @@ export default {
                 #description {
                     margin-bottom: -7em;
                     max-width: 550px;
+                    h5 {
+                        margin-bottom: 0;
+                        margin-top: 15px;
+                        &:nth-of-type(1) {
+                            margin-top: -50px;
+                        }
+                    }
                 }
-                // p {
-                //     margin-top: 5em;
-                //     color: $charcoal;
-                //     font-size: 2em;
-                // }
             }
             // .button {
             //     margin: 0 auto;

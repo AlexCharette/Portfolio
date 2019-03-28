@@ -1,11 +1,17 @@
 const path = require('path')
 const PrerenderSpaPlugin = require('prerender-spa-plugin')
+const ImageminPlugin = require('imagemin-webpack-plugin').default
 
 const productionPlugins = [
     new PrerenderSpaPlugin({
       staticDir: path.join(__dirname, 'public'),
-      routes: ['/', '/about', '/blog']
+      routes: ['/', '/about', '/gallery', '/blog']
     }),
+    new ImageminPlugin({
+        pngquant: {
+        quality: '90-95'
+        }
+    })
 ];
 
 module.exports = {

@@ -60,7 +60,16 @@ export default {
       width: 50%;
     }
     a {
+      background: linear-gradient(to left, #49CE75, #026DB1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
       text-decoration: none;
+      filter: saturate(90%);
+      &:hover {
+        filter: saturate(150%);
+        transition: filter 0.25s ease-out;
+      }
     }
   }
 </style>
