@@ -7,7 +7,7 @@
             "keywords": "Programming, Processing, AI, Data",
             "summary": "How easy is it to make AI?",
             "description": "A generative, tri-partite world in which agents must gather resources based on multiple factors that they evaluate and respond to. Once resources are gathered, they move to a higher space and, upon reaching saturation, rain back down. Moreover, resource collection creates temporary portals through which a beast can pass and decimate the population of gatherers before it fades back into the lower space. \n The primary intent in this project was to create a sort of basic artificial intelligence, to organize code as neatly as I knew how (after four months of one coding class), and to pass data elegantly between different entities to reflect that it is ultimately all the same.",
-            "imagePaths": ["https://www.youtube.com/embed/QbwtlDTGT20", "353_1.png", "353_2.png", "353_3.png"]
+            "imagePaths": ["https://player.vimeo.com/video/163886047", "353_1.png", "353_2.png", "353_3.png"]
         },
         {
             "name": "Deliquesce",

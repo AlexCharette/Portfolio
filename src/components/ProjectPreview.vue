@@ -11,23 +11,35 @@
             <p>Show me the project map</p>
         </div> -->
         <div :class="`text-wrapper ${swapableClass}`" key="text-wrapper"
-             ref="textWrapper">
-            <h1 :class="swapableClass" @click="handleClick" :key="currentProject.name"
+             ref="textWrapper"
+             @click="handleProjectClick">
+            <h1 :class="swapableClass" :key="currentProject.name"
                 ref="title">{{ currentProject.name }}</h1>
             <h4 :class="swapableClass" key="summary" ref="summary">{{ currentProject.summary }}</h4>
-            <div id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" :style="{ opacity: !isActive ? 0 : '' }">
+            <div id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" 
+                :style="{ opacity: !isActive ? 0 : '' }">
                 <h5>{{ currentProject.date }}</h5>
                 <h5>Medium: {{ currentProject.materials }}</h5>
-                <p>{{ currentProject.description }}</p>
+                <p v-html="getSanitizedDescription(currentProject.description)"></p>
             </div>
         </div>
         <div :class="[isActive ? swapableClass : '', 'image-section-wrapper']"
             :style="{ opacity: !isActive ? 0 : '' }"
             key="image-section-wrapper" ref="imageSectionWrapper">
-            <div :id="`image-wrapper-${index}`" :class="[(index == 0) ? 'main-image-wrapper main-img' : `img_${index + 1}`, 'image-wrapper']"
+            <div id="main-image-wrapper"
+                class="main-img image-wrapper">
+                <component :id="(projects.indexOf(currentProject) > 1) ? 'video' : 'image'" 
+                    key="image" ref="image"
+                    :is="(projects.indexOf(currentProject) > 1) ? 'img' : 'iframe'"
+                    :allowfullscreen="!(projects.indexOf(currentProject) > 1)"
+                    :src="(projects.indexOf(currentProject) > 1) ? require(`../assets/images/projects/${currentProject.imagePaths[0]}`) : currentProject.imagePaths[0]"/>
+            </div>
+            <div :id="`image-wrapper-${index}`" 
+                :class="[`img_${index + 1}`, 'image-wrapper']"
                 v-for="(image, index) in currentProject.imagePaths" :key="`image-wrapper-${index}`"
-                @click="swapGridArea($event)">
-                <component :id="`image-${index}`" key="image" ref="image"
+                @click="handleImageClick($event, index)">
+                <component :id="(projects.indexOf(currentProject) > 1 || index != 0) ? 'video' : `image-${index}`" 
+                    key="image" ref="image"
                     :is="(projects.indexOf(currentProject) > 1 || index != 0) ? 'img' : 'iframe'"
                     :allowfullscreen="!(projects.indexOf(currentProject) > 1 || index != 0)"
                     :src="(projects.indexOf(currentProject) > 1 || index != 0) ? require(`../assets/images/projects/${currentProject.imagePaths[index]}`) : currentProject.imagePaths[index]"/>
@@ -54,6 +66,7 @@
 
 <script>
 import EventBus from '../event-bus'
+import Player from '@vimeo/player'
 
 import IconBase from './icons/IconBase.vue'
 import IconArrowDown from './icons/IconArrowDown.vue'
@@ -87,8 +100,15 @@ export default {
         }
     },
     methods: {
-        swapGridArea: function(event) {
-            const mainImage = document.getElementsByClassName('main-img')[0]
+        getSanitizedDescription(text) {
+            return text.replace(/\n/g,"<br /><br />")
+        },
+        swapGridArea: function(event, originalIndex) { 
+            // Put the new image in the main area
+                // Change the src
+            // Make the old image clickable again
+                // Remove blur filter
+            const mainImage = document.getElementById('main-image-wrapper')
             mainImage.classList.toggle('main-img')
             event.target.parentElement.classList.toggle('main-img')
         },
@@ -98,10 +118,8 @@ export default {
             this.projectIndex = this.projects.indexOf(this.currentProject)
             if (direction == 'up') {
                 if (this.projectIndex - 1 >= 0) {
-                    console.log('Decrementing index')
                     this.currentProject = this.projects[this.projectIndex - 1]
                 } else {
-                    console.log('Staying at zero')
                     this.currentProject = this.projects[0]
                 }
             } else if (direction == 'down') {
@@ -110,23 +128,22 @@ export default {
                 } else {
                     this.currentProject = this.projects[this.projects.length - 1]
                 }
-            } else {
-                console.log('No more projects!')
             }
         },
         handleScroll: function() {
-            const scrollThreshold = 3,
-                  currentProjectIndex = this.projects.indexOf(this.currentProject)
+            const scrollThreshold = 3
             let { count, direction } = this.scrollState
 
-            if (count >= scrollThreshold && this.canSwap && 
-                (currentProjectIndex != 0 || currentProjectIndex != this.projects.length - 1)) {
+            if (count >= scrollThreshold && this.canSwap) {
                 this.isActive = false
                 this.canSwap = false
                 this.scrollTimeline.restart()
             }
         },
-        handleClick: function() {
+        handleImageClick: function(event) {
+            this.swapGridArea(event)
+        },
+        handleProjectClick: function(event) {
             this.isActive = !this.isActive
             if (!this.isActive) {
                 if (!this.clickAnimations[0].reversed) {
@@ -192,7 +209,7 @@ export default {
                 anim.reverse()
             })
         },
-        initScrollAnimations: function(callback_1, callback_2) {
+        initScrollAnimations: function() {
             const state = this
             this.scrollTimeline = this.$anime.timeline({
                 translateZ: 0,
@@ -221,8 +238,6 @@ export default {
                 duration: 500,
                 opacity: 1,
                 complete: function() {
-                    console.log('swapped')
-                    state.canSwap = false
                     state.scrollState.count = 0
                     setTimeout(function() {
                         state.canSwap = true
@@ -235,8 +250,8 @@ export default {
         const state = this
         this.initClickAnimations()
         this.initScrollAnimations()
+
         EventBus.$on('scrolling', scrollObj => {
-            console.log('Scroll amount: ' + scrollObj.count)
             if (state.canSwap) {
                 state.scrollState = scrollObj
                 state.handleScroll()
@@ -295,13 +310,26 @@ export default {
             grid-row-gap: 20px;
             row-gap: 20px;
             grid-template-areas:
-            "main-img main-img main-img"
-            "main-img main-img main-img"
-            " img_2    img_3    img_4";
+            "main-img main-img img_2"
+            "main-img main-img img_3"
+            "main-img main-img img_4";
             .image-wrapper {
                 overflow: hidden;
                 &.main-img {
                     grid-area: main-img;
+                    img, iframe {
+                    max-width: 700px;
+                    max-height: 600px; 
+                    transition: all 0.25s ease-in-out;
+                    }
+                    img {
+                        width: auto;
+                        height: auto;
+                    }
+                    iframe {
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
                 &.img-2 {
                     grid-area: img_2;
@@ -313,11 +341,10 @@ export default {
                     grid-area: img_4;
                 }
                 img, iframe {
-                    //width: 100%;
-                    height: 100%;
+                    width: 100%;
+                     
                 }
                 iframe {
-                    width: 100%;
                     height: 100%;
                 }
             }

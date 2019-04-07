@@ -81,20 +81,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(['currentPage']),
-    isOnHome: function() {
-      return this.currentPage == 'home'
-    },
-    usingPhone: function() {
-      return (this.$mq == 'phone' || this.$mq == 'tablet')
-    },
     iconColour: function() {
       return this.hovered ? '#75B4D2' : '#2F4777'
     },
     classList: function() {
       return {
-        collapsed: !(this.isOnHome || this.isActive), 
-        'home-nav': (!this.usingPhone && this.isOnHome)
+        collapsed: !this.isActive 
       }
     }
   },
@@ -103,9 +95,6 @@ export default {
       //if (this.isActive == newState) return
       this.isActive = newState
     }
-  },
-  mounted() {
-    if (this.isOnHome) this.isActive = true
   }
 };
 </script>
@@ -114,7 +103,7 @@ export default {
   #main-nav {
     position: fixed;
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     justify-content: space-evenly;
     align-items: center;
     margin-top: 1em;
@@ -179,59 +168,45 @@ export default {
         }
       }
     }
-    @include desktop-laptop {
-      &.home-nav {
-        flex-flow: column;
-        position: relative;
-        align-content: flex-start;
-        justify-content: flex-start;
-        margin-top: 35vh;
-        margin-left: 60vw;
-        width: 30vw;
-        //height: 45vh;
-        text-align: left;
-        font-size: 70px;
-        .dot {
-          opacity: 0;
-        }
+    @include mobile-portrait {
+      transition: background-color 0.25s ease;
+      a {
+        display: none;
+        flex: 0 1 auto;
       }
-      &.collapsed {
-        width: 17vw;
-        padding-right: 10px;
-        .link-wrapper {
-          justify-content: flex-end;
-          margin: 0;
-          min-width: 100px;
+      &:not(.expanded) {
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        flex-flow: column nowrap;
+        background-color: #fff;
+        a {
+          display: block;
+          padding-top: 10%;
+          padding-bottom: 10%;
+          width: 80vw;
+          height: 30vh;
           min-height: 44px;
-          padding-top: 1rem;
-          //filter: saturate(100%);
-          z-index: 999;
-          .link {
-            opacity: 0;
-            font-size: 40px;
-            text-align: right;
-          }
-          .dot {
-            opacity: 1;
-          }
-        }
-        #sm-links {
-          opacity: 0;
-        }
-        &:hover, &:focus {
-            .link, #sm-links {
-              opacity: 1;
-              transition: opacity 0.25s ease-out;
-              &.router-link-exact-active {
-                opacity: 0.75;
-              }
-            }
-            .dot {
-              background-color: #026DB1;
-              transition: background 0.25s ease-out;
-            }
-          }
+          font-size: 3rem;
+          text-align: center;
+          text-decoration: none;
         }
       }
+    }
+    @include mobile-landscape {
+      &.expanded {
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        flex-flow: row wrap;
+        a { display: inline-block; }
+      }
+    }
+    @include mobile {
+      top: 90vh;
+      left: 0;
+      width: auto;
+      height: auto;
+    }
   }
 </style>

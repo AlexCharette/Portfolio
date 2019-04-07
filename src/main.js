@@ -4,8 +4,18 @@ import router from './router'
 import store from './store'
 import VueAnime from 'vue-animejs'
 //import Hammer from 'hammerjs'
+import VueMq from 'vue-mq'
 
 Vue.config.productionTip = false
+
+Vue.use(VueMq, {
+  breakpoints: {
+    phone: 567,
+    tablet: 1024,
+    laptop: 1440,
+    desktop: Infinity
+  }
+})
 
 Vue.use(VueAnime)
 
