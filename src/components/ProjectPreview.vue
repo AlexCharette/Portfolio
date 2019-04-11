@@ -23,26 +23,19 @@
                 <p v-html="getSanitizedDescription(currentProject.description)"></p>
             </div>
         </div>
-        <div :class="[isActive ? swapableClass : '', 'image-section-wrapper']"
+        <div :id="`image-section-wrapper-${currentProject.index}`"
+            :class="[ isActive ? swapableClass : '', 'image-section-wrapper']"
             :style="{ opacity: !isActive ? 0 : '' }"
             key="image-section-wrapper" ref="imageSectionWrapper">
-            <div id="main-image-wrapper"
-                class="main-img image-wrapper">
-                <component :id="(projects.indexOf(currentProject) > 1) ? 'video' : 'image'" 
+            <div v-for="(image, index) in currentProject.assets" :key="`image-wrapper-${index}`"
+                :id="`image-wrapper-${index}`" 
+                :class="[(currentProject.assets[index].type == 'image') ? 'image-wrapper' : 'iframe-wrapper']"
+                :style="{ gridArea: `media_${index}` }">
+                <component :id="(currentProject.assets[index].type == 'image') ? `image-${index}` : `video-${index}`" 
                     key="image" ref="image"
-                    :is="(projects.indexOf(currentProject) > 1) ? 'img' : 'iframe'"
-                    :allowfullscreen="!(projects.indexOf(currentProject) > 1)"
-                    :src="(projects.indexOf(currentProject) > 1) ? require(`../assets/images/projects/${currentProject.imagePaths[0]}`) : currentProject.imagePaths[0]"/>
-            </div>
-            <div :id="`image-wrapper-${index}`" 
-                :class="[`img_${index + 1}`, 'image-wrapper']"
-                v-for="(image, index) in currentProject.imagePaths" :key="`image-wrapper-${index}`"
-                @click="handleImageClick($event, index)">
-                <component :id="(projects.indexOf(currentProject) > 1 || index != 0) ? 'video' : `image-${index}`" 
-                    key="image" ref="image"
-                    :is="(projects.indexOf(currentProject) > 1 || index != 0) ? 'img' : 'iframe'"
-                    :allowfullscreen="!(projects.indexOf(currentProject) > 1 || index != 0)"
-                    :src="(projects.indexOf(currentProject) > 1 || index != 0) ? require(`../assets/images/projects/${currentProject.imagePaths[index]}`) : currentProject.imagePaths[index]"/>
+                    :is="(currentProject.assets[index].type == 'image') ? 'img' : 'iframe'"
+                    :allowfullscreen="(currentProject.assets[index].type == 'video')"
+                    :src="(currentProject.assets[index].type == 'image') ? require(`../assets/images/projects/${currentProject.assets[index].path}`) : currentProject.assets[index].path"/>
             </div>
         </div>
         <div class="button-row" key="button-row">
@@ -67,6 +60,7 @@
 <script>
 import EventBus from '../event-bus'
 import Player from '@vimeo/player'
+import Masonry from 'masonry-layout'
 
 import IconBase from './icons/IconBase.vue'
 import IconArrowDown from './icons/IconArrowDown.vue'
@@ -87,7 +81,8 @@ export default {
             isActive: false,
             projectIndex: 0,
             currentProject: this.projects[0],
-            currentImageIndex: 0,
+            mainAsset: null,
+            currentAsset: null,
             swapableClass: 'animate-swap',
             canSwap: true,
             clickTimeline: null,
@@ -103,19 +98,11 @@ export default {
         getSanitizedDescription(text) {
             return text.replace(/\n/g,"<br /><br />")
         },
-        swapGridArea: function(event, originalIndex) { 
-            // Put the new image in the main area
-                // Change the src
-            // Make the old image clickable again
-                // Remove blur filter
-            const mainImage = document.getElementById('main-image-wrapper')
-            mainImage.classList.toggle('main-img')
-            event.target.parentElement.classList.toggle('main-img')
-        },
         swapContent: function() {
             console.log('swapping')
             const { direction } = this.scrollState
             this.projectIndex = this.projects.indexOf(this.currentProject)
+            console.log('Project index: ' + this.projectIndex)
             if (direction == 'up') {
                 if (this.projectIndex - 1 >= 0) {
                     this.currentProject = this.projects[this.projectIndex - 1]
@@ -133,7 +120,6 @@ export default {
         handleScroll: function() {
             const scrollThreshold = 3
             let { count, direction } = this.scrollState
-
             if (count >= scrollThreshold && this.canSwap) {
                 this.isActive = false
                 this.canSwap = false
@@ -145,6 +131,7 @@ export default {
         },
         handleProjectClick: function(event) {
             this.isActive = !this.isActive
+            this.$store.dispatch('setDisplayProject', this.isActive)
             if (!this.isActive) {
                 if (!this.clickAnimations[0].reversed) {
                     this.clickAnimations.forEach(anim => {
@@ -180,7 +167,7 @@ export default {
             const textWrapperAnim = this.$anime({
                 targets: textWrapper,
                 translateX: -(window.innerWidth / 3.5),
-                translateY: -(window.innerHeight / 2.3),
+                translateY: -(window.innerHeight / 2.5),
                 translateZ: 0,
                 rotate: 0.01,
                 scale: 0.6,
@@ -197,7 +184,7 @@ export default {
             })
             const imageWrapperAnim = this.$anime({
                 targets: imageSectionWrapper,
-                translateY: (window.innerHeight * 1.2),
+                translateY: (window.innerHeight * 1.1),
                 translateZ: 0,
                 rotate: 0.01,
                 opacity: 1,
@@ -246,10 +233,19 @@ export default {
             })
         },
     },
+    created() {
+        this.currentAsset = this.currentProject.assets[0]
+        console.log(this.currentAsset.type)
+    },
     mounted() {
-        const state = this
+        const state = this 
+        const { imageSectionWrapper } = this.$refs
         this.initClickAnimations()
         this.initScrollAnimations()
+
+        window.addEventListener('scroll', function() {
+            console.log('scrolling')
+        })
 
         EventBus.$on('scrolling', scrollObj => {
             if (state.canSwap) {
@@ -272,7 +268,7 @@ export default {
         ". info ."
         ". info ."
         ".  .   .";
-        overflow: hidden;
+        //overflow: hidden;
         * {
             will-change: transform, opacity;
         }
@@ -299,57 +295,48 @@ export default {
             display: grid;
             margin: auto;
             top: -100vh;
-            left: 40vw;
+            left: 45vw;
             width: 45rem;
-            height: 35rem;
+            height: 120rem;
             opacity: 0;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: repeat(3, 1fr);
-            grid-column-gap: 20px;
-            column-gap: 20px;
-            grid-row-gap: 20px;
-            row-gap: 20px;
-            grid-template-areas:
-            "main-img main-img img_2"
-            "main-img main-img img_3"
-            "main-img main-img img_4";
-            .image-wrapper {
+            overflow: scroll;
+            &#image-section-wrapper-0 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-areas: 
+                "media_0 media_0"
+                "media_1 media_2"
+                "media_1 media_2";
+            }
+            &#image-section-wrapper-1 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(5, 1fr);
+                grid-template-areas: 
+                "media_0 media_0"
+                "media_1 media_2"
+                "media_1 media_2"
+                "media_3 ."
+                "media_3 .";
+            }
+            &#image-section-wrapper-2 {
+
+            }
+            .image-wrapper, .iframe-wrapper {
                 overflow: hidden;
-                &.main-img {
-                    grid-area: main-img;
-                    img, iframe {
-                    max-width: 700px;
-                    max-height: 600px; 
-                    transition: all 0.25s ease-in-out;
-                    }
-                    img {
-                        width: auto;
-                        height: auto;
-                    }
-                    iframe {
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
-                &.img-2 {
-                    grid-area: img_2;
-                }
-                &.img-3 {
-                    grid-area: img_3;
-                }
-                &.img-4 {
-                    grid-area: img_4;
-                }
                 img, iframe {
-                    width: 100%;
-                     
+                    width: 100%;    
                 }
                 iframe {
                     height: 100%;
+                    border: none !important;
                 }
+            }
+            .iframe-wrapper {
+                object-fit: contain;
             }
         }
         &.active {
+            overflow: scroll;
             .text-wrapper {
                 margin-top: 0 !important;
                 text-align: left;
@@ -359,6 +346,7 @@ export default {
                 }
                 #description {
                     margin-bottom: -7em;
+                    width: 100%;
                     max-width: 550px;
                     h5 {
                         margin-bottom: 0;

@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import EventBus from './event-bus'
 import AppOverlay from './components/AppOverlay.vue'
 import AppBackground from './components/AppBackground.vue'
@@ -63,16 +62,18 @@ export default {
       }
     }
     window.addEventListener('wheel', function(e) {
-      if (e.deltaY < 0) {
-        state.handleScroll('up')
-      }
-      if (e.deltaY > 0) {
-        state.handleScroll('down')
+      if (!state.$store.state.shouldDisplayProject) {
+        if (e.deltaY < 0) {
+          state.handleScroll('up')
+        }
+        if (e.deltaY > 0) {
+          state.handleScroll('down')
+        }
       }
     })
     EventBus.$on('page-changed', function(name) {
       const body = document.getElementById('app').closest('body')
-      if (name == 'home' || name == 'gallery') {
+      if (name != 'about' || !state.$store.state.shouldDisplayProject) {
         body.classList.add('lock-scroll')
       }
     })
@@ -110,6 +111,7 @@ export default {
     }
     a {
       @include gradient-text;
+      //font-size: nth($h-font-scales, 6) * $aug-4th-factor;
     }
     * { box-sizing: border-box; }
   }

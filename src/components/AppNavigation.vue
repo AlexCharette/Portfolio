@@ -1,19 +1,16 @@
 <template>
   <transition-group name="fade" tag="nav" key="nav"
-    :class="classList"
-    @mouseover="toggle('forward', true)"
-    @mouseleave="toggle('reverse', false)">
-    <div class="link-wrapper" v-for="(page, index) in pages" :key="page.name" >
+    :class="classList">
+    <div class="link-wrapper" key="link-wrapper">
       <router-link
+        v-for="page in pages" :key="page.name"
         class="link"
-        :key="page.name"
         :page="page.name"
         :to="page.path"
         @mouseover="toggle('forward', true)"
         @click.native="toggle('clicked', false)">
         {{ page.name }}
       </router-link>
-      <div id="`dot-${index}`" class="dot" :key="`dot_${index}`"></div>
     </div>
     <ul id="sm-links" key="links">
       <li v-for="link in smLinks"
@@ -93,14 +90,13 @@ export default {
     },
     classList: function() {
       return {
-        collapsed: !(this.isOnHome || this.isActive), 
+        collapsed: (this.usingPhone && !this.isActive), 
         'home-nav': (!this.usingPhone && this.isOnHome)
       }
     }
   },
   methods:{
     toggle: function(eventMsg, newState) {
-      //if (this.isActive == newState) return
       this.isActive = newState
     }
   },
@@ -114,16 +110,20 @@ export default {
   #main-nav {
     position: fixed;
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     justify-content: space-evenly;
     align-items: center;
     margin-top: 1em;
+    margin-right: 2vw;
     top: 0px;
     right: 0px;
-    width: 10vw;
+    width: 20vw;
+    min-width: 310px;
     .link-wrapper {
       display: inline-flex;
       flex-flow: row;
+      justify-content: space-between;
+      //align-items: center;
       width: 100%;
       text-align: left;
       .link {
@@ -134,65 +134,88 @@ export default {
         -webkit-text-fill-color: transparent;
         filter: saturate(90%);
         text-decoration: none;
+        opacity: 0.5;
+        font-size: 200%;
         &.router-link-exact-active {
-          opacity: 0.75;
+          opacity: 0.25;
         }
         &:not(.router-link-exact-active):hover {
           filter: saturate(150%);
-          transition: filter 0.25s ease-out;
+          opacity: 1;
+          transition: all 0.25s ease-out;
         }
-      }
-      .dot {
-        margin: auto;
-        margin-right: 0;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #49CE75;
       }
     }
     #sm-links {
       display: inline-flex;
       margin-top: 0;
-      margin-right: auto;
       flex-flow: row;
       justify-content: space-evenly;
       align-items: center;
       list-style-type: none;
       padding: 0;
-      padding-top: 20px;
+      padding-top: 10px;
       li {
         min-width: 60px;
         min-height: 45px;
         a {
           position: relative;
+          float: right;
           display: flex;
           flex-flow: column;
           justify-content: space-evenly;
           align-content: center;
           text-decoration: none;
           color: #49CE75;
-          &:hover svg {
-            color: #026DB1;
-            transition: color 0.25s ease-out;
+          opacity: 0.5;
+          &:hover {
+            opacity: 1;
+            transition: opacity 0.25s ease-out;
+            svg {
+              color: #026DB1;
+              transition: color 0.25s ease-out;
+            }
           }
         }
       }
     }
     @include desktop-laptop {
       &.home-nav {
-        flex-flow: column;
-        position: relative;
-        align-content: flex-start;
-        justify-content: flex-start;
-        margin-top: 35vh;
-        margin-left: 60vw;
-        width: 30vw;
-        //height: 45vh;
-        text-align: left;
-        font-size: 70px;
-        .dot {
-          opacity: 0;
+          margin-top: 35vh;
+          margin-right: 10vw;
+          width: 30vw;
+        .link-wrapper {
+          flex-flow: column;
+          position: relative;
+          align-content: flex-start;
+          justify-content: flex-start;
+          //height: 45vh;
+          text-align: left;
+          .link {
+            font-size: 500%;
+            opacity: 1;
+            &.router-link-exact-active {
+              opacity: 0.75;
+            }
+            &:not(.router-link-exact-active):hover {
+              filter: saturate(150%);
+              transition: filter 0.25s ease-out;
+            }
+          }
+        }
+        #sm-links {
+          margin-right: auto;
+          padding-top: 20px;
+          li {
+            a {
+              float: none;
+              opacity: 1;
+              &:hover {
+                opacity: 1;
+                transition: opacity 0.25s ease-in-out;
+              }
+            }
+          }
         }
       }
       &.collapsed {
@@ -211,9 +234,6 @@ export default {
             font-size: 40px;
             text-align: right;
           }
-          .dot {
-            opacity: 1;
-          }
         }
         #sm-links {
           opacity: 0;
@@ -225,10 +245,6 @@ export default {
               &.router-link-exact-active {
                 opacity: 0.75;
               }
-            }
-            .dot {
-              background-color: #026DB1;
-              transition: background 0.25s ease-out;
             }
           }
         }

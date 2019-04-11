@@ -21,6 +21,7 @@ export default new Vuex.Store({
       context.commit('updateCurrentPage', newPage)
     },
     setDisplayProject(context, newState) {
+      console.log('displaying project: ' + newState)
       context.commit('updateDisplayProject', newState)
     }
   }

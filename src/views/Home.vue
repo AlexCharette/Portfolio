@@ -117,9 +117,10 @@ export default {
       #hero {
         width: 60vw;
         height: 100%;
-        overflow: hidden;
+        //overflow: hidden;
         #welcome {
           height: 70%;
+          overflow: visible;
         }
         #interrogative {
           height: 30%;
