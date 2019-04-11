@@ -184,7 +184,7 @@ export default {
             })
             const imageWrapperAnim = this.$anime({
                 targets: imageSectionWrapper,
-                translateY: (window.innerHeight),
+                translateY: (window.innerHeight * 1.1),
                 translateZ: 0,
                 rotate: 0.01,
                 opacity: 1,
@@ -281,9 +281,11 @@ export default {
             margin: 0 auto;
             margin-top: 300px;
             text-align: center;
-            h1 {
-                flex-basis: 8em;
+            * {
                 cursor: pointer;
+            }
+            h1 {
+                flex-basis: 8em;   
             }
             h4 {
                 margin-top: -1em;
@@ -297,9 +299,9 @@ export default {
             top: -100vh;
             left: 45vw;
             width: 45rem;
-            height: 120rem;
+            height: 90rem;
             opacity: 0;
-            overflow: scroll;
+            //overflow: scroll;
             grid-column-gap: 20px;
             grid-row-gap: 20px;
             &#image-section-wrapper-0 {
@@ -311,6 +313,7 @@ export default {
                 "media_1 media_2";
             }
             &#image-section-wrapper-1 {
+                height: 110rem;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: repeat(5, 1fr);
                 grid-template-areas: 
@@ -354,6 +357,7 @@ export default {
                 }
             }
             .iframe-wrapper {
+                max-height: 450px;
                 object-fit: contain;
             }
         }

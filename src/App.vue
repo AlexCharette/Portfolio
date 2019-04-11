@@ -73,7 +73,7 @@ export default {
     })
     EventBus.$on('page-changed', function(name) {
       const body = document.getElementById('app').closest('body')
-      if (name != 'about' || !state.$store.state.shouldDisplayProject) {
+      if (name == 'home' || (name == 'gallery' && !state.$store.state.shouldDisplayProject)) {
         body.classList.add('lock-scroll')
       }
     })
