@@ -167,7 +167,7 @@ export default {
             const textWrapperAnim = this.$anime({
                 targets: textWrapper,
                 translateX: -(window.innerWidth / 3.5),
-                translateY: -(window.innerHeight / 2.5),
+                translateY: -(window.innerHeight / 2.8),
                 translateZ: 0,
                 rotate: 0.01,
                 scale: 0.6,
@@ -207,7 +207,7 @@ export default {
             this.scrollTimeline
             .add({
                 targets: '.animate-swap',
-                translateY: -(window.innerHeight / 5),
+                translateY: -(window.innerHeight / 6),
                 opacity: 0,
                 duration: 500
             })

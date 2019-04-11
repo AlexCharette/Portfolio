@@ -82,7 +82,7 @@ export default {
 </script>
 
 <style lang="scss">
-  $h-font-scales: (600%, 420%, 400%, 350%, 160%, 140%);
+  $h-font-scales: (550%, 420%, 400%, 350%, 160%, 140%);
   $p-font-scale: 110%;
   $aug-4th-factor: 1.414;
   body {
