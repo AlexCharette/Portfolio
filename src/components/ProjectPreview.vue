@@ -184,7 +184,7 @@ export default {
             })
             const imageWrapperAnim = this.$anime({
                 targets: imageSectionWrapper,
-                translateY: (window.innerHeight * 1.1),
+                translateY: (window.innerHeight),
                 translateZ: 0,
                 rotate: 0.01,
                 opacity: 1,
@@ -300,6 +300,8 @@ export default {
             height: 120rem;
             opacity: 0;
             overflow: scroll;
+            grid-column-gap: 20px;
+            grid-row-gap: 20px;
             &#image-section-wrapper-0 {
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: repeat(3, 1fr);
@@ -319,7 +321,27 @@ export default {
                 "media_3 .";
             }
             &#image-section-wrapper-2 {
-
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(2, 1fr);
+                grid-template-areas: 
+                "media_0 media_1"
+                "media_0 media_1";
+            }
+            &#image-section-wrapper-3 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-areas: 
+                "media_1 media_1"
+                "media_0 media_2"
+                "media_0 media_2";
+            }
+            &#image-section-wrapper-4 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-areas: 
+                "media_0 media_0"
+                "media_1 media_2"
+                "media_1 media_2";
             }
             .image-wrapper, .iframe-wrapper {
                 overflow: hidden;
@@ -338,7 +360,8 @@ export default {
         &.active {
             overflow: scroll;
             .text-wrapper {
-                margin-top: 0 !important;
+                //margin-top: 0 !important;
+                margin-top: 2rem;
                 text-align: left;
                 height: 75vh;
                 span {
