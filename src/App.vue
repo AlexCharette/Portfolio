@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import EventBus from './event-bus'
 import AppOverlay from './components/AppOverlay.vue'
 import AppBackground from './components/AppBackground.vue'
@@ -28,18 +27,14 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState(['currentPage']),
-    galleryClass: function() {
-      return (this.currentPage == 'gallery') ? 'on-gallery' : ''
-    }
-  },
   methods: {
     handleScroll: function(scrollDirection) {
-      var scrollObj
+      var scrollObj,
+          scrollThreshold = 5
       if (scrollDirection == 'up') {
           this.scrollCount.down = 0
           this.scrollCount.up++
+          //if (scrollCount.up >= scrollThreshold) this.scrollCount.up = scrollThreshold
           scrollObj = {
             direction: scrollDirection,
             count: this.scrollCount.up
@@ -47,6 +42,7 @@ export default {
       } else if (scrollDirection == 'down') {
           this.scrollCount.up = 0
           this.scrollCount.down++
+          //if (scrollCount.down >= ) this.scrollCount.down = 5
           scrollObj = {
             direction: scrollDirection,
             count: this.scrollCount.down
@@ -59,21 +55,26 @@ export default {
     document.body.className = 'body'
   },
   mounted() {
-    window.onresize = () => {
-      this.$store.dispatch('setDeviceType', window.innerWidth)
-    }
+    const state = this
     window.onkeydown = (e) => {
       if (e.key == 'Escape' || e.key == 'Backspace') {
         EventBus.$emit('reverse-key-pressed', e)
       }
     }
-    const state = this
     window.addEventListener('wheel', function(e) {
-      if (e.deltaY < 0) {
-        state.handleScroll('up')
+      if (!state.$store.state.shouldDisplayProject) {
+        if (e.deltaY < 0) {
+          state.handleScroll('up')
+        }
+        if (e.deltaY > 0) {
+          state.handleScroll('down')
+        }
       }
-      if (e.deltaY > 0) {
-        state.handleScroll('down')
+    })
+    EventBus.$on('page-changed', function(name) {
+      const body = document.getElementById('app').closest('body')
+      if (name == 'home' || (name == 'gallery' && !state.$store.state.shouldDisplayProject)) {
+        body.classList.add('lock-scroll')
       }
     })
   }
@@ -81,15 +82,16 @@ export default {
 </script>
 
 <style lang="scss">
-  $h-font-scales: ( 89.76, 67.34, 50.52, 37.90, 28.43, 21.33);
-  $p-font-scale: 18;
-  $aug-4th-factor: 1.414px;
+  $h-font-scales: (550%, 420%, 400%, 350%, 160%, 140%);
+  $p-font-scale: 110%;
+  $aug-4th-factor: 1.414;
   body {
     margin: 0px;
-    color: $navy-blue;
-    overflow: hidden;
     ::-webkit-scrollbar { width: 0 !important; }
     overflow: -moz-scrollbars-none;
+    &.lock-scroll {
+      overflow: hidden;
+    }
     @for $i from 1 through 6 {
       h#{$i} {
         font-size: nth($h-font-scales, $i) * $aug-4th-factor;
@@ -109,6 +111,7 @@ export default {
     }
     a {
       @include gradient-text;
+      //font-size: nth($h-font-scales, 6) * $aug-4th-factor;
     }
     * { box-sizing: border-box; }
   }

@@ -11,26 +11,31 @@
             <p>Show me the project map</p>
         </div> -->
         <div :class="`text-wrapper ${swapableClass}`" key="text-wrapper"
-             ref="textWrapper">
-            <h1 :class="swapableClass" @click="handleClick" :key="currentProject.name"
+             ref="textWrapper"
+             @click="handleProjectClick">
+            <h1 :class="swapableClass" :key="currentProject.name"
                 ref="title">{{ currentProject.name }}</h1>
             <h4 :class="swapableClass" key="summary" ref="summary">{{ currentProject.summary }}</h4>
-            <div id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" :style="{ opacity: !isActive ? 0 : '' }">
+            <div id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" 
+                :style="{ opacity: !isActive ? 0 : '' }">
                 <h5>{{ currentProject.date }}</h5>
                 <h5>Medium: {{ currentProject.materials }}</h5>
-                <p>{{ currentProject.description }}</p>
+                <p v-html="getSanitizedDescription(currentProject.description)"></p>
             </div>
         </div>
-        <div :class="[isActive ? swapableClass : '', 'image-section-wrapper']"
+        <div :id="`image-section-wrapper-${currentProject.index}`"
+            :class="[ isActive ? swapableClass : '', 'image-section-wrapper']"
             :style="{ opacity: !isActive ? 0 : '' }"
             key="image-section-wrapper" ref="imageSectionWrapper">
-            <div :id="`image-wrapper-${index}`" :class="[(index == 0) ? 'main-image-wrapper main-img' : `img_${index + 1}`, 'image-wrapper']"
-                v-for="(image, index) in currentProject.imagePaths" :key="`image-wrapper-${index}`"
-                @click="swapGridArea($event)">
-                <component :id="`image-${index}`" key="image" ref="image"
-                    :is="(projects.indexOf(currentProject) > 1 || index != 0) ? 'img' : 'iframe'"
-                    :allowfullscreen="!(projects.indexOf(currentProject) > 1 || index != 0)"
-                    :src="(projects.indexOf(currentProject) > 1 || index != 0) ? require(`../assets/images/projects/${currentProject.imagePaths[index]}`) : currentProject.imagePaths[index]"/>
+            <div v-for="(image, index) in currentProject.assets" :key="`image-wrapper-${index}`"
+                :id="`image-wrapper-${index}`" 
+                :class="[(currentProject.assets[index].type == 'image') ? 'image-wrapper' : 'iframe-wrapper']"
+                :style="{ gridArea: `media_${index}` }">
+                <component :id="(currentProject.assets[index].type == 'image') ? `image-${index}` : `video-${index}`" 
+                    key="image" ref="image"
+                    :is="(currentProject.assets[index].type == 'image') ? 'img' : 'iframe'"
+                    :allowfullscreen="(currentProject.assets[index].type == 'video')"
+                    :src="(currentProject.assets[index].type == 'image') ? require(`../assets/images/projects/${currentProject.assets[index].path}`) : currentProject.assets[index].path"/>
             </div>
         </div>
         <div class="button-row" key="button-row">
@@ -54,6 +59,8 @@
 
 <script>
 import EventBus from '../event-bus'
+import Player from '@vimeo/player'
+import Masonry from 'masonry-layout'
 
 import IconBase from './icons/IconBase.vue'
 import IconArrowDown from './icons/IconArrowDown.vue'
@@ -74,7 +81,8 @@ export default {
             isActive: false,
             projectIndex: 0,
             currentProject: this.projects[0],
-            currentImageIndex: 0,
+            mainAsset: null,
+            currentAsset: null,
             swapableClass: 'animate-swap',
             canSwap: true,
             clickTimeline: null,
@@ -87,48 +95,43 @@ export default {
         }
     },
     methods: {
-        swapGridArea: function(event) {
-            const mainImage = document.getElementsByClassName('main-img')[0]
-            console.log('Current main image: ' + mainImage)
-            console.log(event.target + ' was clicked')
-            mainImage.classList.toggle('main-img')
-            event.target.parentElement.classList.toggle('main-img')
+        getSanitizedDescription(text) {
+            return text.replace(/\n/g,"<br /><br />")
         },
         swapContent: function() {
             console.log('swapping')
             const { direction } = this.scrollState
             this.projectIndex = this.projects.indexOf(this.currentProject)
+            console.log('Project index: ' + this.projectIndex)
             if (direction == 'up') {
-                if (this.projectIndex-- >= 0) {
-                    this.currentProject = this.projects[this.projectIndex]
+                if (this.projectIndex - 1 >= 0) {
+                    this.currentProject = this.projects[this.projectIndex - 1]
                 } else {
                     this.currentProject = this.projects[0]
                 }
             } else if (direction == 'down') {
-                if (this.projectIndex++ < this.projects.length) {
-                    this.currentProject = this.projects[this.projectIndex]
+                if (this.projectIndex + 1 < this.projects.length) {
+                    this.currentProject = this.projects[this.projectIndex + 1]
                 } else {
                     this.currentProject = this.projects[this.projects.length - 1]
                 }
-            } else {
-                console.log('No more projects!')
             }
         },
         handleScroll: function() {
             const scrollThreshold = 3
-            const state = this
             let { count, direction } = this.scrollState
-
             if (count >= scrollThreshold && this.canSwap) {
                 this.isActive = false
+                this.canSwap = false
                 this.scrollTimeline.restart()
             }
         },
-        handleClick: function() {
-            this.isActive = !this.isActive
-            this.performClickAnimations()
+        handleImageClick: function(event) {
+            this.swapGridArea(event)
         },
-        performClickAnimations: function() {
+        handleProjectClick: function(event) {
+            this.isActive = !this.isActive
+            this.$store.dispatch('setDisplayProject', this.isActive)
             if (!this.isActive) {
                 if (!this.clickAnimations[0].reversed) {
                     this.clickAnimations.forEach(anim => {
@@ -164,7 +167,7 @@ export default {
             const textWrapperAnim = this.$anime({
                 targets: textWrapper,
                 translateX: -(window.innerWidth / 3.5),
-                translateY: -(window.innerHeight / 2.3),
+                translateY: -(window.innerHeight / 2.8),
                 translateZ: 0,
                 rotate: 0.01,
                 scale: 0.6,
@@ -181,7 +184,7 @@ export default {
             })
             const imageWrapperAnim = this.$anime({
                 targets: imageSectionWrapper,
-                translateY: (window.innerHeight * 1.2),
+                translateY: (window.innerHeight * 1.1),
                 translateZ: 0,
                 rotate: 0.01,
                 opacity: 1,
@@ -193,7 +196,7 @@ export default {
                 anim.reverse()
             })
         },
-        initScrollAnimations: function(callback_1, callback_2) {
+        initScrollAnimations: function() {
             const state = this
             this.scrollTimeline = this.$anime.timeline({
                 translateZ: 0,
@@ -204,7 +207,7 @@ export default {
             this.scrollTimeline
             .add({
                 targets: '.animate-swap',
-                translateY: -(window.innerHeight / 5),
+                translateY: -(window.innerHeight / 6),
                 opacity: 0,
                 duration: 500
             })
@@ -222,8 +225,6 @@ export default {
                 duration: 500,
                 opacity: 1,
                 complete: function() {
-                    console.log('swapped')
-                    state.canSwap = false
                     state.scrollState.count = 0
                     setTimeout(function() {
                         state.canSwap = true
@@ -232,10 +233,20 @@ export default {
             })
         },
     },
+    created() {
+        this.currentAsset = this.currentProject.assets[0]
+        console.log(this.currentAsset.type)
+    },
     mounted() {
-        const state = this
+        const state = this 
+        const { imageSectionWrapper } = this.$refs
         this.initClickAnimations()
         this.initScrollAnimations()
+
+        window.addEventListener('scroll', function() {
+            console.log('scrolling')
+        })
+
         EventBus.$on('scrolling', scrollObj => {
             if (state.canSwap) {
                 state.scrollState = scrollObj
@@ -257,7 +268,7 @@ export default {
         ". info ."
         ". info ."
         ".  .   .";
-        overflow: hidden;
+        //overflow: hidden;
         * {
             will-change: transform, opacity;
         }
@@ -268,10 +279,13 @@ export default {
             justify-content: center;
             align-content: center;
             margin: 0 auto;
+            margin-top: 300px;
             text-align: center;
-            h1 {
-                flex-basis: 8em;
+            * {
                 cursor: pointer;
+            }
+            h1 {
+                flex-basis: 8em;   
             }
             h4 {
                 margin-top: -1em;
@@ -283,46 +297,75 @@ export default {
             display: grid;
             margin: auto;
             top: -100vh;
-            left: 40vw;
+            left: 45vw;
             width: 45rem;
-            height: 35rem;
+            height: 90rem;
             opacity: 0;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: repeat(3, 1fr);
+            //overflow: scroll;
             grid-column-gap: 20px;
-            column-gap: 20px;
             grid-row-gap: 20px;
-            row-gap: 20px;
-            grid-template-areas:
-            "main-img main-img main-img"
-            "main-img main-img main-img"
-            " img_2    img_3    img_4";
-            .image-wrapper {
+            &#image-section-wrapper-0 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-areas: 
+                "media_0 media_0"
+                "media_1 media_2"
+                "media_1 media_2";
+            }
+            &#image-section-wrapper-1 {
+                height: 110rem;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(5, 1fr);
+                grid-template-areas: 
+                "media_0 media_0"
+                "media_1 media_2"
+                "media_1 media_2"
+                "media_3 ."
+                "media_3 .";
+            }
+            &#image-section-wrapper-2 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(2, 1fr);
+                grid-template-areas: 
+                "media_0 media_1"
+                "media_0 media_1";
+            }
+            &#image-section-wrapper-3 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-areas: 
+                "media_1 media_1"
+                "media_0 media_2"
+                "media_0 media_2";
+            }
+            &#image-section-wrapper-4 {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-areas: 
+                "media_0 media_0"
+                "media_1 media_2"
+                "media_1 media_2";
+            }
+            .image-wrapper, .iframe-wrapper {
                 overflow: hidden;
-                &.main-img {
-                    grid-area: main-img;
-                }
-                &.img-2 {
-                    grid-area: img_2;
-                }
-                &.img-3 {
-                    grid-area: img_3;
-                }
-                &.img-4 {
-                    grid-area: img_4;
-                }
                 img, iframe {
-                    //width: 100%;
-                    height: 100%;
+                    width: 100%;    
                 }
                 iframe {
-                    width: 100%;
                     height: 100%;
+                    border: none !important;
                 }
+            }
+            .iframe-wrapper {
+                max-height: 450px;
+                object-fit: contain;
             }
         }
         &.active {
+            overflow: scroll;
             .text-wrapper {
+                //margin-top: 0 !important;
+                margin-top: 2rem;
                 text-align: left;
                 height: 75vh;
                 span {
@@ -330,6 +373,7 @@ export default {
                 }
                 #description {
                     margin-bottom: -7em;
+                    width: 100%;
                     max-width: 550px;
                     h5 {
                         margin-bottom: 0;

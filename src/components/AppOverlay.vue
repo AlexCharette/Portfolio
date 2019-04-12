@@ -1,7 +1,7 @@
 <template>
   <div id="app-overlay">
     <!-- <app-logo id="logo"/> -->
-    <app-navigation id="main-nav"/>
+    <app-navigation id="main-nav" />
   </div>
 </template>
 

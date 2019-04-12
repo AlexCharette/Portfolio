@@ -5,16 +5,21 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "postInstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build ; fi",
+    "start": "node server.js"
   },
   "dependencies": {
+    "@vimeo/player": "^2.8.2",
     "animejs": "^3.0.1",
     "firebase": "^5.8.6",
     "hammerjs": "^2.0.8",
     "ipapi.co": "^0.2.3",
+    "masonry-layout": "^4.2.2",
     "simple-icons": "^1.9.23",
     "vue": "^2.5.22",
     "vue-animejs": "^2.1.1",
+    "vue-mq": "^1.0.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
@@ -25,10 +30,12 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "express": "^4.16.4",
     "imagemin-webpack-plugin": "^2.4.2",
     "node-sass": "^4.9.0",
     "prerender-spa-plugin": "^3.4.0",
     "sass-loader": "^7.1.0",
+    "serve-static": "^1.13.2",
     "vue-template-compiler": "^2.5.21"
   },
   "resolutions": {

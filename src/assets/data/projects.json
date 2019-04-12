@@ -7,7 +7,12 @@
             "keywords": "Programming, Processing, AI, Data",
             "summary": "How easy is it to make AI?",
             "description": "A generative, tri-partite world in which agents must gather resources based on multiple factors that they evaluate and respond to. Once resources are gathered, they move to a higher space and, upon reaching saturation, rain back down. Moreover, resource collection creates temporary portals through which a beast can pass and decimate the population of gatherers before it fades back into the lower space. \n The primary intent in this project was to create a sort of basic artificial intelligence, to organize code as neatly as I knew how (after four months of one coding class), and to pass data elegantly between different entities to reflect that it is ultimately all the same.",
-            "imagePaths": ["https://www.youtube.com/embed/QbwtlDTGT20", "353_1.png", "353_2.png", "353_3.png"]
+            "assets": [
+                { "type": "video", "path": "https://player.vimeo.com/video/163886047" }, 
+                { "type": "image", "path": "353_1.png" }, 
+                { "type": "image", "path": "353_2.png" }
+            ],
+            "index": 0
         },
         {
             "name": "Deliquesce",
@@ -16,7 +21,13 @@
             "keywords": "Materiality, Climate, Generative",
             "summary": "Bringing glacial melt to our level.",
             "description": "The world has generally been a slow moving system, marked by incidents of rapid and often catastrophic change. We are currently in a new one, brought on or at least greatly accelerated by humans (a period referred to by some as the Anthropocene). To this tie in our disruption of the earth’s geological sphere, which itself serves as an ancient historical record of “deep time.” \n Deliquesce is a piece about our removing natural elements, in this case ice, and bringing them into our own time span by accelerating what normally happens over millennia. The combination of multiple different materials and the experience of learning new skills (welding and general metalwork) made this a fairly gratifying project. \n Group: Jeremy Michael Segal (conceptualization, audio, construction) Emily Lillies (conceptualization, accounting, material acquisition) Alexander Charette (conceptualization, research, construction) Matthew Vaccariello (research, material acquisition) Fadel Ragheb (research, construction).",
-            "imagePaths": ["https://www.youtube.com/embed/PjAATNDfmCg", "Deliquesce_1.jpg", "Deliquesce_2.jpg", "Deliquesce_3.jpg"]
+            "assets": [
+                { "type": "video", "path": "https://www.youtube.com/embed/PjAATNDfmCg" }, 
+                { "type": "image", "path": "Deliquesce_0.jpg" }, 
+                { "type": "image", "path": "Deliquesce_1.jpg" }, 
+                { "type": "image", "path": "Deliquesce_2.jpg" }
+            ],
+            "index": 1
         },
         {
             "name": "Browser Puzzle",
@@ -25,7 +36,11 @@
             "keywords": "Extension, Challenge, Learning",
             "summary": "Does mundane challenge increase satisfaction?",
             "description": "Instant gratification is, in my mind, not a good way to wire your brain. It conditions us to be impatient and to only look for short term rewards. Moreover, a life free of challenge is not a particularly fulfilling one. To experiment with this idea, I made a browser extension which requires users to complete a puzzle in order to visit their desired webpage. \n Another dimension involved is that of teaching a system without telling, only showing (in similar fashion to Jonathan Blow’s The Witness). A key element was to find the proper amount of gradual exposure to the mechanics to make it challenging but comprehensible.",
-            "imagePaths": ["Puzzle_1.png", "Puzzle_2.png"]
+            "assets": [ 
+                { "type": "image", "path": "Puzzle_0.png" },
+                { "type": "image", "path": "Puzzle_1.png" }
+            ],
+            "index": 2
         },
         {
             "name": "Routine Infographic",
@@ -34,7 +49,12 @@
             "keywords": "Graphic Design, Infographic, Icons",
             "summary": "Representing daily movement minimally.",
             "description": "The assignment was to first come up with a series of icons describing different points in our routine, and to then tie them together using an infographic. I decided to do that by effectively mapping out the paths I take during the day when completing these activities. I also, using what I know about Chinese character composition, created a set of my own for each icon. \n The aesthetic inspirations were the game Mirror’s Edge and a vague idea I had in mind of oldfashioned Japanese posters",
-            "imagePaths": ["Infographic_1.png", "Infographic_2.png", "Infographic_3.png"]
+            "assets": [
+                { "type": "image", "path": "Infographic_0.png" }, 
+                { "type": "image", "path": "Infographic_1.png" }, 
+                { "type": "image", "path": "Infographic_2.png" }
+            ],
+            "index": 3
         },
         {
             "name": "Foxhole Radio",
@@ -43,7 +63,12 @@
             "keywords": "Experimentation, Tangible, Material",
             "summary": "Making a janky, multi-elemental instrument.",
             "description": "I had wanted to try making a foxhole radio (a basic radio made using a pencil, razor blade and magnet wire) for a long time before this project. In keeping with the theme, I also had some bullet casings on hand which I thought I could use. The original intent was to create an instrument by attaching transducers to the casings and filling the latter with steam from a container underneath. \n The holes in the tops of the casings would be covered and uncovered to (hopefully) modulate the sound produced by the transducers, which itself would be affected by the radio. Unfortunately, the casings proved too small to be effective and I had to use a different kind of sensor to create any kind of output, but it was a lot of fun to simply experiment and see what would happen.",
-            "imagePaths": ["Foxhole_1.jpg", "Foxhole_2.jpg", "Foxhole_3.jpg"]
+            "assets": [
+                { "type": "image", "path": "Foxhole_0.jpg" }, 
+                { "type": "image", "path": "Foxhole_1.jpg" }, 
+                { "type": "image", "path": "Foxhole_2.jpg" }
+            ],
+            "index": 4
         },
         {
             "name": "Transactio",
@@ -51,7 +76,12 @@
             "keywords": "Web design, Single Page, Law Firm",
             "summary": "Creating a corporate web presence.",
             "description": "A simple webpage developed for a potential local boutique law firm. It was my first real website, and I conducted a lot of research to understand the usual information found on similar websites in order to find points of familiarity, which also served to identify how I could give my clients an edge in their presentation. I found it tricky at first to balance out what I thought would be better design with what the typical clientele (older professionals) would expect to see, and despite having already gone through a couple of different designs, if I were to reiterate I would use more development tools (without overcomplicating the project) and would like to enhance the interactive aspects of the site.",
-            "imagePaths": ["Transactio_1.png", "Transactio_2.png", "Transactio_3.png"]
+            "assets": [
+                { "type": "image", "path": "Transactio_0.png"}, 
+                { "type": "image", "path": "Transactio_2.png"}, 
+                { "type": "image", "path": "Transactio_3.png"}
+            ],
+            "index": 5
         }
     ]
 }

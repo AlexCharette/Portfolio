@@ -46,8 +46,8 @@ export default {
         position: fixed;
         top: 0;
         right: 0;
-        width: 100%;
-        height: 100%;
+        width: 200%;
+        height: 200%;
         z-index: 0;
         pointer-events: none;
     }
