@@ -59,8 +59,6 @@
 
 <script>
 import EventBus from '../event-bus'
-import Player from '@vimeo/player'
-import Masonry from 'masonry-layout'
 
 import IconBase from './icons/IconBase.vue'
 import IconArrowDown from './icons/IconArrowDown.vue'
@@ -102,7 +100,6 @@ export default {
             console.log('swapping')
             const { direction } = this.scrollState
             this.projectIndex = this.projects.indexOf(this.currentProject)
-            console.log('Project index: ' + this.projectIndex)
             if (direction == 'up') {
                 if (this.projectIndex - 1 >= 0) {
                     this.currentProject = this.projects[this.projectIndex - 1]
@@ -116,6 +113,7 @@ export default {
                     this.currentProject = this.projects[this.projects.length - 1]
                 }
             }
+            console.log('Project index: ' + this.projectIndex)
         },
         handleScroll: function() {
             const scrollThreshold = 3
@@ -123,11 +121,9 @@ export default {
             if (count >= scrollThreshold && this.canSwap) {
                 this.isActive = false
                 this.canSwap = false
+                count = 0;
                 this.scrollTimeline.restart()
             }
-        },
-        handleImageClick: function(event) {
-            this.swapGridArea(event)
         },
         handleProjectClick: function(event) {
             this.isActive = !this.isActive
@@ -225,10 +221,9 @@ export default {
                 duration: 500,
                 opacity: 1,
                 complete: function() {
-                    state.scrollState.count = 0
                     setTimeout(function() {
                         state.canSwap = true
-                    }, 250)
+                    }, 1000)
                 }
             })
         },
@@ -248,10 +243,9 @@ export default {
         })
 
         EventBus.$on('scrolling', scrollObj => {
-            if (state.canSwap) {
-                state.scrollState = scrollObj
-                state.handleScroll()
-            }
+            if (!state.canSwap) return;
+            state.scrollState = scrollObj
+            state.handleScroll()
         })
     }
 }
