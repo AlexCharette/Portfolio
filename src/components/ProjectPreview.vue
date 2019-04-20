@@ -2,14 +2,6 @@
     <transition-group name="expand" tag="div"
         :class="[{ active: isActive }, 'preview-wrapper']"
         :css="false" mode="out-in">
-        <!-- <div key="exit-btn" ref="exit"
-            id="exit-proj-button" class="button"
-            @click="$emit('update-expanded-status', false)">
-            <icon-base width="100%" height="100%" >
-                <icon-arrow-up />
-            </icon-base>
-            <p>Show me the project map</p>
-        </div> -->
         <div :class="`text-wrapper ${swapableClass}`" key="text-wrapper"
              ref="textWrapper"
              @click="handleProjectClick">
@@ -38,21 +30,10 @@
                     :src="(currentProject.assets[index].type == 'image') ? require(`../assets/images/projects/${currentProject.assets[index].path}`) : currentProject.assets[index].path"/>
             </div>
         </div>
-        <div class="button-row" key="button-row">
-            <!-- <div id="sim-proj-button" class="button" key="sim-btn" ref="sim"
-                v-if="isActive">
-                <p>Show me something similar</p>
-                <icon-base width="100%" height="100%" >
-                    <icon-arrow-down />
-                </icon-base>
+        <div v-if="!isActive" class="scroll-icon-mouse" key="scroll-icon-mouse">
+            <div class="scroll-icon-wheel" key="scroll-icon-wheel"
+                :style="{ opacity: 0 }">
             </div>
-            <div id="diff-proj-button" class="button" key="diff-btn" ref="diff"
-                v-if="isActive">
-                <p>Show me something different</p>
-                <icon-base width="100%" height="100%" >
-                    <icon-arrow-down />
-                </icon-base>
-            </div> -->
         </div>
     </transition-group>
 </template>
@@ -60,36 +41,34 @@
 <script>
 import EventBus from '../event-bus'
 
-import IconBase from './icons/IconBase.vue'
-import IconArrowDown from './icons/IconArrowDown.vue'
-import IconArrowUp from './icons/IconArrowUp.vue'
-import IconArrowSide from './icons/IconArrowSide.vue'
-
 export default {
     name: 'ProjectPreview',
     props: ['projects'],
-        components: {
-        IconBase,
-        IconArrowDown,
-        IconArrowUp,
-        IconArrowSide
-    },
     data: function() {
         return {
             isActive: false,
-            projectIndex: 0,
             currentProject: this.projects[0],
-            mainAsset: null,
             currentAsset: null,
             swapableClass: 'animate-swap',
             canSwap: true,
             clickTimeline: null,
             clickAnimations: [],
             scrollTimeline: null,
+            mouseIconTimeline: null,
             scrollState: {
                 direction: '',
                 count: 0
             }
+        }
+    },
+    computed: {
+        projectIndex: function() {
+            return this.projects.indexOf(this.currentProject)
+        },
+        reachedProjectBounds: function() {
+            const { direction } = this.scrollState
+            return ((this.projectIndex == 0 && direction == 'up') || 
+                    (this.projectIndex == this.projects.length - 1 && direction == 'down'))
         }
     },
     methods: {
@@ -97,32 +76,24 @@ export default {
             return text.replace(/\n/g,"<br /><br />")
         },
         swapContent: function() {
-            console.log('swapping')
             const { direction } = this.scrollState
-            this.projectIndex = this.projects.indexOf(this.currentProject)
-            if (direction == 'up') {
-                if (this.projectIndex - 1 >= 0) {
-                    this.currentProject = this.projects[this.projectIndex - 1]
-                } else {
-                    this.currentProject = this.projects[0]
-                }
-            } else if (direction == 'down') {
-                if (this.projectIndex + 1 < this.projects.length) {
-                    this.currentProject = this.projects[this.projectIndex + 1]
-                } else {
-                    this.currentProject = this.projects[this.projects.length - 1]
-                }
+            if (direction == 'up' && this.projectIndex - 1 >= 0) {
+                this.currentProject = this.projects[this.projectIndex - 1]
+            } else if (direction == 'down' && this.projectIndex + 1 < this.projects.length) {
+                this.currentProject = this.projects[this.projectIndex + 1]
             }
             console.log('Project index: ' + this.projectIndex)
         },
         handleScroll: function() {
             const scrollThreshold = 3
-            let { count, direction } = this.scrollState
-            if (count >= scrollThreshold && this.canSwap) {
+            let { count } = this.scrollState
+            if (count >= scrollThreshold && this.canSwap
+                && !this.reachedProjectBounds) {
                 this.isActive = false
                 this.canSwap = false
                 count = 0;
                 this.scrollTimeline.restart()
+                this.displaceMouseIcon()
             }
         },
         handleProjectClick: function(event) {
@@ -163,7 +134,7 @@ export default {
             const textWrapperAnim = this.$anime({
                 targets: textWrapper,
                 translateX: -(window.innerWidth / 3.5),
-                translateY: -(window.innerHeight / 2.8),
+                translateY: -(window.innerHeight / 5),
                 translateZ: 0,
                 rotate: 0.01,
                 scale: 0.6,
@@ -180,7 +151,7 @@ export default {
             })
             const imageWrapperAnim = this.$anime({
                 targets: imageSectionWrapper,
-                translateY: (window.innerHeight * 1.1),
+                translateX: -(window.innerHeight * 1.5),
                 translateZ: 0,
                 rotate: 0.01,
                 opacity: 1,
@@ -227,20 +198,36 @@ export default {
                 }
             })
         },
+        initMouseIconAnimations: function() {
+            this.mouseIconTimeline = this.$anime.timeline({
+                loop: true,
+                autoplay: true
+            })
+            this.mouseIconTimeline
+            .add({
+                targets: '.scroll-icon-wheel',
+                opacity: 1,
+                translateY: 15,
+                easing: 'easeInOutCubic',               
+                duration: 1000
+            })
+        },
+        displaceMouseIcon: function() {
+            
+        },
+        initAllAnimations: function() {
+            this.initClickAnimations()
+            this.initScrollAnimations()
+            this.initMouseIconAnimations()
+        }
     },
     created() {
         this.currentAsset = this.currentProject.assets[0]
-        console.log(this.currentAsset.type)
     },
     mounted() {
         const state = this 
         const { imageSectionWrapper } = this.$refs
-        this.initClickAnimations()
-        this.initScrollAnimations()
-
-        window.addEventListener('scroll', function() {
-            console.log('scrolling')
-        })
+        this.initAllAnimations()
 
         EventBus.$on('scrolling', scrollObj => {
             if (!state.canSwap) return;
@@ -253,33 +240,47 @@ export default {
 
 <style lang="scss" scoped>
     .preview-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 4fr 1fr;
-        grid-template-rows: repeat(5, 1fr);
-        grid-template-areas:
-        ". . ."
-        ". . ."
-        ". info ."
-        ". info ."
-        ".  .   .";
+        .scroll-icon-mouse {
+            margin: 0 auto;
+            margin-top: 12em;
+            width: 3px;
+            padding: 10px 15px;
+            height: 35px;
+            border: 2px solid #000;
+            border-radius: 25px;
+            opacity: 0.75;
+            box-sizing: content-box;
+            .scroll-icon-wheel {
+                width: 3px;
+                height: 10px;
+                border-radius: 25%;
+                background-color: #000;
+            }
+        }
         //overflow: hidden;
         * {
             will-change: transform, opacity;
         }
         .text-wrapper {
-            grid-area: info;
             display: flex;
             flex-flow: column;
-            justify-content: center;
+            //justify-content: center;
             align-content: center;
             margin: 0 auto;
-            margin-top: 300px;
+            margin-top: 5em;
+            width: 60vw;
+            height: 50vh;
             text-align: center;
             * {
                 cursor: pointer;
+                //filter: saturate(100%);
             }
             h1 {
-                flex-basis: 8em;   
+                //flex-basis: 8em;
+                &:hover {
+                    opacity: 1;
+                    transition: all 0.25s ease-out;
+                }   
             }
             h4 {
                 margin-top: -1em;
@@ -290,8 +291,8 @@ export default {
             position: absolute;
             display: grid;
             margin: auto;
-            top: -100vh;
-            left: 45vw;
+            top: 5vh;
+            left: 120vw;
             width: 45rem;
             height: 90rem;
             opacity: 0;
@@ -368,7 +369,7 @@ export default {
                 #description {
                     margin-bottom: -7em;
                     width: 100%;
-                    max-width: 550px;
+                    max-width: 750px;
                     h5 {
                         margin-bottom: 0;
                         margin-top: 15px;
