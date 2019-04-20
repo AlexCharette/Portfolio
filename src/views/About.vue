@@ -57,7 +57,7 @@ export default {
     #long-form {
       margin: 0 auto;
       margin-bottom: 3em;
-      width: 50%;
+      width: 70%;
     }
     a {
       background: linear-gradient(to left, #49CE75, #026DB1);
