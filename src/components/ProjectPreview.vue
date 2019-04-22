@@ -5,10 +5,10 @@
         <div :class="`text-wrapper ${swapableClass}`" key="text-wrapper"
              ref="textWrapper"
              @click="handleProjectClick">
-            <h1 :class="swapableClass" :key="currentProject.name"
+            <h1 :class="[swapableClass, 'hvr-grow']" :key="currentProject.name"
                 ref="title">{{ currentProject.name }}</h1>
             <h4 :class="swapableClass" key="summary" ref="summary">{{ currentProject.summary }}</h4>
-            <div id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description" 
+            <div id="description" :class=" isActive ? swapableClass : '' " key="description" ref="description"
                 :style="{ opacity: !isActive ? 0 : '' }">
                 <h5>{{ currentProject.date }}</h5>
                 <h5>Medium: {{ currentProject.materials }}</h5>
@@ -20,30 +20,30 @@
             :style="{ opacity: !isActive ? 0 : '' }"
             key="image-section-wrapper" ref="imageSectionWrapper">
             <div v-for="(image, index) in currentProject.assets" :key="`image-wrapper-${index}`"
-                :id="`image-wrapper-${index}`" 
+                :id="`image-wrapper-${index}`"
                 :class="[(currentProject.assets[index].type == 'image') ? 'image-wrapper' : 'iframe-wrapper']"
                 :style="{ gridArea: `media_${index}` }">
-                <component :id="(currentProject.assets[index].type == 'image') ? `image-${index}` : `video-${index}`" 
+                <component :id="(currentProject.assets[index].type == 'image') ? `image-${index}` : `video-${index}`"
                     key="image" ref="image"
                     :is="(currentProject.assets[index].type == 'image') ? 'img' : 'iframe'"
                     :allowfullscreen="(currentProject.assets[index].type == 'video')"
                     :src="(currentProject.assets[index].type == 'image') ? require(`../assets/images/projects/${currentProject.assets[index].path}`) : currentProject.assets[index].path"/>
             </div>
         </div>
-        <div v-if="!isActive" class="scroll-icon-mouse" key="scroll-icon-mouse">
-            <div class="scroll-icon-wheel" key="scroll-icon-wheel"
-                :style="{ opacity: 0 }">
-            </div>
-        </div>
+        <mouse-icon :style="{ opacity: (!isActive && isAtBounds) ? 1 : 0 }" key="mouse-icon" />
     </transition-group>
 </template>
 
 <script>
 import EventBus from '../event-bus'
+import MouseIcon from './icons/MouseIcon.vue'
 
 export default {
     name: 'ProjectPreview',
     props: ['projects'],
+    components: {
+        MouseIcon
+    },
     data: function() {
         return {
             isActive: false,
@@ -54,7 +54,6 @@ export default {
             clickTimeline: null,
             clickAnimations: [],
             scrollTimeline: null,
-            mouseIconTimeline: null,
             scrollState: {
                 direction: '',
                 count: 0
@@ -65,9 +64,12 @@ export default {
         projectIndex: function() {
             return this.projects.indexOf(this.currentProject)
         },
-        reachedProjectBounds: function() {
+        isAtBounds: function() {
+            return (this.projectIndex == 0 || this.projectIndex == this.projects.length - 1)
+        },
+        exceedingBounds: function() {
             const { direction } = this.scrollState
-            return ((this.projectIndex == 0 && direction == 'up') || 
+            return ((this.projectIndex == 0 && direction == 'up') ||
                     (this.projectIndex == this.projects.length - 1 && direction == 'down'))
         }
     },
@@ -83,17 +85,24 @@ export default {
                 this.currentProject = this.projects[this.projectIndex + 1]
             }
             console.log('Project index: ' + this.projectIndex)
+            if ((this.projectIndex == 0 && direction == 'up') ||
+                (this.projectIndex == this.projects.length - 1 && direction == 'down')) {
+                EventBus.$emit('project-bounds-reached', direction)
+            }
         },
         handleScroll: function() {
             const scrollThreshold = 3
-            let { count } = this.scrollState
+            let { count, direction } = this.scrollState
             if (count >= scrollThreshold && this.canSwap
-                && !this.reachedProjectBounds) {
+                && !this.exceedingBounds) {
                 this.isActive = false
                 this.canSwap = false
-                count = 0;
+                count = 0
                 this.scrollTimeline.restart()
-                this.displaceMouseIcon()
+                if ((this.projectIndex == 0 && direction == 'down') ||
+                    (this.projectIndex == this.projects.length - 1 && direction == 'up')) {
+                    EventBus.$emit('displace-mouse-icon', direction)
+                }
             }
         },
         handleProjectClick: function(event) {
@@ -198,34 +207,19 @@ export default {
                 }
             })
         },
-        initMouseIconAnimations: function() {
-            this.mouseIconTimeline = this.$anime.timeline({
-                loop: true,
-                autoplay: true
-            })
-            this.mouseIconTimeline
-            .add({
-                targets: '.scroll-icon-wheel',
-                opacity: 1,
-                translateY: 15,
-                easing: 'easeInOutCubic',               
-                duration: 1000
-            })
-        },
         displaceMouseIcon: function() {
-            
+
         },
         initAllAnimations: function() {
             this.initClickAnimations()
             this.initScrollAnimations()
-            this.initMouseIconAnimations()
         }
     },
     created() {
         this.currentAsset = this.currentProject.assets[0]
     },
     mounted() {
-        const state = this 
+        const state = this
         const { imageSectionWrapper } = this.$refs
         this.initAllAnimations()
 
@@ -239,32 +233,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    $thetransition: all .5s cubic-bezier(1,.25,0,.75) 0s;
     .preview-wrapper {
-        .scroll-icon-mouse {
-            margin: 0 auto;
-            margin-top: 12em;
-            width: 3px;
-            padding: 10px 15px;
-            height: 35px;
-            border: 2px solid #000;
-            border-radius: 25px;
-            opacity: 0.75;
-            box-sizing: content-box;
-            .scroll-icon-wheel {
-                width: 3px;
-                height: 10px;
-                border-radius: 25%;
-                background-color: #000;
-            }
-        }
-        //overflow: hidden;
         * {
             will-change: transform, opacity;
         }
         .text-wrapper {
             display: flex;
             flex-flow: column;
-            //justify-content: center;
             align-content: center;
             margin: 0 auto;
             margin-top: 5em;
@@ -273,18 +249,32 @@ export default {
             text-align: center;
             * {
                 cursor: pointer;
-                //filter: saturate(100%);
-            }
-            h1 {
-                //flex-basis: 8em;
-                &:hover {
-                    opacity: 1;
-                    transition: all 0.25s ease-out;
-                }   
             }
             h4 {
                 margin-top: -1em;
                 flex-basis: 4em;
+                &:before {
+                    content: "";
+                    margin-left: 10%;
+                    text-align: center;
+                    position: absolute;
+                    width: 80%;
+                    height: 0.05em;
+                    bottom: 0;
+                    left: 0;
+                    opacity: 0.9;
+                    background-color: $charcoal;
+                    visibility: hidden;
+                    -webkit-transform: scaleX(0);
+                    transform: scaleX(0);
+                    -webkit-transition: $thetransition;
+                    transition: $thetransition;
+                }
+            }
+            h1:hover ~h4:before {
+                visibility: visible;
+                -webkit-transform: scaleX(1);
+                transform: scaleX(1);
             }
         }
         .image-section-wrapper {
@@ -298,11 +288,11 @@ export default {
             opacity: 0;
             //overflow: scroll;
             grid-column-gap: 20px;
-            grid-row-gap: 20px;
+            grid-row-gap: 30px;
             &#image-section-wrapper-0 {
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: repeat(3, 1fr);
-                grid-template-areas: 
+                grid-template-areas:
                 "media_0 media_0"
                 "media_1 media_2"
                 "media_1 media_2";
@@ -311,7 +301,7 @@ export default {
                 height: 110rem;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: repeat(5, 1fr);
-                grid-template-areas: 
+                grid-template-areas:
                 "media_0 media_0"
                 "media_1 media_2"
                 "media_1 media_2"
@@ -319,32 +309,45 @@ export default {
                 "media_3 .";
             }
             &#image-section-wrapper-2 {
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: repeat(2, 1fr);
-                grid-template-areas: 
-                "media_0 media_1"
-                "media_0 media_1";
+                margin-top: 4rem;
+                width: 80rem;
+                height: 35rem;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-rows: repeat(4, 1fr);
+                grid-template-areas:
+                "media_0 media_0"
+                "media_1 media_1";
             }
             &#image-section-wrapper-3 {
+                margin-top: 3rem;
+                width: 32rem;
+                height: 35rem;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: repeat(3, 1fr);
-                grid-template-areas: 
+                grid-template-areas:
                 "media_1 media_1"
                 "media_0 media_2"
                 "media_0 media_2";
             }
             &#image-section-wrapper-4 {
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: repeat(3, 1fr);
-                grid-template-areas: 
-                "media_0 media_0"
-                "media_1 media_2"
-                "media_1 media_2";
+                margin-top: 4rem;
+                margin-left: -6rem;
+                width: 62rem;
+                height: 43rem;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                grid-column-gap: 10px;
+                grid-row-gap: 10px;
+                grid-template-areas:
+                "media_0 media_0 .       ."
+                "media_0 media_0 media_2 media_2"
+                "media_1 media_1 media_2 media_2"
+                "media_1 media_1 .       .";
             }
             .image-wrapper, .iframe-wrapper {
-                overflow: hidden;
+                //overflow: hidden;
                 img, iframe {
-                    width: 100%;    
+                    width: 100%;
                 }
                 iframe {
                     height: 100%;
@@ -366,6 +369,9 @@ export default {
                 span {
                     display: block;
                 }
+                h4:before {
+                    margin-left: 0;
+                }
                 #description {
                     margin-bottom: -7em;
                     width: 100%;
@@ -379,21 +385,6 @@ export default {
                     }
                 }
             }
-            // .button {
-            //     margin: 0 auto;
-            //     width: 5rem;
-            //     height: 5rem;
-            //     min-width: 44px;
-            //     min-height: 44px;
-            //     justify-content: center;
-            //     align-content: center;
-            //     &#sim-proj-button {
-            //         grid-area: sim-btn;
-            //     }
-            //     &#diff-proj-button {
-            //         grid-area: diff-btn;
-            //     }
-            // }
         }
     }
 </style>

@@ -5,7 +5,7 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default
 const productionPlugins = [
     new PrerenderSpaPlugin({
       staticDir: path.join(__dirname, 'public'),
-      routes: ['/', '/about', '/gallery', '/blog']
+      routes: ['/', '/about', '/gallery']
     }),
     new ImageminPlugin({
         pngquant: {
@@ -19,7 +19,7 @@ module.exports = {
         loaderOptions: {
             sass: {
             data: `@import "~@/assets/styles/_variables.scss";
-                    @import "~@/assets/styles/_mediaQueries.scss";`
+                   @import "~@/assets/styles/_mediaQueries.scss";`
             }
         }
     },

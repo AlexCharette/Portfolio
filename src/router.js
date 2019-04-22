@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Gallery from './views/Gallery.vue'
+import About from './views/About.vue'
 import EventBus from './event-bus'
 import store from './store.js'
 
@@ -18,12 +20,16 @@ const router = new Router({
     {
       path: '/gallery',
       name: 'gallery',
-      component: () => import(/* webpackChunkName: "gallery" */ './views/Gallery.vue')
+      component: Gallery
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: About
+    },
+    {
+      path: '*',
+      component: Home
     }
   ]
 })
