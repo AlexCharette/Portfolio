@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
     <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/"
         fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414">
@@ -7,3 +8,14 @@
         </g>
     </svg>
 </template>
+=======
+<template>
+    <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/"
+        fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414">
+        <g id="Move-" serif:id="Move" fill="#ebebeb">
+            <path d="M347.244 117.642c-9.718 9.718-9.718 25.498 0 35.216L711.96 517.574c9.718 9.718 25.498 9.718 35.216 0l35.216-35.216c9.718-9.718 9.718-25.498 0-35.216L417.676 82.426c-9.718-9.718-25.497-9.718-35.216 0l-35.216 35.216z"/>
+            <path d="M452.756 117.642c9.718 9.718 9.718 25.498 0 35.216L88.04 517.574c-9.718 9.718-25.498 9.718-35.216 0l-35.216-35.216c-9.718-9.718-9.718-25.498 0-35.216L382.324 82.426c9.718-9.718 25.497-9.718 35.216 0l35.216 35.216z"/>
+        </g>
+    </svg>
+</template>
+>>>>>>> 37d16293c0a0af7383dd9aa7fef12f8653a8ee8c

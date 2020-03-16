@@ -1,2 +1,29 @@
+<<<<<<< HEAD
 /node_modules/
 /dist/
+=======
+.DS_Store
+node_modules
+/dist
+
+# Graphic design files
+*.afphoto
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+>>>>>>> 37d16293c0a0af7383dd9aa7fef12f8653a8ee8c
