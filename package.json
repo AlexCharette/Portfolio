@@ -1,0 +1,51 @@
+{
+  "name": "portfolio_alt",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "postInstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build ; fi",
+    "start": "node server.js"
+  },
+  "alias": {
+    "vue": "./node_modules/vue/dist/vue.esm.js"
+  },
+  "dependencies": {
+    "@vimeo/player": "^2.10.0",
+    "animejs": "^3.1.0",
+    "core-js": "^3.6.4",
+    "firebase": "^7.11.0",
+    "hammerjs": "^2.0.8",
+    "hover.css": "^2.3.2",
+    "ipapi.co": "^0.3.0",
+    "masonry-layout": "^4.2.2",
+    "simple-icons": "^2.6.0",
+    "vue": "^2.6.11",
+    "vue-animejs": "^2.1.1",
+    "vue-mq": "^1.0.1",
+    "vue-router": "^3.1.6",
+    "vuex": "^3.1.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.2.3",
+    "@vue/cli-plugin-eslint": "^4.2.3",
+    "@vue/cli-service": "^4.2.3",
+    "babel-eslint": "^10.1.0",
+    "css-loader": "^3.4.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "express": "^4.17.1",
+    "imagemin-webpack-plugin": "^2.4.2",
+    "node-sass": "^4.13.1",
+    "postcss-loader": "^3.0.0",
+    "prerender-spa-plugin": "^3.4.0",
+    "sass-loader": "^8.0.2",
+    "serve-static": "^1.14.1",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "resolutions": {
+    "terser": "3.14.1"
+  }
+}

@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'Sign45';
+    src: url('~@/assets/typo/Sign45.otf') format('opentype');
+}
+@font-face {
+    font-family: 'Oatmeal Stout Aged';
+    src: url('~@/assets/typo/OatmealStout-Aged.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Oatmeal Stout';
+    src: url('~@/assets/typo/OatmealStout-Regular.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Code';
+    src: url('~@/assets/typo/CODE Light.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Code';
+    src: url('~@/assets/typo/CODE Bold.otf') format('opentype');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'Colus';
+    src: url('~@/assets/typo/Colus-Regular.otf') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Manhattan';
+    src: url('~@/assets/typo/Manhattan-Regular.otf') format('opentype');
+    font-weight: normal;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+
+$off-white: #F2F2F2;
+$charcoal: #464646;
+$navy-blue: #2F4777;
+$navy-blue-hover: #2F3377;
+$light-blue: #75B4D2;
+$dark-red: #7A1C14;
+$gold: #DDB335;
+
+$serif-font-stack: 'Manhattan', 'Colus';
+$sans-font-stack: 'Fjalla One', 'Code', serif;
+
+$p-font-min-mobl: 16px;
+$p-font-min-desk: 21px;
+$h-font-scales: (550%, 420%, 400%, 350%, 160%, 140%);
+$p-font-scale: 110%;
+$aug-4th-factor: 1.414;
+
+
+

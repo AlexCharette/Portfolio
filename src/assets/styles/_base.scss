@@ -1,0 +1,17 @@
+@import 'variables';
+@import 'mediaQueries';
+
+html {
+    font-size: calc(16px + .2vw);
+}
+
+@mixin gradient-text {
+    background: linear-gradient(to left, #0077C4, #5245A0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@mixin blur {
+    filter: blur(3px);
+}
