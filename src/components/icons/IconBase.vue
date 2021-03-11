@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <template>
   <svg xmlns="http://www.w3.org/2000/svg"
     :width="width"
@@ -43,50 +42,4 @@ svg {
   vertical-align: baseline;
   margin-bottom: -2px; /* yes, I'm that particular about formatting */
 }
-=======
-<template>
-  <svg xmlns="http://www.w3.org/2000/svg"
-    :width="width"
-    :height="height"
-    viewBox="0 0 24 24"
-    :aria-labelledby="iconName"
-    role="presentation"
-  >
-    <title :id="iconName" lang="en">{{iconName}}</title>
-    <g :fill="iconColor">
-      <slot />
-    </g>
-  </svg>
-</template>
-
-<script>
-export default {
-  props: {
-    iconName: {
-      type: String,
-      default: 'box'
-    },
-    width: {
-      type: [Number, String],
-      default: 18
-    },
-    height: {
-      type: [Number, String],
-      default: 18
-    },
-    iconColor: {
-      type: String,
-      default: 'currentColor'
-    }
-  }
-}
-</script>
-
-<style scoped>
-svg {
-  display: inline-block;
-  vertical-align: baseline;
-  margin-bottom: -2px; /* yes, I'm that particular about formatting */
-}
->>>>>>> 37d16293c0a0af7383dd9aa7fef12f8653a8ee8c
 </style>
